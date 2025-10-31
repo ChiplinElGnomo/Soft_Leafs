@@ -1,0 +1,23 @@
+{
+  "name": "softleafs",
+  "version": "0.0.5",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ChiplinElGnomo/SoftLeafs.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ChiplinElGnomo/SoftLeafs/issues"
+  },
+  "homepage": "https://github.com/ChiplinElGnomo/SoftLeafs#readme",
+  "devDependencies": {
+    "electron": "^39.0.0"
+  }
+}

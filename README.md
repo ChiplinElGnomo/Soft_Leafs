@@ -1,2 +1,2 @@
-# Soft_Leafs
-App de lectura usando Electron.
+# SoftLeafs
+App de lectura usando Electron

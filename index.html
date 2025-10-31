@@ -1,0 +1,45 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Soft Leafs</title>
+  <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+  <div class="top-left">Canción actual:</div> <!-- Esta es la etiqueta superior izquierda con la musica actual -->
+
+  <div class="container">  <!-- Contenedor principal de los botones -->
+    <button class="btn" id="btnBiblio">Biblioteca</button>
+    <button class="btn" id="btnOpciones">Opciones</button>
+    <button class="btn" id="btnCerrar">Salir</button>
+  </div>
+
+  <div class="bottom-right">Versión: 0.0.5</div> <!-- Esta es la etiqueta inferior derecha con la version -->
+
+  <div class="ventana-interna" id="ventanaInterna"> <!-- Ventana modal para opciones -->
+    <h2>Opciones</h2>
+    <button class="btn volver-btn" id="btnVolver">Volver</button>
+  </div>
+
+  <div class="ventana-interna" id="ventanaBiblio"> 
+  
+  <div id="panel_izq_biblio">
+    <button id ="btn_añadir_libro">Añadir Libro</button>
+
+  </div>
+  <div id="panel_der_biblio">
+      <div id="grid_der_biblio">
+
+
+      </div>
+  </div>
+
+  <!-- Botón volver dentro de la ventana -->
+  <button class="btn volver-btn" id="btnVolverBiblio">Volver</button>
+</div>
+
+  <script src="renderer.js"></script>
+</body>
+</html>
+

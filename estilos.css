@@ -1,0 +1,231 @@
+/* Fondo de la página */
+body {
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  background-image: url('assets/images/fondo.jpg'); 
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  font-family: Arial, sans-serif;
+}
+
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+
+.btn {
+  background-color: #87CEEB;
+  border: 2px solid #3498db;
+  border-radius: 12px;
+  padding: 15px 30px;
+  font-size: 18px;
+  color: #fff;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Efecto hover */
+.btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Efecto click */
+.btn:active {
+  transform: scale(0.95);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Etiquetas */
+.top-left {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  color: #fff;
+  font-size: 16px;
+  background-color: rgba(0,0,0,0.3);
+  padding: 5px 10px;
+  border-radius: 8px;
+  user-select: none;
+}
+.bottom-right {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  color: #fff;
+  font-size: 16px;
+  background-color: rgba(0,0,0,0.3);
+  padding: 5px 10px;
+  border-radius: 8px;
+  user-select: none;
+}
+
+/* ===============================
+   VENTANA MODAL: OPCIONES
+   =============================== */
+#ventanaInterna {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  width: 80%;
+  max-width: 600px;
+  height: 60%;
+  background-color: rgba(255, 255, 255, 0.75);
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  opacity: 0;
+  z-index: 100;
+}
+#ventanaInterna.mostrar {
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+}
+#ventanaInterna .volver-btn {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  border-radius: 12px;
+  padding: 10px 20px;
+  background-color: #87CEEB;
+  border: 2px solid #3498db;
+  color: #fff;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+#ventanaInterna .volver-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+#ventanaInterna .volver-btn:active {
+  transform: scale(0.95);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* ===============================
+   VENTANA MODAL: BIBLIOTECA
+   =============================== */
+#ventanaBiblio {
+  position: fixed;
+  width: 95%;
+  height: 95%;
+  transform: scale(0);
+  background-color: rgba(255, 255, 255, 0.75);
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  opacity: 0;
+  z-index: 100;
+}
+#ventanaBiblio.mostrar {
+  transform: scale(1);
+  opacity: 1;
+}
+#ventanaBiblio .volver-btn {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  border-radius: 12px;
+  padding: 10px 20px;
+  background-color: #87CEEB;
+  border: 2px solid #3498db;
+  color: #fff;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+#ventanaBiblio .volver-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+#ventanaBiblio .volver-btn:active {
+  transform: scale(0.95);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* ===============================
+   PANEL IZQUIERDO DE LA BIBLIOTECA
+   =============================== */
+#panel_izq_biblio {
+  position: absolute;
+  top: 3%;
+  bottom: 3%;
+  width: 15%;
+  background-color: rgba(235, 82, 82, 0.5);
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+  gap: 10px;
+}
+
+
+#btn_añadir_libro {
+  position: absolute;
+  top: 10px; 
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  height: 7%;
+  border-radius: 12px;
+  padding: 10px 20px;
+  background-color: #87CEEB;
+  border: 2px solid #3498db;
+  color: #fff;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+#btn_añadir_libro:hover {
+  transform: translateX(-50%) scale(1.05);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+#btn_añadir_libro:active {
+  transform: translateX(-50%) scale(0.95);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* ===============================
+   PANEL DERECHO DE LA BIBLIOTECA
+   =============================== */
+#panel_der_biblio {
+  position: absolute;
+  right: 1%;
+  top: 3%;
+  bottom: 3%;
+  width: 80%;
+  background-color: rgba(64, 211, 199, 0.5);
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+#grid_der_biblio {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 15px;
+  padding: 10px;
+  overflow-y: auto;
+  height: 97%;
+}
+

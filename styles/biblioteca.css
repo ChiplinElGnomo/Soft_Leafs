@@ -1,0 +1,172 @@
+/* ===============================
+   VENTANA MODAL: BIBLIOTECA
+   =============================== */
+#ventanaBiblio {
+ 
+  width: 95%;
+  height: 95%;
+  background: linear-gradient(to bottom, #eaf4ffbe, #ddf0ffdc);
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+#ventanaBiblio .volver-btn {
+  position: absolute;
+  bottom: 4%;
+  right: 2%;
+  border-radius: 12px;
+  padding: 10px 20px;
+  background-color: #87CEEB;
+  border: 2px solid #3498db;
+  color: #fff;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+#ventanaBiblio .volver-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+#ventanaBiblio .volver-btn:active {
+  transform: scale(0.95);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* ===============================
+   PANEL IZQUIERDO DE LA BIBLIOTECA
+   =============================== */
+#panel_izq_biblio {
+  position: absolute;
+  top: 3%;
+  bottom: 3%;
+  width: 15%;
+  background-color: #f5f7fab6;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+  gap: 10px;
+}
+
+
+#btn_añadir_libro {
+  position: absolute;
+  top: 10px; 
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  height: 7%;
+  border-radius: 12px;
+  padding: 10px 20px;
+  background-color: #87CEEB;
+  border: 2px solid #3498db;
+  color: #fff;
+  font-size: 30px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+#btn_añadir_libro:hover {
+  transform: translateX(-50%) scale(1.05);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+#btn_añadir_libro:active {
+  transform: translateX(-50%) scale(0.95);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* ===============================
+   GRID DERECHO DE LA BIBLIOTECA
+   =============================== */
+#grid_der_biblio {
+  position: absolute;
+  top: 3%;      
+  bottom: 3%;  
+  left: 20%;    
+  right: 9%;   
+
+  display: grid;
+  grid-template-columns: repeat(4, 200px);
+  grid-auto-rows: 250px;  
+  gap: 15px;
+  padding: 10px;
+  overflow-y: auto;
+  border-radius: 10px;
+}
+
+#modal_cambiar_nombre {
+  width: 20%;
+  height: 15%;
+  
+}
+
+
+/* ===============================
+   TARJETAS DE LIBROS
+   =============================== */
+.tarjeta-libro {
+  position: relative;        
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;   
+  align-items: center;
+  width: 100%;                 
+  aspect-ratio: 3 / 4;         
+  border-radius: 10px;
+  overflow: hidden;           
+  box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+  cursor: pointer;
+  text-align: center;
+  font-size: 1rem;
+}
+
+/* Imagen de portada (por defecto) */
+.tarjeta-libro .portada {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('../assets/images/harrypotter.png'); 
+  background-size: contain;
+  background-position: center;
+  filter: brightness(0.85);
+  z-index: 1;
+}
+
+/* Nombre del libro */
+.tarjeta-libro .nombre-libro {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding: 5px 10px;
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  font-weight: bold;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  z-index: 2;                  /* encima de la portada */
+}
+
+/* Efecto hover: levantar la tarjeta y dar sombra */
+.tarjeta-libro:hover {
+  transform: translateY(-5px) scale(1.03); /* sube un poco y aumenta tamaño */
+  box-shadow: 0 8px 20px rgba(0,0,0,0.35); /* sombra más pronunciada */
+  transition: transform 0.2s ease, box-shadow 0.2s ease; /* animación suave */
+}
+
+/* Efecto click: simula que la tarjeta se presiona */
+.tarjeta-libro:active {
+  transform: translateY(0px) scale(0.97); /* vuelve y reduce tamaño ligeramente */
+  box-shadow: 0 3px 10px rgba(0,0,0,0.2); /* sombra más pequeña */
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  cursor: pointer; /* refuerza que es clickable */
+}

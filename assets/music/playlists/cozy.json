@@ -1,0 +1,21 @@
+{
+  "nombre_playlist": "Cozy",
+  "descripcion": "Música tranquila",
+  "canciones": [
+    {
+      "titulo": "Love Will Last Forever",
+      "archivo_cancion": "Love-Will-Last-Forever.opus",
+      "artista": "Lo-Fi Beats"
+    },
+    {
+      "titulo": "Peace",
+      "archivo_cancion": "Peace.opus",
+      "artista": "Ambient Sounds"
+    },
+    {
+      "titulo": "Smile",
+      "archivo_cancion": "Smile.opus",
+      "artista": "Soft Piano"
+    }
+  ]
+}

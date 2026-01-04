@@ -1,0 +1,106 @@
+/* ===============================
+   VENTANA MODAL: OPCIONES
+   =============================== */
+#ventanaOpciones {
+  width: 40%;
+  background: linear-gradient(to bottom, #eaf4ffbe, #ddf0ffdc);
+  height: 50%;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  padding: 20px;
+  gap: 5px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+#ventanaOpciones .volver-btn {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  border-radius: 12px;
+  padding: 10px 20px;
+  background-color: #87CEEB;
+  border: 2px solid #3498db;
+  color: #fff;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+#ventanaOpciones .volver-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+#ventanaOpciones .volver-btn:active {
+  transform: scale(0.95);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+}
+
+
+#panel_izq_opciones {
+  display: flex; /* APLICA EL ATRIBUTO FLEX */
+  flex-direction: column; /* HACE QUE EL FLEX USE UNA ESTRUCTURA DE COLUMNA PARA LOS ELEMENTOS */
+  align-items: center; /* CENTRA HORIZONTALMENTE LOS ELEMENTOS DEL INTERIOR */
+  background-color: rgba(185, 241, 255, 0.753);
+  width: 30%;
+  height: 100%;
+  border-radius: 15px;
+  border: 1px solid #3498db;
+  gap: 20px;
+}
+
+#panel_der_opciones {
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+  gap: 20px;
+  background-color: transparent;
+  width: 100%;
+  border-radius: 15px;
+  
+}
+
+.seccion_opciones {
+  display: none;
+}
+
+.seccion_opciones.mostrar{
+  display: block;
+
+}
+
+.btn_seccion {
+  background-color: #87CEEB;
+  width: 100px;
+  height: 40px;
+  border-radius: 6px;
+  border: 1px solid #3498db;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+  color: white;
+  user-select: none;
+}
+
+.btn_seccion:hover {
+  transform: scale(1.1);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.btn_seccion:active {
+
+  transform: scale(0.95);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+}
+
+
+
+#volumen {
+  
+  width: 30%;
+  display: block;
+}
+
+#volumen_label {
+ 
+  font-size: 1.2em;
+  color: #333;
+}

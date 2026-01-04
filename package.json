@@ -1,0 +1,28 @@
+{
+  "name": "softleafs",
+  "productName": "Soft Leafs",
+  "version": "0.6.5",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ChiplinElGnomo/SoftLeafs.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ChiplinElGnomo/SoftLeafs/issues"
+  },
+  "homepage": "https://github.com/ChiplinElGnomo/SoftLeafs#readme",
+  "devDependencies": {
+    "electron": "^39.0.0"
+  },
+  "dependencies": {
+    "epubjs": "^0.3.93",
+    "uuid": "^8.3.2"
+  }
+}

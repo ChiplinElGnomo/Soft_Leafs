@@ -41,4 +41,4 @@ Soft Leafs es una aplicación que busca ofrecer una experiencia sencilla, cómod
 ![SQLite](https://img.shields.io/badge/SQLite-07405E?style=for-the-badge&logo=sqlite&logoColor=white)
 
 ---
-Desarrollado con ❤️ por **Spidy**
+Desarrollado con ❤️ por **Chiplin**

@@ -1,3 +1,6 @@
+/* =========================================
+   1. LECTOR REAL (EL VISOR DE EPUB)
+   ========================================= */
 #libro_abierto {
   position: fixed;
   top: 0;
@@ -8,30 +11,28 @@
   display: none;
   justify-content: center;
   align-items: center;
-  z-index: 9999;
+  z-index: 15000; 
 }
 
 #lectorContenido {
-  width: 80%;
-  height: 85%;
+  width: 90%;
+  height: 90%;
   background: #fdf6e3;
   border-radius: 10px;
   position: relative;
-  padding: 10px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
+  box-shadow: 0 0 50px rgba(0,0,0,0.6);
 }
 
 #visorEPUB {
-  flex: 1 1 auto;
-  width: 100%;        
-  height: 100%;       
-  overflow: auto;
-  min-height: 500px;  
+  flex: 1;
+  width: 100%;
+  height: 100%;
 }
 
-/* Botón cerrar */
 #cerrarLector {
   position: absolute;
   top: 10px;
@@ -42,93 +43,120 @@
   color: white;
   border-radius: 10px;
   cursor: pointer;
-  z-index: 10000;
+  font-weight: bold;
+  z-index: 15001;
+  transition: transform 0.2s;
 }
 
 #cerrarLector:hover {
-  transform:scale(1.05);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  transform: scale(1.1);
 }
 
-#cerrarLector:active {
-  transform:scale(0.95);
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
-}
+/* =========================================
+   2. LIBRO ANIMADO (3D REALISTA)
+   ========================================= */
 
-
-
-/* Estilos de la Modal de Transición */
-.modal-transicion {
+#modal-transicion {
   position: fixed;
-  top: 0; left: 0;
-  width: 100vw; height: 100vh;
-  background: rgba(0, 0, 0, 0.8); 
-  backdrop-filter: blur(0px);
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
   display: none; 
   justify-content: center;
   align-items: center;
-  z-index: 4000;
-  transition: backdrop-filter 0.5s;
+  z-index: 10000; 
+  perspective: 2500px; 
+  background: rgba(0,0,0,0);
+  transition: background 0.5s;
 }
 
-.modal-transicion.activo {
-  display: flex;
-  backdrop-filter: blur(10px);
+#modal-transicion.mostrar {
+  display: flex !important;
+  background: rgba(0,0,0,0.4);
+  backdrop-filter: blur(8px);
 }
 
 .libro-contenedor {
-  width: 550px; 
-  height: 700px; 
+  width: 450px; 
+  height: 600px; 
   position: relative;
-  background: #fdf6e3; 
-  overflow: visible;
-  transition: width 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
-  perspective: 2000px; 
+  transform-style: preserve-3d;
+  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-
-.libro-contenedor.abierto {
-  width: 1100px; /* Aqui se establece el ancho cuando esta abierto el libro (debe ser el doble que cuando esta cerrado para tener las dos páginas) */
+/* Desplazamos el libro a la derecha para que el lomo quede centrado al abrirse */
+#modal-transicion.abierto .libro-contenedor {
+  transform: translateX(225px); 
 }
 
+/* LA TAPA: Contenedor que rota */
 .tapa-frontal {
   position: absolute;
   top: 0;
   left: 0;
-  width: 550px; /* FIJO: Debe ser igual al ancho cerrado para evitar el zoom */
+  width: 100%;
   height: 100%;
   z-index: 10;
-  background-size: 100% 100%;
-  background-position: center;
   transform-origin: left;
-  transition: transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
-  box-shadow: 5px 0 15px rgba(0,0,0,0.5);
-  backface-visibility: hidden; 
+  transform-style: preserve-3d;
+  transition: transform 1s cubic-bezier(0.645, 0.045, 0.355, 1);
 }
 
-.libro-contenedor.abierto .tapa-frontal {
-  transform: rotateY(-160deg);
+#modal-transicion.abierto .tapa-frontal {
+  transform: rotateY(-180deg);
 }
 
+/* Configuración de ambas caras (Portada y Papel interior) */
+.portada-exterior, .interior-izquierdo {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden; /* Evita que se vea la cara opuesta a través */
+  border-radius: 2px 5px 5px 2px;
+}
+
+/* Cara frontal (Imagen) */
+.portada-exterior {
+  z-index: 2;
+  background-size: cover;
+  background-position: center;
+}
+
+/* Cara trasera de la tapa (Papel crema) */
+.interior-izquierdo {
+  background: #e2d7bf; 
+  transform: rotateY(180deg); /* Se coloca "espalda con espalda" */
+  z-index: 1;
+  box-shadow: inset 20px 0 50px rgba(0,0,0,0.2);
+}
+
+/* EL BLOQUE DE HOJAS (Fijo a la derecha) */
 .interior-libro {
   position: absolute;
-  right: 0;
-  width: 550px; 
+  top: 0;
+  left: 0;
+  width: 100%;
   height: 100%;
-  background: #fdf6e3; 
+  background: #fdf6e3;
+  z-index: 1;
+  box-shadow: inset 10px 0 30px rgba(0,0,0,0.2);
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  box-shadow: inset 10px 0 20px rgba(0,0,0,0.1); 
-  border-radius: 0 5px 5px 0;
-  opacity: 0;
-  transition: opacity 0.5s ease;
+  align-items: center;
+  padding: 40px;
+  box-sizing: border-box;
 }
 
-/* interior del libro cuando se esta abriendo */
-.libro-contenedor.abierto .interior-libro {
-  opacity: 1;
+/* Efecto de sombra del lomo */
+.interior-libro::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 30px;
+  height: 100%;
+  background: linear-gradient(to right, rgba(0,0,0,0.2), transparent);
 }
 
 

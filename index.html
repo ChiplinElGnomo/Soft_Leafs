@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -6,32 +5,24 @@
   <title>Soft Leafs</title>
   <link rel="stylesheet" href="styles/estilos_general.css">
   <link rel="stylesheet" href="styles/opciones.css">
-  <link rel="stylesheet" href="styles/biblioteca.css">                                                 <!-- Aqui se importan ficheros de estilos y modulos-->
-  <link rel="stylesheet" href="styles/añadir_libro.css">
+  <link rel="stylesheet" href="styles/biblioteca.css">                                                 <link rel="stylesheet" href="styles/añadir_libro.css">
   <link rel="stylesheet" href="styles/libro.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
   <script src="https://unpkg.com/epubjs/dist/epub.js"></script>
-  <script src="renderer.js"></script>
+  <script type="module" src="renderer.js"></script>
 </head>
 <body>
   <div class="overlay" id="overlay"></div> 
   
-  <!--! DIV DE LA MÚSICA -->
   <div class="musica-container">
   <span class="eti-musica" id="nombre-cancion">Canción actual: Ninguna</span>
   <audio id="musica_fondo"></audio> 
   </div>
-  <!--! DIV DE LOS BOTONES Y LOGO EN LA VENTANA PRINCIPAL -->
-  
-
   <div class="container">  
     <button class="btn btn_efecto" id="btnBiblio">Biblioteca</button>
     <button class="btn btn_efecto" id="btnOpciones">Opciones</button>
     <button class="btn btn_efecto" id="btnCerrar">Salir</button>
   </div>
-  <!--! ---------------------------------------------------------------------------------- -->
-   
-  <!--! DIV DE LA VENTANA MODAL DE OPCIONES -->
   <div class="ventana-interna ventana-interna-decorada" id="ventanaOpciones"> 
     
     <div  id="panel_izq_opciones"> 
@@ -73,47 +64,38 @@
     
     
   </div>
- <!--! ----------------------------------------------------------------- -->
-
- <!--! DIV DE LA VENTANA MODAL DE BIBLIOTECA -->
-  <div class ="ventana-interna" id="ventanaBiblio"> 
+ <div class ="ventana-interna" id="ventanaBiblio"> 
   
     <div id="panel_izq_biblio">
       <button class = "btn_efecto" id ="btn_añadir_libro">Añadir Libro</button>
-      
     </div>
-    <div id="grid_der_biblio"></div> 
-    <button class="btn volver-btn btn_efecto" id="btnVolverBiblio">Volver</button>   <!--Div vacio que sirve como contenedor para los libros (el contenido se añade dinamicamente)-->
+
+    <div id="grid_der_biblio"></div> <div id="grid_etiquetas_filtro"></div> 
+    <button class="btn volver-btn btn_efecto" id="btnVolverBiblio">Volver</button>   
   </div>
  
-   <!--! ----------------------------------------------------------------- -->
-   
-    <!--! DIV DE LA VENTANA MODAL DE AÑADIR LIBRO -->
-
- <div class="ventana-interna" id="ventana_añadir_libro"> 
+   <div class="ventana-interna" id="ventana_añadir_libro"> 
   
 
-  <!-- Campo: Nombre del libro -->
   <div class="campo-linea">
     <label for="nombre_libro">Nombre del libro:</label>
-    <input type="text" id="nombre_libro" placeholder="Introduce el nombre del libro">
+    <input type="text" id="nombre_libro_input" placeholder="Introduce el nombre del libro">
   </div>
 
-  <!-- Campo: Seleccionar archivo -->
-  <div class="campo-linea" id ="sel_archivo_libro">
-    
-    <button class = "btn_efecto" id="archivo_libro">Archivo EPUB</button>
-    <span id="archivo_nombre"></span>
+  <div class="campo-linea">
+  <label>Archivo EPUB:</label>
+  <div class="input-file-container">
+    <input type="file" id="input_archivo_oculto" accept=".epub" style="display: none;">
+    <button type="button" id="sel_archivo_libro" class="btn_efecto">Seleccionar EPUB</button>
   </div>
+</div>
 
-  <!-- Contenedor de etiquetas -->
   <div class="campo-linea">
     <label id="label_etiquetas">Etiquetas del libro:</label>
     
   </div>
-  <div id="contenedorEtiquetas">
-    <!-- Aquí van las etiquetas para seleccionar -->
-  </div>
+  <div id="grid_etiquetas">
+    </div>
   
   <div class="botones-ventana">
   <button class = "btn_efecto" id="btn_add_book">Añadir</button>
@@ -122,12 +104,14 @@
  </div>
 
 
-<!--! ----------------------------------------------------------------- -->
-
-<!--! VENTANA MODAL PARA EL LIBRO -->
 <div id="modal-transicion" class="modal-transicion">
   <div class="libro-contenedor" id="libro-animado">
-    <div class="tapa-frontal" id="portada-dinamica"></div>
+    
+    <div class="tapa-frontal">
+      <div class="portada-exterior" id="portada-dinamica"></div>
+      <div class="interior-izquierdo"></div>
+    </div>
+
     <div class="interior-libro">
        <p>Cargando historia...</p>
     </div>
@@ -144,10 +128,6 @@
 </div>
   
 </div>
-<!--! ----------------------------------------------------------------- -->
-  
-  
-<!--! MENU CONTEXTUAL -->
 <div id="menu-contextual" class="menu-contextual">
   
   
@@ -158,25 +138,16 @@
   
 
 </div>
-<!--! ----------------------------------------------------------------- -->
-
-
-  
-  <!--! MODAL-CAMBIAR-NOMBRE -->
-  <div class = 'ventana-interna ventana-sobre-overlay' id ="modal_cambiar_nombre" >
+<div class = 'ventana-interna ventana-sobre-overlay' id ="modal_cambiar_nombre" >
   <input type="text" id="nuevo_nombre_libro" placeholder="Introduce el nuevo nombre" maxlength="40">
   <button id="confirmar_nuevo_nombre">Confirmar</button>
   <button id="cancelar_nuevo_nombre">X</button>
   </div>
-<!--! ----------------------------------------------------------------- -->
-
-<!--! MODAL-ALERTA -->
 <div class="ventana-interna ventana-interna-decorada ventana-sobre-overlay" id="modal_alerta">
   <p id="texto_alerta"></p>
   <button id="btn_cerrar_alerta">Cerrar</button>
 </div>
 
-<!--! MODAL-CONFIRMACION -->
 <div class="ventana-interna ventana-interna-decorada ventana-sobre-overlay" id="modal_confirmacion">
   <p id="texto_confirmacion">¿Estás seguro de que deseas eliminar este libro?</p>
   <button id="btn_confirmar_eliminacion">Sí</button>

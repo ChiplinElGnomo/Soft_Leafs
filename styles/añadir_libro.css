@@ -7,186 +7,195 @@
   transform: translate(-50%, -50%) scale(0);
   width: 80%;
   max-width: 600px;
-  height: 45%; 
+  height: 60%; 
   background-color: rgb(255, 255, 255);
   border-radius: 15px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-  padding: 20px 25px 90px 25px; 
+  padding: 60px 20px; 
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 15px;
   overflow-y: auto;
 }
 
 
-/* Cada línea de campo (campos superiores) */
 .campo-linea {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  margin-top: 20px; /* separación desde la parte superior */
 }
 
 #sel_archivo_libro {
-  
-  width: 120px;
-  height: 20px;
-  background-color: #87CEEB;
+  /* Estructura base */
+  width: auto;
+  min-width: 200px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 0 20px;
+  margin-top: 5px;
+
+  /* Colores de tu app (Azules) */
+  background-color: #87CEEB; /* Azul cielo */
   border: 2px solid #3498db;
-  border-radius: 10px;
-  padding: 10px;
-  
-}
-
-#archivo_libro {
-  font-size: 16px;
   color: white;
-  background: transparent;
-  cursor: pointer;
-  border :none;
-  user-select: none;
   
+  /* Estética */
+  border-radius: 12px;
+  font-weight: bold;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+  user-select: none;
 }
 
+/* EFECTO HOVER: Se aclara y se eleva sutilmente */
+#sel_archivo_libro:hover {
+  background-color: #3498db; /* Cambia al azul más intenso */
+  transform: translateY(-2px); /* Pequeña elevación */
+  box-shadow: 0 6px 12px rgba(52, 152, 219, 0.3);
+}
 
+/* EFECTO CLICK: Se hunde y la sombra desaparece */
+#sel_archivo_libro:active {
+  transform: translateY(1px); /* Efecto de hundimiento */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  filter: brightness(0.9);
+}
 
-/* Campo de texto – estilo original */
+/* OPCIONAL: Estilo cuando ya se ha seleccionado un archivo */
+/* Puedes añadir esta clase mediante JS tras elegir el archivo */
+#sel_archivo_libro.archivo-cargado {
+  background-color: #2ecc71; /* Verde suave solo para indicar éxito */
+  border-color: #27ae60;
+}
+
+/* Campo de texto */
 #ventana_añadir_libro input[type="text"] {
-  width: 40%;
+  width: 90%; 
   padding: 10px;
   border-radius: 10px;
   border: 2px solid #3498db;
   font-size: 16px;
   outline: none;
-  transition: box-shadow 0.2s ease;
-  margin-top: 0;
-}
-
-#ventana_añadir_libro input[type="text"]:focus {
-  box-shadow: 0 0 10px rgba(52, 152, 219, 0.6);
 }
 
 
-#ventana_añadir_libro input[type="file"] {
-  font-size: 16px;
-  color: #333;
-  color: white;
-  cursor: pointer;
+#grid_etiquetas {
+  background-color: rgba(240, 240, 240, 0.6);
+  border: 2px dashed #87CEEB;
+  border-radius: 12px;
+  padding: 12px;
+  
+  /* Flexbox corregido */
+  display: flex;
+  flex-wrap: wrap;       /* Permite que se pongan una al lado de otra */
+  gap: 8px;              /* Espacio entre pastillas */
+  align-content: flex-start; /* Evita que las filas se separen verticalmente */
+  align-items: flex-start;   /* Evita que las etiquetas se estiren a lo alto */
+  
+  /* Control de altura */
+  min-height: 60px;
+  max-height: 150px;     /* Limitamos el crecimiento vertical */
+  overflow-y: auto;      /* Si hay muchísimas, aparece scroll interno */
+  margin-top: 5px;
+}
+
+#label_etiquetas {
+  font-weight: bold;
+  user-select: none;
   margin-top: 10px;
 }
 
-/* Contenedores de etiquetas */
-
-#contenedorEtiquetas {
-  background-color: rgba(240, 240, 240, 0.8);
-  border: 2px dashed #87CEEB;
-  border-radius: 10px;
-  padding: 10px;
-  min-height: 10px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-
-
-
-/* Contenedor de etiquetas inferior (disponibles) */
-#etiqueta {
-  position: absolute;
-  bottom: 80px;
-  left: 25px;
-  right: 25px;
-   
-}
-
-.etiqueta.seleccionada {
-    background-color: #4CAF50; /* Un verde suave o el color de tu app */
-    color: white;
-    border-color: #388E3C;
-    transform: scale(1.05); /* Un pequeño aumento para dar feedback */
-}
-
-
-
-#label_etiquetas {
-  position: absolute;
-  bottom: 310px;
-  font-weight: bold;
-  user-select: none;
-}
-
-/* Botón cerrar – esquina superior derecha */
+/* Botones de acción */
 #btn_cerrar_añadir {
   position: absolute;
   top: 10px;
   right: 10px;
-
-  background-color: #87CEEB;
-  border: 2px solid #3498db;
+  
+  background-color: #87CEEB;   /* Tu azul cielo base */
+  border: 2px solid #3498db;   /* Azul más fuerte para el borde */
   color: #fff;
-
-  padding: 10px 20px;
-  border-radius: 15px;
-
+  
+  padding: 8px 15px;
+  border-radius: 12px;
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  font-weight: bold;
+  transition: all 0.2s ease;
 }
 
 #btn_cerrar_añadir:hover {
+  background-color: #3498db;   /* Se oscurece al pasar el ratón */
   transform: scale(1.1);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-#btn_cerrar_añadir:active {
-  transform: scale(0.95);
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
-}
-
-/* Botón agregar – esquina inferior derecha */
 #btn_add_book {
   position: absolute;
-  bottom: 10px;
-  right: 10px;
-
-  background-color: #87CEEB;
-  border: 2px solid #3498db;
+  bottom: 20px;
+  right: 25px;
+  
+  background-color: #3498db;   /* Azul principal (más peso visual que el cerrar) */
+  border: 2px solid #2980b9;
   color: #fff;
-
-  padding: 10px 20px;
+  
+  padding: 10px 25px;
   border-radius: 15px;
-
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  font-size: 15px;
+  font-weight: 600;
+  transition: all 0.2s ease;
 }
 
 #btn_add_book:hover {
-  transform: scale(1.1);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  background-color: #87CEEB;   /* Intercambio de azul al hover */
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
 }
 
 #btn_add_book:active {
   transform: scale(0.95);
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
 }
 
-/* Etiquetas individuales */
+/* Estilo de las etiquetas individuales */
 .etiqueta {
-  background-color: #3498db;
-  color: #fff;
-  padding: 5px 10px;
-  border-radius: 15px;
-  font-size: 14px;
+  /* Estructura y forma */
+  display: inline-block;
+  padding: 6px 18px;           /* Padding horizontal mayor para efecto alargado */
+  border-radius: 50px;         /* Radio alto para crear la forma de cápsula/cilindro */
+  
+  /* Colores (Tonos azules de la app) */
+  background-color: #f0f8ff;   /* Azul muy claro de fondo */
+  color: #3498db;              /* Azul principal para el texto */
+  border: 2px solid #3498db;   /* Borde definido */
+  
+  /* Tipografía y comportamiento */
+  font-size: 13px;
+  font-weight: 600;
+  text-align: center;
+  white-space: nowrap;         /* Evita que el nombre se divida en dos líneas */
   cursor: pointer;
+  transition: all 0.3s ease;
   user-select: none;
 }
 
+/* Efecto al pasar el ratón */
 .etiqueta:hover {
-  transform: scale(1.1);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  background-color: #87CEEB;   /* Tu azul cielo original */
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(135, 206, 235, 0.3);
 }
 
-.etiqueta:active {
-  transform: scale(0.95);
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+/* Estado seleccionada (Azul más intenso en lugar de verde) */
+.etiqueta.seleccionada {
+  background-color: #3498db;   /* Azul sólido */
+  color: white;
+  border-color: #2980b9;       /* Un tono de azul más oscuro para el borde */
+  transform: scale(1.05);
+  box-shadow: 0 2px 8px rgba(52, 152, 219, 0.4);
 }

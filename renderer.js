@@ -19,10 +19,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const ventanaAñadirLibro = document.getElementById('ventana_añadir_libro');
   const modalLectorReal = document.getElementById("libro_abierto");
   const visor = document.getElementById("visorEPUB");
+  const btn_cambiar_portada = document.getElementById("opcion_portada")
   
   const modalTransicion = document.getElementById('modal-transicion');
   const libroAnimado = document.getElementById('libro-animado');
   const portadaDinamica = document.getElementById('portada-dinamica');
+  let rutaNuevoLibro = null; 
+  let rutaPortadaNueva = null;
 
   let libroActual = null;
   let libro_seleccionado = null;
@@ -36,6 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // ==========================================
   
   LIB.actualizarBiblioteca();
+  Sound.reproducirPlaylist('cozy');
 
   // ==========================================
   // 3. GESTIÓN DE MÚSICA
@@ -48,8 +52,6 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('nombre-cancion').textContent = `Canción actual: ${cancion.titulo}`;
     reproductor.play();
   }
-
-  // (El resto de la lógica de música se mantiene igual...)
 
   // ==========================================
   // 4. BIBLIOTECA Y LECTOR
@@ -71,10 +73,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (divPortadaOriginal) {
       const estilo = window.getComputedStyle(divPortadaOriginal);
       portadaDinamica.style.backgroundImage = estilo.backgroundImage;
-      portadaDinamica.style.backgroundSize = "cover";
+      
     }
 
-    // 3. Mostrar la animación
+    
     UI.mostrarOverlay();
     modalTransicion.classList.add('mostrar'); // Esto lo lleva al centro (escala 1)
 
@@ -90,7 +92,7 @@ libroAnimado.addEventListener('click', async () => {
 
     setTimeout(async () => {
         try {
-            // --- CAMBIO CLAVE AQUÍ ---
+            
             // Pedimos al Main la ruta completa usando el nombre del archivo guardado
             const rutaCompleta = await window.electronAPI.obtenerRutaLibro(libro_seleccionado.archivo);
 
@@ -118,71 +120,109 @@ libroAnimado.addEventListener('click', async () => {
     }
   });
 
-  // ==========================================
-  // 5. AÑADIR LIBRO (ACTUALIZADO)
-  // ==========================================
+ 
   
-  const inputOculto = document.getElementById('input_archivo_oculto');
-  const btnSeleccionar = document.getElementById('sel_archivo_libro');
-  const inputNombre = document.getElementById('nombre_libro_input');
+ // ==========================================
+// 5. AÑADIR LIBRO 
+// ==========================================
 
-  // Trigger del input oculto
-  btnSeleccionar.addEventListener('click', () => {
-    inputOculto.click();
-  });
+const btnSeleccionar = document.getElementById('sel_archivo_libro');
+const inputNombre = document.getElementById('nombre_libro_input');
+let rutaLibroSeleccionado = null; 
 
-  // Evento al seleccionar archivo (Minimalista, sin texto extra)
-  inputOculto.addEventListener('change', () => {
-    if (inputOculto.files.length > 0) {
-      // Feedback visual en el botón
-      btnSeleccionar.textContent = "¡EPUB Cargado!";
-      btnSeleccionar.style.backgroundColor = "#2ecc71"; 
-      btnSeleccionar.style.borderColor = "#27ae60";
-      
-      // Auto-rellenar nombre si está vacío
-      if (inputNombre && inputNombre.value.trim() === "") {
-        const nombreSinExt = inputOculto.files[0].name.replace(/\.[^/.]+$/, "");
-        inputNombre.value = nombreSinExt;
-      }
+
+btnSeleccionar.addEventListener('click', async () => {
+    // Llamamos a tu función del preload que abre el diálogo nativo
+    const ruta = await window.electronAPI.abrirDialogoArchivo();
+
+    if (ruta) {
+        rutaLibroSeleccionado = ruta; // Guardamos la ruta válida
+
+        // --- Feedback Visual (Tu estética) ---
+        btnSeleccionar.textContent = "¡EPUB Cargado!";
+        btnSeleccionar.style.backgroundColor = "#2ecc71"; 
+        btnSeleccionar.style.borderColor = "#27ae60";
+
     }
-  });
+});
 
-  // Manejo de etiquetas en el modal
-  document.getElementById('grid_etiquetas').addEventListener('click', (e) => {
+// 2. MANEJO DE ETIQUETAS
+document.getElementById('grid_etiquetas').addEventListener('click', (e) => {
     etiquetasSeleccionadas = LIB.manejarSeleccionEtiqueta(e, etiquetasSeleccionadas, Sound);
-  });
+});
 
-  // Botón final para guardar en SQLite
-  document.getElementById('btn_add_book').addEventListener('click', async () => {
+// 3. BOTÓN GUARDAR
+document.getElementById('btn_add_book').addEventListener('click', async () => {
+    const inputNombre = document.getElementById('nombre_libro_input');
     const nombre = inputNombre.value.trim();
-    const archivoFile = inputOculto.files[0];
 
-    if (!nombre || !archivoFile) {
-      UI.abrirAlerta("Falta el nombre o el archivo del libro.");
-      return;
+    if (!nombre || !rutaLibroSeleccionado) {
+        UI.abrirAlerta("Falta el nombre o el archivo del libro.");
+        return;
     }
 
     const paqueteLibro = {
-      nombre: nombre,
-      rutaSubida: archivoFile.path,
-      etiquetas: etiquetasSeleccionadas
+        nombre: nombre,
+        ruta: rutaLibroSeleccionado,     
+        portadaRuta: rutaPortadaNueva,   
+        etiquetas: etiquetasSeleccionadas
     };
+    console.log("Enviando libro:", paqueteLibro); 
 
-    const resultado = await window.electronAPI.guardarLibro(paqueteLibro);
+    try {
+        const resultado = await window.electronAPI.guardarLibro(paqueteLibro);
 
-    if (resultado.success) {
-      // Limpieza y reset
-      UI.resetearFormularioAñadir(ventanaAñadirLibro, inputNombre);
-      btnSeleccionar.textContent = "Seleccionar EPUB";
-      btnSeleccionar.style.backgroundColor = "";
-      btnSeleccionar.style.borderColor = "";
-      etiquetasSeleccionadas = [];
-      
-      await LIB.actualizarBiblioteca();
-    } else {
-      UI.abrirAlerta("Error al guardar: " + resultado.error);
+        if (resultado && resultado.success) {
+            UI.abrirAlerta("Libro añadido correctamente.");
+            
+            // Limpieza visual
+            UI.resetearFormularioAñadir(ventanaAñadirLibro, inputNombre);
+            
+            // Resetear variables globales
+            rutaLibroSeleccionado = null;
+            rutaPortadaNueva = null; 
+            etiquetasSeleccionadas = [];
+
+            // Resetear botones
+            const btnLibro = document.getElementById('sel_archivo_libro');
+            btnLibro.textContent = "Seleccionar EPUB";
+            btnLibro.style.backgroundColor = "";
+            btnLibro.style.borderColor = "";
+
+            const btnPortada = document.getElementById('sel_portada_libro');
+            btnPortada.textContent = "Seleccionar Portada (Opcional)";
+            btnPortada.style.backgroundColor = "";
+            btnPortada.style.borderColor = "";
+            btnPortada.style.color = "";
+
+            // Actualizar biblioteca
+            await LIB.actualizarBiblioteca();
+        } else {
+            UI.abrirAlerta("Error al guardar: " + (resultado.error || "Desconocido"));
+        }
+    } catch (error) {
+        console.error(error);
+        UI.abrirAlerta("Error de comunicación: " + error.message);
     }
-  });
+});
+
+const btnSelPortada = document.getElementById('sel_portada_libro');
+
+// 1. Evento Click: Abre la ventana nativa de Windows (no un input web)
+btnSelPortada.addEventListener('click', async () => {
+    // Llamamos a la función que creamos para filtrar solo imágenes
+    const ruta = await window.electronAPI.seleccionarPortada();
+    
+    if (ruta) {
+        rutaPortadaNueva = ruta; // Guardamos la ruta en la variable global
+
+        // 2. Feedback Visual: Igual que el botón del EPUB
+        btnSelPortada.textContent = "¡Portada Cargada!";
+        btnSelPortada.style.backgroundColor = "#2ecc71"; // Verde
+        btnSelPortada.style.borderColor = "#27ae60";
+        btnSelPortada.style.color = "white";
+    }
+});
 
   // ==========================================
   // 6. MODALES Y NAVEGACIÓN
@@ -195,12 +235,7 @@ libroAnimado.addEventListener('click', async () => {
     LIB.cargarEtiquetasDisponibles('#grid_etiquetas'); 
   });
 
-  document.getElementById('btn_cerrar_añadir').addEventListener('click', () => {
-    UI.resetearFormularioAñadir(ventanaAñadirLibro, inputNombre);
-    btnSeleccionar.textContent = "Seleccionar EPUB";
-    btnSeleccionar.style.backgroundColor = "";
-    btnSeleccionar.style.borderColor = "";
-  });
+ 
 
   // ==========================================
   // 7. MENÚ CONTEXTUAL (SQLite)
@@ -221,9 +256,13 @@ libroAnimado.addEventListener('click', async () => {
     const tarjeta = e.target.closest('.tarjeta-libro');
     if (tarjeta) {
       e.preventDefault();
-      libro_seleccionado = LIB.mostrarMenuContextual(e, menuContextual, tarjeta);
+      libro_seleccionado = {
+        id: tarjeta.dataset.id, 
+        archivo: tarjeta.dataset.archivo
+      };
+      LIB.mostrarMenuContextual(e, menuContextual, tarjeta);
     }
-  });
+});
 
   document.addEventListener('click', () => menuContextual.classList.remove('visible'));
 
@@ -255,27 +294,50 @@ libroAnimado.addEventListener('click', async () => {
 
   btn_confirmar_newname.addEventListener('click', async () => {
     const nuevoNombre = input_nuevo_nombre.value.trim();
-    const exito = await LIB.confirmarCambioNombre(libro_seleccionado, nuevoNombre, modalCambiarNombre, input_nuevo_nombre);
-    if (exito) {
+    const exito = await window.electronAPI.cambiarNombreLibro(libro_seleccionado.id, nuevoNombre);
+    if (exito.success) {
       await LIB.actualizarBiblioteca();
       UI.ocultarOverlay();
+      modalCambiarNombre.classList.remove('mostrar');
     }
   });
+if (btn_cambiar_portada){
+  btn_cambiar_portada.addEventListener('click', async () => {
+    const rutaElegida = await window.electronAPI.seleccionarPortada()
+    if (rutaElegida) {
+      await window.electronAPI.cambiarPortada({id: libro_seleccionado.id, nuevaPortada: rutaElegida})
+      await LIB.actualizarBiblioteca()
+      UI.ocultarOverlay()
+    }
+
+
+
+  });
+}
 
   // ==========================================
   // 8. ELEMENTOS GENERALES
   // ==========================================
   
-  document.getElementById('btn_cerrar_alerta').addEventListener('click', () => {
-    document.getElementById('modal_alerta').classList.remove('mostrar');
-    UI.ocultarOverlay();
-  });
+  
 
-  document.querySelectorAll('.btn_efecto').forEach(boton => {
-      boton.addEventListener('mouseenter', () => {
-          Sound.sonido_efecto('efecto_sobre_boton');
-      });
-  });
+  
+
+// Detectamos el click en el contenedor oscuro
+modalTransicion.addEventListener('click', (e) => {
+    // Si el usuario pulsa en el FONDO (modalTransicion) y NO en la portada
+    if (e.target === modalTransicion) {
+        
+        // 1. Ocultamos la animación
+        modalTransicion.classList.remove('mostrar');
+        
+        // 2. Quitamos el blur del fondo
+        UI.ocultarOverlay();
+        
+        // 3. Reseteamos la selección
+        libro_seleccionado = null; 
+    }
+});
 
   document.getElementById('btnCerrar').addEventListener('click', () => window.electronAPI.cerrarApp());
   document.getElementById('btnOpciones').addEventListener('click', () => ventana_Opciones.classList.add('mostrar'));
@@ -297,6 +359,34 @@ libroAnimado.addEventListener('click', async () => {
 
     // 4. Limpiamos cualquier rastro del libro animado anterior
     modalTransicion.classList.remove('mostrar', 'abierto');
+
+    
+    
+});
+
+document.addEventListener('click', (e) => {
+    // 1. Detectamos si se ha pulsado UN botón de cerrar (o un icono dentro de él)
+    const botonCerrar = e.target.closest('.btn-cerrar-general');
+
+    if (botonCerrar) {
+        // 2. Buscamos la modal específica que contiene a ESE botón
+        const modalAbierta = botonCerrar.closest('.mostrar');
+        
+        if (modalAbierta) {
+            // 3. BUCLE PARA VACIAR TODOS LOS INPUTS:
+            // Buscamos todos los inputs SOLO dentro de esta modal
+            const todosLosInputs = modalAbierta.querySelectorAll('input');
+            
+            // Recorremos cada uno y lo vaciamos
+            todosLosInputs.forEach(input => {
+                input.value = '';
+            });
+
+            // 4. Cerramos solo esta modal
+            modalAbierta.classList.remove('mostrar');
+            UI.ocultarOverlay();
+        }
+    }
 });
 });
 

@@ -5,27 +5,46 @@ export async function actualizarBiblioteca() {
     if (!grid) return;
     grid.innerHTML = '';
     
-    const libros = await window.electronAPI.obtenerLibros(); //
-    libros.forEach(libro => {
-        const tarjeta = document.createElement('div');
-        tarjeta.classList.add('tarjeta-libro');
-        
-        // --- CAMBIO CLAVE: Guardamos el ID de la base de datos ---
-        tarjeta.dataset.id = libro.id; 
-        tarjeta.dataset.archivo = libro.archivo;
-        
-        // Opcional: Mostrar etiquetas en la tarjeta
-        const etiquetasHTML = libro.etiquetas.length > 0 
-            ? `<div class="etiquetas-mini">${libro.etiquetas.join(', ')}</div>` 
-            : '';
+    // 1. Pedimos las carpetas y los libros
+    // IMPORTANTE: Aquí usamos 'getBooksFolders' que es como lo tienes en preload.js
+    const [rutas, libros] = await Promise.all([
+        window.electronAPI.getBooksFolders(), 
+        window.electronAPI.obtenerLibros()
+    ]);
+    
+    const carpetaCovers = rutas.coversPath;
 
-        tarjeta.innerHTML = `
-            <div class="portada"></div>
-            <div class="nombre-libro">${libro.nombre}</div>
-            ${etiquetasHTML}
-        `;
-        grid.appendChild(tarjeta);
-    });
+    libros.forEach(libro => {
+    const tarjeta = document.createElement('div');
+    tarjeta.classList.add('tarjeta-libro');
+    
+    tarjeta.dataset.id = libro.id; 
+    tarjeta.dataset.archivo = libro.archivo;
+    
+    // 2. LÓGICA DE LA PORTADA (MEJORADA)
+    let estiloPortada = ''; 
+    let claseExtra = 'portada-default'; // Asumimos por defecto que NO hay foto
+    
+    if (libro.portada) {
+        // Si hay foto: Construimos ruta, ponemos estilo y QUITAMOS la clase default
+        const rutaImagen = `file://${carpetaCovers}/${libro.portada}`.replace(/\\/g, '/');
+        estiloPortada = `style="background-image: url('${rutaImagen}');"`;
+        claseExtra = ''; // Al quitar esta clase, ya no saldrá la imagen de Harry Potter
+    }
+
+    // 3. Renderizamos
+    const etiquetasHTML = libro.etiquetas && libro.etiquetas.length > 0 
+        ? `<div class="etiquetas-mini">${libro.etiquetas.join(', ')}</div>` 
+        : '';
+
+    tarjeta.innerHTML = `
+        <div class="portada ${claseExtra}" ${estiloPortada}></div>
+        <div class="nombre-libro">${libro.nombre}</div>
+        ${etiquetasHTML}
+    `;
+    
+    grid.appendChild(tarjeta);
+});
 }
 
 export function manejarSeleccionEtiqueta(e, etiquetasSeleccionadas, Sound) {
@@ -59,22 +78,7 @@ export function mostrarMenuContextual(e, menu, tarjeta) {
     }
 }
 
-export async function confirmarCambioNombre(libro_id, nuevoNombre, modal, input) {
-    if (libro_id && nuevoNombre) {
-        if (nuevoNombre.length > 40) { 
-            alert('El nombre es demasiado largo.');
-            return false;
-        }
-        
-        const resultado = await window.electronAPI.cambiarNombreLibro(libro_id, nuevoNombre);
-        if (resultado.success) {
-            modal.classList.remove('mostrar');
-            input.value = '';
-            return true;
-        }
-    }
-    return false;
-}
+
 
 export function cargarEtiquetasDisponibles(contenedorId) {
     const contenedor = document.querySelector(contenedorId);

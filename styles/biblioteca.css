@@ -134,11 +134,24 @@
   left: 0;
   width: 100%;
   height: 100%;
+  
+  /* --- CAMBIO AQUÍ --- */
+  /* 'cover' recortaba. 
+     '100% 100%' fuerza a la imagen a encajar exacta en el hueco. */
+  background-size: 100% 100%; 
+  
+  background-position: center;
+  background-repeat: no-repeat;
+  
+  z-index: 1;
+  border-radius: 10px;
+  transition: transform 0.3s ease;
+}
+
+.tarjeta-libro .portada.portada-default {
   background-image: url('../assets/images/harrypotter.png'); 
   background-size: contain;
-  background-position: center;
   filter: brightness(0.85);
-  z-index: 1;
 }
 
 /* Nombre del libro */

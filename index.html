@@ -31,7 +31,7 @@
       <button class="btn_seccion btn_efecto" data-seccion_opciones="seccion_sonido">Sonido</button>
       <button class="btn_seccion btn_efecto" data-seccion_opciones="seccion_visual">Visual</button>
       <button class="btn_seccion btn_efecto"data-seccion_opciones="seccion_misc">Otros</button>
-      <button class="btn volver-btn btn_efecto" id="btnVolver">Volver</button>
+      <button class="btn volver-btn btn_efecto btn-cerrar-general" id="btnVolver">Volver</button>
 
     </div>
     <div id="panel_der_opciones">
@@ -71,37 +71,43 @@
     </div>
 
     <div id="grid_der_biblio"></div> <div id="grid_etiquetas_filtro"></div> 
-    <button class="btn volver-btn btn_efecto" id="btnVolverBiblio">Volver</button>   
+    <button class="btn volver-btn btn_efecto btn-cerrar-general" id="btnVolverBiblio">Volver</button>   
   </div>
  
    <div class="ventana-interna" id="ventana_añadir_libro"> 
   
-
   <div class="campo-linea">
     <label for="nombre_libro">Nombre del libro:</label>
     <input type="text" id="nombre_libro_input" placeholder="Introduce el nombre del libro">
   </div>
 
   <div class="campo-linea">
-  <label>Archivo EPUB:</label>
-  <div class="input-file-container">
-    <input type="file" id="input_archivo_oculto" accept=".epub" style="display: none;">
-    <button type="button" id="sel_archivo_libro" class="btn_efecto">Seleccionar EPUB</button>
+    <label>Archivo EPUB:</label>
+    <div class="input-file-container">
+      <button type="button" id="sel_archivo_libro" class="btn_efecto">Seleccionar EPUB</button>
+    </div>
   </div>
-</div>
+
+  <div class="campo-linea">
+    <label>Portada (Opcional):</label>
+    <div class="input-file-container">
+      <button type="button" id="sel_portada_libro" class="btn_efecto">Seleccionar Portada</button>
+    </div>
+  </div>
 
   <div class="campo-linea">
     <label id="label_etiquetas">Etiquetas del libro:</label>
-    
   </div>
+  
   <div id="grid_etiquetas">
-    </div>
+  </div>
   
   <div class="botones-ventana">
-  <button class = "btn_efecto" id="btn_add_book">Añadir</button>
-  <button class = "btn_efecto" id="btn_cerrar_añadir">X</button>
+    <button class="btn_efecto" id="btn_add_book">Añadir</button>
+    <button class="btn_efecto btn-cerrar-general" id="btn_cerrar_añadir">X</button>
   </div>
- </div>
+
+</div>
 
 
 <div id="modal-transicion" class="modal-transicion">
@@ -122,7 +128,7 @@
 
 <div id="libro_abierto">
   <div id="lectorContenido">
-    <button id="cerrarLector">X</button>
+    <button class= "btn-cerrar-general" id="cerrarLector">X</button>
     <div id="visorEPUB"></div>
   </div>
 </div>
@@ -141,17 +147,18 @@
 <div class = 'ventana-interna ventana-sobre-overlay' id ="modal_cambiar_nombre" >
   <input type="text" id="nuevo_nombre_libro" placeholder="Introduce el nuevo nombre" maxlength="40">
   <button id="confirmar_nuevo_nombre">Confirmar</button>
-  <button id="cancelar_nuevo_nombre">X</button>
+  <button class="btn-cerrar-general" id="cancelar_nuevo_nombre">X</button>
   </div>
-<div class="ventana-interna ventana-interna-decorada ventana-sobre-overlay" id="modal_alerta">
-  <p id="texto_alerta"></p>
-  <button id="btn_cerrar_alerta">Cerrar</button>
-</div>
+
 
 <div class="ventana-interna ventana-interna-decorada ventana-sobre-overlay" id="modal_confirmacion">
   <p id="texto_confirmacion">¿Estás seguro de que deseas eliminar este libro?</p>
   <button id="btn_confirmar_eliminacion">Sí</button>
   <button id="btn_cancelar_eliminacion">No</button>
+</div>
+<div class="ventana-interna ventana-interna-decorada" id="modal_alerta">
+  <p id="texto_alerta"></p>
+  <button class="btn-cerrar-general" id="btn_cerrar_alerta">Cerrar</button>
 </div>
 </body>
 </html>

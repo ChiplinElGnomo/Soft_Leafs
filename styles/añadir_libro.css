@@ -25,7 +25,13 @@
   gap: 8px;
 }
 
-#sel_archivo_libro {
+/* =========================================
+   BOTONES DE SELECCIÓN (EPUB Y PORTADA)
+   ========================================= */
+
+/* Aplicamos los mismos estilos a ambos botones a la vez usando la coma */
+#sel_archivo_libro, 
+#sel_portada_libro {
   /* Estructura base */
   width: auto;
   min-width: 200px;
@@ -41,36 +47,35 @@
   background-color: #87CEEB; /* Azul cielo */
   border: 2px solid #3498db;
   color: white;
-  
-  /* Estética */
-  border-radius: 12px;
-  font-weight: bold;
-  font-size: 14px;
+
+  /* Tipografía */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+
+  /* Forma y efectos */
+  border-radius: 8px;
   cursor: pointer;
-  transition: all 0.2s ease-in-out;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
-  user-select: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
 }
 
-/* EFECTO HOVER: Se aclara y se eleva sutilmente */
-#sel_archivo_libro:hover {
-  background-color: #3498db; /* Cambia al azul más intenso */
-  transform: translateY(-2px); /* Pequeña elevación */
-  box-shadow: 0 6px 12px rgba(52, 152, 219, 0.3);
+/* EFECTO HOVER (AL PASAR EL RATÓN) PARA AMBOS */
+#sel_archivo_libro:hover,
+#sel_portada_libro:hover {
+  background-color: #3498db;   /* Azul más oscuro */
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
 }
 
-/* EFECTO CLICK: Se hunde y la sombra desaparece */
-#sel_archivo_libro:active {
-  transform: translateY(1px); /* Efecto de hundimiento */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  filter: brightness(0.9);
-}
-
-/* OPCIONAL: Estilo cuando ya se ha seleccionado un archivo */
-/* Puedes añadir esta clase mediante JS tras elegir el archivo */
-#sel_archivo_libro.archivo-cargado {
-  background-color: #2ecc71; /* Verde suave solo para indicar éxito */
-  border-color: #27ae60;
+/* EFECTO ACTIVE (AL PULSAR) PARA AMBOS */
+#sel_archivo_libro:active,
+#sel_portada_libro:active {
+  transform: scale(0.95);
 }
 
 /* Campo de texto */

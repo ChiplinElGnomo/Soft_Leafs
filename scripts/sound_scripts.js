@@ -26,18 +26,30 @@ export function actualizarVolumenMusica(nuevoValor) {
 async function cargarYCancion(indice) {
     indiceActual = indice;
     const cancion = cancionesPlaylist[indice];
+    
+    // 1. Obtenemos la ruta del sistema (vendrá con barras invertidas en Windows)
     const ruta = await window.electronAPI.obtenerRutaAudio(cancion.archivo_cancion);
     
-    reproductor.src = new URL(`file://${ruta}`).href;
+    // 2. CORRECCIÓN: Reemplazamos \ por / para que el navegador lo entienda
+    const rutaWeb = ruta.replace(/\\/g, '/');
     
+    // 3. Asignamos el src directamente
+    reproductor.src = `file://${rutaWeb}`;
+    
+    // Actualizar UI
     const sliderVolumen = document.getElementById('volumen_musica');
     if (sliderVolumen) reproductor.volume = sliderVolumen.value;
 
     const etiquetaMusica = document.querySelector('.eti-musica');
     if (etiquetaMusica) etiquetaMusica.textContent = `Canción actual: ${cancion.titulo}`;
     
-    reproductor.play().catch(() => {
-        document.addEventListener('click', () => reproductor.play(), { once: true });
+    // 4. Intentar reproducir
+    reproductor.play().catch((err) => {
+        console.warn("Autoplay bloqueado, esperando interacción...", err);
+        // Si el navegador bloquea el autoplay, esperamos al primer clic del usuario
+        document.addEventListener('click', () => {
+            reproductor.play().catch(e => console.error("Error al reproducir:", e));
+        }, { once: true });
     });
 }
 

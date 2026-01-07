@@ -13,7 +13,7 @@ function createWindow() {
       contextIsolation: true,
       nodeIntegration: false,
       sandbox: false,
-      webSecurity: true
+      webSecurity: false
     }
   });
 
@@ -34,91 +34,115 @@ function createWindow() {
 
   ipcMain.handle('libro:guardar', async (event, paqueteLibro) => {
     try {
-      const nombreArchivo = path.basename(paqueteLibro.ruta);
-      const rutaDestino = path.join(filesPath, nombreArchivo)
-      fs.copyFileSync(paqueteLibro.ruta, rutaDestino)
+        // A) Procesar el LIBRO (EPUB)
+        const nombreArchivoLibro = path.basename(paqueteLibro.ruta);
+        const rutaDestinoLibro = path.join(filesPath, nombreArchivoLibro);
+        fs.copyFileSync(paqueteLibro.ruta, rutaDestinoLibro);
 
-      let nombre_archivo_portada = null;
-      if (paqueteLibro.portadaRuta) {
-
-        nombre_archivo_portada = `portada_${Date.now()}_${path.basename(paqueteLibro.portadaRuta)}`;
-        const destinoPortada = path.join(coversPath, nombre_archivo_portada);
-        fs.copyFileSync(paqueteLibro.portadaRuta, destinoPortada);
-      }
-
-      // 1. VARIABLES PARA INSERTAR LIBRO
-        const stmtLibro = db.prepare(`INSERT INTO libros (nombre, ruta, archivo, portada) VALUES (?, ?, ?, ?)`);      //Aqui prepara las columnas de la tabla con valores "?", que son valores de seguridad en vez de null.
-        const infoLibro = stmtLibro.run(paqueteLibro.nombre, paqueteLibro.ruta, nombreArchivo, nombre_archivo_portada);
-        const libroId = infoLibro.lastInsertRowid; // <--- AQUÍ TIENES EL ID DEL LIBRO
-
-        // 2. VARIABLES PARA PROCESAR CADA ETIQUETA
-        const stmtEtiqueta = db.prepare(`INSERT OR IGNORE INTO etiquetas (nombre) VALUES (?)`); //!RECORDAR QUE ESTO SON VARIABLES QUE SE EJECUTAN EN EL FOR
-        const stmtGetEtiquetaId = db.prepare(`SELECT id FROM etiquetas WHERE nombre = ?`);
-        const stmtPuente = db.prepare(`INSERT INTO libro_etiquetas (libro_id, etiqueta_id) VALUES (?, ?)`); //Aqui se preparan las columnas de las tablas de etiquetas y puente para rellenar los valores con ? tambien.
+        // B) Procesar la PORTADA (NUEVO)
+        let nombreArchivoPortada = null;
         
-        for (const nombreEtiqueta of paqueteLibro.etiquetas) { //En este for se recorren todas las etiquetas, se les asigna un id automaticamente y despues se obtiene como valor.
-            // Guardar etiqueta si no existe                   
-            stmtEtiqueta.run(nombreEtiqueta);
-            
-            // Obtener su ID
-            const etiqueta = stmtGetEtiquetaId.get(nombreEtiqueta);
-            const etiquetaId = etiqueta.id;
+        if (paqueteLibro.portadaRuta) {
+            // Generamos nombre único: "HarryPotter_cover.jpg"
+            const ext = path.extname(paqueteLibro.portadaRuta);
+            const nombreBase = path.basename(nombreArchivoLibro, path.extname(nombreArchivoLibro));
+            nombreArchivoPortada = `${nombreBase}_cover${ext}`;
 
-            // Unir libro con etiqueta
-            stmtPuente.run(libroId, etiquetaId); //Despues se enlazan, juntando cada ID de libro con los ID de sus etiquetas
+            const rutaDestinoPortada = path.join(coversPath, nombreArchivoPortada);
+            fs.copyFileSync(paqueteLibro.portadaRuta, rutaDestinoPortada);
         }
 
-        return { success: true };
+        // C) Guardar en Base de Datos (4 CAMPOS)
+        const stmt = db.prepare(`
+            INSERT INTO libros (nombre, ruta, archivo, portada) 
+            VALUES (?, ?, ?, ?)
+        `);
+
+        const info = stmt.run(
+            paqueteLibro.nombre,
+            paqueteLibro.ruta,      // Ruta original
+            nombreArchivoLibro,     // Archivo interno
+            nombreArchivoPortada    // Nombre de la portada o null
+        );
+
+        // D) Guardar Etiquetas (Sin cambios)
+        if (paqueteLibro.etiquetas && paqueteLibro.etiquetas.length > 0) {
+            const stmtEtiqueta = db.prepare('INSERT OR IGNORE INTO etiquetas (nombre) VALUES (?)');
+            const stmtRelacion = db.prepare('INSERT INTO libro_etiquetas (libro_id, etiqueta_id) VALUES (?, (SELECT id FROM etiquetas WHERE nombre = ?))');
+            
+            const transaction = db.transaction((etiquetas) => {
+                for (const tag of etiquetas) {
+                    stmtEtiqueta.run(tag);
+                    stmtRelacion.run(info.lastInsertRowid, tag);
+                }
+            });
+            transaction(paqueteLibro.etiquetas);
+        }
+
+        return { success: true, id: info.lastInsertRowid };
+
     } catch (error) {
-        console.error(error);
+        console.error("Error en guardar:", error);
         return { success: false, error: error.message };
     }
 });
 
-ipcMain.handle('libros:obtener', async () => {
+ipcMain.handle('libros:obtener', () => {
     try {
-        const query = `
-            SELECT l.*, GROUP_CONCAT(e.nombre, ', ') AS etiquetas
+        // Seleccionamos todo del libro y concatenamos sus etiquetas en un string separado por comas
+        const stmt = db.prepare(`
+            SELECT 
+                l.*, 
+                GROUP_CONCAT(e.nombre, ',') as etiquetas_str
             FROM libros l
             LEFT JOIN libro_etiquetas le ON l.id = le.libro_id
             LEFT JOIN etiquetas e ON le.etiqueta_id = e.id
             GROUP BY l.id
-            ORDER BY l.id DESC
-        `;
-        const libros = db.prepare(query).all();
+            ORDER BY l.fecha_añadido DESC
+        `);
         
-        // Convertimos el string de etiquetas en un array real
+        const libros = stmt.all();
+
+        // Convertimos el string de etiquetas "Fantasía,Magia" a un array ["Fantasía", "Magia"]
+        // para que sea fácil de usar en el frontend
         return libros.map(libro => ({
             ...libro,
-            etiquetas: libro.etiquetas ? libro.etiquetas.split(', ') : []
+            etiquetas: libro.etiquetas_str ? libro.etiquetas_str.split(',') : []
         }));
+
     } catch (error) {
         console.error("Error al obtener libros:", error);
         return [];
     }
 });
 
-ipcMain.handle('libro:eliminar', async (event, libroId) => {
+ipcMain.handle('libro:eliminar', (event, id) => {
     try {
-        // 1. Obtener nombres de archivos antes de borrar de la DB
-        const libro = db.prepare('SELECT archivo, portada FROM libros WHERE id = ?').get(libroId);
-        
-        if (libro) {
-            // Borrar archivo EPUB
-            const rutaEpub = path.join(filesPath, libro.archivo);
-            if (fs.existsSync(rutaEpub)) fs.unlinkSync(rutaEpub);
+        // 1. Obtener la info del libro antes de borrarlo para saber qué archivos eliminar
+        const libro = db.prepare('SELECT archivo, portada FROM libros WHERE id = ?').get(id);
 
-            // Borrar portada si existe
-            if (libro.portada) {
-                const rutaPortada = path.join(coversPath, libro.portada);
-                if (fs.existsSync(rutaPortada)) fs.unlinkSync(rutaPortada);
+        if (!libro) return { success: false, error: "Libro no encontrado" };
+
+        // 2. Borrar el archivo EPUB
+        const rutaArchivo = path.join(filesPath, libro.archivo);
+        if (fs.existsSync(rutaArchivo)) {
+            fs.unlinkSync(rutaArchivo);
+        }
+
+        // 3. Borrar la PORTADA (Si existe) <-- IMPORTANTE
+        if (libro.portada) {
+            const rutaPortada = path.join(coversPath, libro.portada);
+            if (fs.existsSync(rutaPortada)) {
+                fs.unlinkSync(rutaPortada);
             }
         }
 
-        // 2. Borrar de la base de datos (El CASCADE se encarga de la tabla puente)
-        db.prepare('DELETE FROM libros WHERE id = ?').run(libroId);
-
+        // 4. Borrar de la base de datos
+        // (Las etiquetas se borran solas gracias al ON DELETE CASCADE que pusiste en database.js)
+        const info = db.prepare('DELETE FROM libros WHERE id = ?').run(id);
+        
         return { success: true };
+
     } catch (error) {
         console.error("Error al eliminar:", error);
         return { success: false, error: error.message };
@@ -135,10 +159,40 @@ ipcMain.handle('libro:editar-nombre', async (event, { id, nuevoNombre }) => {
     }
 });
 
+ipcMain.handle('libro:cambiar-portada', async (event, {id, nuevaPortada}) => {
+  try {
+    const libroActual = db.prepare('SELECT portada FROM libros WHERE id = ?').get(id);
+    if (!libroActual || !nuevaPortada) return { success: false };
+
+    // Solo intentamos borrar si REALMENTE hay un nombre de archivo guardado
+    if (libroActual.portada) {
+      const antiguaPortada = path.join(coversPath, libroActual.portada);
+      if(fs.existsSync(antiguaPortada)) {
+        fs.unlinkSync(antiguaPortada);
+      }
+    }
+
+    const extension = path.extname(nuevaPortada);
+    const nombre_unico_portada = `portada_${id}_${Date.now()}${extension}`;
+    const rutaDestinoNuevaPortada = path.join(coversPath, nombre_unico_portada);
+    
+    fs.copyFileSync(nuevaPortada, rutaDestinoNuevaPortada);
+    
+    db.prepare('UPDATE libros SET portada = ? WHERE id = ?').run(nombre_unico_portada, id);
+    
+    return { success: true, nuevaPortada: nombre_unico_portada };
+  } catch (error) {
+    console.error("Error cambiando portada:", error);
+    return { success: false, error: error.message };
+  }
+});
+
   // Cerrar app
   ipcMain.handle('app:close', () => {
     app.quit();
   });
+
+
 
 
   
@@ -157,7 +211,20 @@ ipcMain.handle('libro:editar-nombre', async (event, { id, nuevoNombre }) => {
     });
     return resultado;
   });
+
+  ipcMain.handle('dialog:seleccionar-portada', async () => {
+  const { canceled, filePaths } = await dialog.showOpenDialog({
+    properties: ['openFile'],
+    filters: [
+      { name: 'Imágenes', extensions: ['jpg', 'png', 'jpeg', 'webp'] }
+    ]
+  });
+  if (canceled) return null;
+  return filePaths[0];
+});
 //! ---------------------------------------------------------------------
+
+
   
   //! Obtener ruta completa de libro
   ipcMain.handle("libro:obtenerRuta", async (event, archivo) => {

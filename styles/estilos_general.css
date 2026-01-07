@@ -174,17 +174,25 @@ body {
   position: fixed;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%) scale(0); 
+  transform: translate(-50%, -50%) scale(0);
+  width: 10%;
+  height: 13%;
   opacity: 0;
   background-color: rgba(247, 208, 177, 0.753);
   padding: 20px;
   border-radius: 15px;
-  z-index: 300; 
+  z-index: 12000 !important; 
   transition: transform 0.3s ease, opacity 0.3s ease;
   display: flex;
   flex-direction: column;
   gap: 15px;
   align-items: center;
+}
+
+#modal_alerta.mostrar {
+  opacity: 1 !important;
+  transform: translate(-50%, -50%) scale(1) !important;
+  display: flex !important;
 }
 
 .ventana-interna-decorada {
@@ -193,16 +201,9 @@ body {
   box-shadow: 0 10px 30px rgba(0,0,0,0.3);
 }
 
-#modal_alerta {
-  width: 10%;
-  height: 13%;
 
-}
 
-.ventana-sobre-overlay {
-  position: fixed !important;
-  z-index: 300 !important;  
-}
+
 
 .agrupador{
 

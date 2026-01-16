@@ -20,6 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const modalLectorReal = document.getElementById("libro_abierto");
   const visor = document.getElementById("visorEPUB");
   const btn_cambiar_portada = document.getElementById("opcion_portada")
+  const btnSelPortada = document.getElementById('sel_portada_libro');
   
   const modalTransicion = document.getElementById('modal-transicion');
   const libroAnimado = document.getElementById('libro-animado');
@@ -52,6 +53,18 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('nombre-cancion').textContent = `Canción actual: ${cancion.titulo}`;
     reproductor.play();
   }
+
+sliderVolumen.value = Sound.obtenerVolumenMusicaInicial();
+
+sliderVolumen.addEventListener('input', (e) => {
+    Sound.actualizarVolumenMusica(e.target.value);
+});
+
+sliderEfectos.value = Sound.obtenerVolumenEfectosInicial();
+
+sliderEfectos.addEventListener('input', (e) => {
+    Sound.actualizarVolumenEfectos(e.target.value);
+});
 
   // ==========================================
   // 4. BIBLIOTECA Y LECTOR
@@ -206,9 +219,9 @@ document.getElementById('btn_add_book').addEventListener('click', async () => {
     }
 });
 
-const btnSelPortada = document.getElementById('sel_portada_libro');
 
-// 1. Evento Click: Abre la ventana nativa de Windows (no un input web)
+
+
 btnSelPortada.addEventListener('click', async () => {
     // Llamamos a la función que creamos para filtrar solo imágenes
     const ruta = await window.electronAPI.seleccionarPortada();
@@ -275,13 +288,16 @@ btnSelPortada.addEventListener('click', async () => {
 
   btnConfirmarEliminacion.addEventListener('click', async () => {
     if (libro_seleccionado) {
-      const resultado = await window.electronAPI.eliminarLibro(libro_seleccionado);
-      if (resultado.success) {
-        await LIB.actualizarBiblioteca();
-        modalConfirmacion.classList.remove('mostrar');
+    
+    const idReal = libro_seleccionado.id; 
+    const resultado = await window.electronAPI.eliminarLibro(idReal);
+    
+    if (resultado.success) {
+        LIB.actualizarBiblioteca(); 
         UI.ocultarOverlay();
-      }
+        modalConfirmacion.classList.remove('mostrar');
     }
+}
   });
 
   btnCambiarNombre.addEventListener('click', () => {
@@ -315,6 +331,26 @@ if (btn_cambiar_portada){
   });
 }
 
+const botonesOpciones = document.querySelectorAll('.btn_seccion');
+  const seccionesOpciones = document.querySelectorAll('.seccion_opciones');
+
+  botonesOpciones.forEach(boton => {
+    boton.addEventListener('click', (e) => {
+      // 1. Ocultamos todas las secciones primero
+      seccionesOpciones.forEach(seccion => seccion.classList.remove('mostrar'));
+
+      // 2. Leemos qué sección quiere abrir este botón
+      // (Tu HTML usa: data-seccion_opciones="seccion_sonido", etc.)
+      const idDestino = e.target.dataset.seccion_opciones; 
+      const divDestino = document.getElementById(idDestino);
+
+      // 3. Si existe esa sección, le añadimos la clase 'mostrar'
+      if (divDestino) {
+        divDestino.classList.add('mostrar');
+      }
+    });
+  });
+
   // ==========================================
   // 8. ELEMENTOS GENERALES
   // ==========================================
@@ -344,6 +380,7 @@ modalTransicion.addEventListener('click', (e) => {
   document.getElementById('btnVolver').addEventListener('click', () => ventana_Opciones.classList.remove('mostrar'));
   document.getElementById('btnBiblio').addEventListener('click', () => ventanaBiblio.classList.add('mostrar'));
   document.getElementById('btnVolverBiblio').addEventListener('click', () => ventanaBiblio.classList.remove('mostrar'));
+  Sound.btn_efecto_hover()
   
   document.getElementById('cerrarLector').addEventListener('click', () => {
     // 1. Ocultamos el lector real

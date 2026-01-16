@@ -40,7 +40,7 @@ body {
 }
 
 
-.btn {
+.btn-menu-principal {
   background-color: #87CEEB;
   border: 2px solid #3498db;
   border-radius: 12px;
@@ -53,13 +53,48 @@ body {
 }
 
 
-.btn:hover {
+.btn-menu-principal:hover {
   transform: scale(1.1);
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
 
-.btn:active {
+.btn-menu-principal:active {
+  transform: scale(0.95);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+}
+
+
+.btn-general {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  min-width: 40px;
+  padding: 10px 22px;
+  
+  background-color: #87CEEB; 
+  border: 2px solid #3498db;
+  border-radius: 12px;
+  color: #ffffff;
+  
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+  text-decoration: none;
+  cursor: pointer;
+  user-select: none;
+  
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.btn-general:hover {
+  transform: scale(1.1);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  background-color: #76c4e4;
+}
+
+.btn-general:active {
   transform: scale(0.95);
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
 }
@@ -88,13 +123,7 @@ body {
   user-select: none;
 }
 
-#logo-central {
-    display: flex;
-    justify-content: center; 
-    align-items: flex-start; 
-    margin-top: 10px;        
-    margin-left: 50%;            
-}
+
 
 #logo-img {
     max-width: 250px;      
@@ -201,7 +230,10 @@ body {
   box-shadow: 0 10px 30px rgba(0,0,0,0.3);
 }
 
+#modal_confirmacion {
 
+  z-index: 200;
+}
 
 
 

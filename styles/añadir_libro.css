@@ -120,23 +120,9 @@
   position: absolute;
   top: 10px;
   right: 10px;
-  
-  background-color: #87CEEB;   /* Tu azul cielo base */
-  border: 2px solid #3498db;   /* Azul más fuerte para el borde */
-  color: #fff;
-  
-  padding: 8px 15px;
-  border-radius: 12px;
-  cursor: pointer;
-  font-weight: bold;
-  transition: all 0.2s ease;
 }
 
-#btn_cerrar_añadir:hover {
-  background-color: #3498db;   /* Se oscurece al pasar el ratón */
-  transform: scale(1.1);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-}
+
 
 #btn_add_book {
   position: absolute;

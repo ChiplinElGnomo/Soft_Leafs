@@ -55,7 +55,7 @@ const createTables = () => {
     db.exec(tableEtiquetas);
     db.exec(tableLibroEtiquetas);
     
-    console.log("Base de datos profesional lista: Tablas vinculadas correctamente.");
+    console.log("Base de datos lista: Tablas vinculadas correctamente.");
 };
 
 createTables();

@@ -7,7 +7,7 @@
   left: 0;
   width: 100vw;       
   height: 100vh;
-  background: rgba(0,0,0,0.8);
+  background: transparent;
   display: none;
   justify-content: center;
   align-items: center;
@@ -157,6 +157,45 @@
   width: 30px;
   height: 100%;
   background: linear-gradient(to right, rgba(0,0,0,0.2), transparent);
+}
+
+
+/* =========================================
+   NUEVO: ESTILOS DE PAGINACIÓN
+   ========================================= */
+
+/* Contenedor invisible que divide la pantalla en 2 mitades */
+#area-paginacion {
+  position: absolute;
+  bottom: 20px;        /* Distancia desde el borde inferior */
+  left: 0;
+  width: 100%;         /* Ocupa todo el ancho del lector */
+  display: flex;       /* Activa el sistema de columnas */
+  pointer-events: none; /* Permite hacer clic "a través" de él (para no bloquear el libro) */
+  z-index: 20;         /* Por encima del libro */
+}
+
+/* Cada una de las dos cajas invisibles (Izquierda y Derecha) */
+.caja-paginacion {
+  flex: 1;             /* MAGIA: Obliga a cada caja a ocupar exactamente el 50% */
+  display: flex;
+  justify-content: center; /* Centra el numerito horizontalmente en su mitad */
+  align-items: flex-end;   /* Lo alinea abajo */
+}
+
+/* El diseño visual de los números */
+.numero-pag {
+  background-color: rgba(0, 0, 0, 0.6); /* Fondo oscuro semitransparente */
+  color: white;
+  padding: 5px 12px;
+  border-radius: 20px;     /* Bordes redondeados */
+  font-size: 13px;
+  font-family: sans-serif;
+  min-width: 20px;         /* Para que no se vea deforme con 1 solo dígito */
+  text-align: center;
+  
+  /* Sombra suave para que se lea bien sobre cualquier fondo */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2); 
 }
 
 

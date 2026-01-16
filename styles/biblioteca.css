@@ -91,11 +91,10 @@
   bottom: 3%;  
   left: 20%;    
   right: 9%;   
-
   display: grid;
-  grid-template-columns: repeat(4, 200px);
+  grid-template-columns: repeat(6, 200px);
   grid-auto-rows: 250px;  
-  gap: 15px;
+  gap: 30px 15px;
   padding: 10px;
   overflow-y: auto;
   border-radius: 10px;
@@ -150,7 +149,7 @@
 
 .tarjeta-libro .portada.portada-default {
   background-image: url('../assets/images/harrypotter.png'); 
-  background-size: contain;
+  background-size: 100% 100%;
   filter: brightness(0.85);
 }
 

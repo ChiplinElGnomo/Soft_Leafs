@@ -3,6 +3,7 @@
 const VOLUMEN_EFFECTS_KEY = 'volumen_efectos';
 const VOLUMEN_MUSICA_KEY = 'user-volume';
 const reproductor = document.getElementById('musica_fondo');
+
 let cancionesPlaylist = [];
 let indiceActual = 0;
 export let volumen_efectos = 0.2;
@@ -86,5 +87,15 @@ export function obtenerVolumenEfectosInicial() {
 export function actualizarVolumenEfectos(nuevoValor) {
     volumen_efectos = nuevoValor;
     localStorage.setItem('volumen_efectos', nuevoValor);
+}
+export function btn_efecto_hover () {
+    const boton_efecto = document.querySelectorAll('.btn_efecto');
+    boton_efecto.forEach(boton => {
+        boton.addEventListener('mouseenter', () => {
+            sonido_efecto('efecto_sobre_boton');
+
+        }); 
+    
+    });
 }
 

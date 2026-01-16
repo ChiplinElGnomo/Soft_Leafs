@@ -32,40 +32,66 @@ function createWindow() {
     return { filesPath, coversPath};
   });
 
-  ipcMain.handle('libro:guardar', async (event, paqueteLibro) => {
+  ipcMain.handle('libros:guardar', async (event, paqueteLibro) => {
     try {
-        // A) Procesar el LIBRO (EPUB)
-        const nombreArchivoLibro = path.basename(paqueteLibro.ruta);
-        const rutaDestinoLibro = path.join(filesPath, nombreArchivoLibro);
+        
+        let nombreArchivoLibro = path.basename(paqueteLibro.ruta);
+        let rutaDestinoLibro = path.join(filesPath, nombreArchivoLibro);
+
+        
+        if (fs.existsSync(rutaDestinoLibro)) {           // Si el nombre del archivo ya existe en la carpeta de la app le busca un nombre unico usando (1), (2), etc.
+            const ext = path.extname(nombreArchivoLibro); // .epub
+            const nombreBase = path.basename(nombreArchivoLibro, ext); // nombre sin extension
+            let contador = 1;
+
+            while (fs.existsSync(rutaDestinoLibro)) {       //Aqui recorre el nombre buscando cuantas copias iguales tiene el libro para asignarle su numero.
+                nombreArchivoLibro = `${nombreBase}_(${contador})${ext}`;
+                rutaDestinoLibro = path.join(filesPath, nombreArchivoLibro);
+                contador++;
+            }
+        }
+        
+        // Copiamos el archivo con el nombre definitivo y ÚNICO
         fs.copyFileSync(paqueteLibro.ruta, rutaDestinoLibro);
 
-        // B) Procesar la PORTADA (NUEVO)
+
+        //  B) Procesar la portada usando el sistema de renombrado del libro, si el libro es librorojo(1).epub esta sera librorojo(1).png (como esta en otra carpeta no hay mucho error posible) 
         let nombreArchivoPortada = null;
         
         if (paqueteLibro.portadaRuta) {
-            // Generamos nombre único: "HarryPotter_cover.jpg"
-            const ext = path.extname(paqueteLibro.portadaRuta);
-            const nombreBase = path.basename(nombreArchivoLibro, path.extname(nombreArchivoLibro));
-            nombreArchivoPortada = `${nombreBase}_cover${ext}`;
+            const extP = path.extname(paqueteLibro.portadaRuta);
+            const nombreBaseLibro = path.basename(nombreArchivoLibro, path.extname(nombreArchivoLibro));
+            nombreArchivoPortada = `${nombreBaseLibro}_cover${extP}`;
+            let rutaDestinoPortada = path.join(coversPath, nombreArchivoPortada);
 
-            const rutaDestinoPortada = path.join(coversPath, nombreArchivoPortada);
+            // Verificamos colisión también para la portada
+            if (fs.existsSync(rutaDestinoPortada)) {
+                let contadorP = 1;
+                const nombreBaseP = path.basename(nombreArchivoPortada, extP);
+                while (fs.existsSync(rutaDestinoPortada)) {
+                    nombreArchivoPortada = `${nombreBaseP}_(${contadorP})${extP}`;
+                    rutaDestinoPortada = path.join(coversPath, nombreArchivoPortada);
+                    contadorP++;
+                }
+            }
+
             fs.copyFileSync(paqueteLibro.portadaRuta, rutaDestinoPortada);
         }
 
-        // C) Guardar en Base de Datos (4 CAMPOS)
+        //Aqui se guardan los datos de los libros en la DB despues de haberse creado
         const stmt = db.prepare(`
             INSERT INTO libros (nombre, ruta, archivo, portada) 
             VALUES (?, ?, ?, ?)
-        `);
+        `); 
 
         const info = stmt.run(
             paqueteLibro.nombre,
-            paqueteLibro.ruta,      // Ruta original
-            nombreArchivoLibro,     // Archivo interno
-            nombreArchivoPortada    // Nombre de la portada o null
+            paqueteLibro.ruta,      // Ruta original (para referencia)
+            nombreArchivoLibro,     // Archivo físico REAL y ÚNICO
+            nombreArchivoPortada
         );
 
-        // D) Guardar Etiquetas (Sin cambios)
+        // Aqui se guardan las etiquetas seleccionadas
         if (paqueteLibro.etiquetas && paqueteLibro.etiquetas.length > 0) {
             const stmtEtiqueta = db.prepare('INSERT OR IGNORE INTO etiquetas (nombre) VALUES (?)');
             const stmtRelacion = db.prepare('INSERT INTO libro_etiquetas (libro_id, etiqueta_id) VALUES (?, (SELECT id FROM etiquetas WHERE nombre = ?))');
@@ -116,7 +142,7 @@ ipcMain.handle('libros:obtener', () => {
     }
 });
 
-ipcMain.handle('libro:eliminar', (event, id) => {
+ipcMain.handle('libros:borrar', (event, id) => {
     try {
         // 1. Obtener la info del libro antes de borrarlo para saber qué archivos eliminar
         const libro = db.prepare('SELECT archivo, portada FROM libros WHERE id = ?').get(id);
@@ -149,7 +175,7 @@ ipcMain.handle('libro:eliminar', (event, id) => {
     }
 });
 
-ipcMain.handle('libro:editar-nombre', async (event, { id, nuevoNombre }) => {
+ipcMain.handle('libros:editar-nombre', async (event, { id, nuevoNombre }) => {
     try {
         db.prepare('UPDATE libros SET nombre = ? WHERE id = ?').run(nuevoNombre, id);
         return { success: true };
@@ -159,7 +185,7 @@ ipcMain.handle('libro:editar-nombre', async (event, { id, nuevoNombre }) => {
     }
 });
 
-ipcMain.handle('libro:cambiar-portada', async (event, {id, nuevaPortada}) => {
+ipcMain.handle('libros:cambiar-portada', async (event, {id, nuevaPortada}) => {
   try {
     const libroActual = db.prepare('SELECT portada FROM libros WHERE id = ?').get(id);
     if (!libroActual || !nuevaPortada) return { success: false };
@@ -227,7 +253,7 @@ ipcMain.handle('libro:cambiar-portada', async (event, {id, nuevaPortada}) => {
 
   
   //! Obtener ruta completa de libro
-  ipcMain.handle("libro:obtenerRuta", async (event, archivo) => {
+  ipcMain.handle("libros:obtenerRuta", async (event, archivo) => {
   
   const rutaCompleta = path.join(filesPath, archivo);
   if (!fs.existsSync(rutaCompleta)) {

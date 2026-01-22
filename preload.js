@@ -20,6 +20,8 @@ contextBridge.exposeInMainWorld('electronAPI', {
   obtenerRutaLibro: (archivo) => ipcRenderer.invoke("libros:obtenerRuta", archivo),
   eliminarLibro: (id) => ipcRenderer.invoke('libros:borrar', id),
   cambiarNombreLibro: (id, nuevoNombre) => ipcRenderer.invoke('libros:editar-nombre', { id, nuevoNombre }),
+  guardarMarcadorPagina: (id, marcador, numPag) => ipcRenderer.invoke('libros:guardar-pagina', id, marcador, numPag),
+  obtenerMarcadorPagina: (id) => ipcRenderer.invoke('libros:obtener-pagina', id),
 
   // --- MÚSICA Y EFECTOS ---
   obtenerPlaylist: (nombre_playlist) => ipcRenderer.invoke('musica:leer-playlist', nombre_playlist),

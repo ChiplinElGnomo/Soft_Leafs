@@ -26,12 +26,12 @@
   <div class="ventana-interna ventana-interna-decorada" id="ventanaOpciones"> 
     
     <div  id="panel_izq_opciones"> 
-      <h2>Opciones</h2>
+      <h2 id="label_opciones">Opciones</h2>
       <button class="btn_seccion btn_efecto" data-seccion_opciones="seccion_general">General</button>
       <button class="btn_seccion btn_efecto" data-seccion_opciones="seccion_sonido">Sonido</button>
       <button class="btn_seccion btn_efecto" data-seccion_opciones="seccion_visual">Visual</button>
       <button class="btn_seccion btn_efecto"data-seccion_opciones="seccion_misc">Otros</button>
-      <button class="btn volver-btn btn_efecto btn-general" id="btnVolver">Volver</button>
+      <button class="btn-cerrar-general btn_efecto btn-general" id="btnVolver">X</button>
 
     </div>
     <div id="panel_der_opciones">
@@ -64,14 +64,19 @@
     
     
   </div>
- <div class ="ventana-interna" id="ventanaBiblio"> 
+  <div class ="ventana-interna" id="ventanaBiblio"> 
   
     <div id="panel_izq_biblio">
       <button class = "btn_efecto" id ="btn_añadir_libro">Añadir Libro</button>
+      <div id="panel_decorativo_izq">
+        <label id="label_buscar_libro" >Búsqueda</label>
+      </div>
+      <input type="text" id="nombre_libro_filtro" placeholder="Nombre"> 
+      <div id="panel_filtro_etiquetas" ></div> 
     </div>
 
     <div id="grid_der_biblio"></div> <div id="grid_etiquetas_filtro"></div> 
-    <button class="btn volver-btn btn_efecto btn-cerrar-general" id="btnVolverBiblio">Volver</button>   
+    <button class="btn_efecto btn-general btn-cerrar-general" id="btn-volver-biblio">X</button>   
   </div>
  
   <div class="ventana-interna" id="ventana_añadir_libro"> 

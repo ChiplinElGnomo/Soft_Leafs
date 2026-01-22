@@ -3,7 +3,7 @@
    =============================== */
 #ventanaOpciones {
   width: 40%;
-  background: linear-gradient(to bottom, #eaf4ffbe, #ddf0ffdc);
+  background: linear-gradient(to bottom, #ddf0ffdc, #f1ae77be);
   height: 50%;
   border-radius: 15px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.3);
@@ -14,33 +14,20 @@
   justify-content: space-between;
 }
 
-#ventanaOpciones .volver-btn {
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
-  border-radius: 12px;
-  padding: 10px 20px;
-  background-color: #87CEEB;
-  border: 2px solid #3498db;
-  color: #fff;
-  cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-#ventanaOpciones .volver-btn:hover {
-  transform: scale(1.1);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-}
-#ventanaOpciones .volver-btn:active {
-  transform: scale(0.95);
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
-}
+
+
+
 
 
 #panel_izq_opciones {
-  display: flex; /* APLICA EL ATRIBUTO FLEX */
-  flex-direction: column; /* HACE QUE EL FLEX USE UNA ESTRUCTURA DE COLUMNA PARA LOS ELEMENTOS */
-  align-items: center; /* CENTRA HORIZONTALMENTE LOS ELEMENTOS DEL INTERIOR */
-  background-color: rgba(185, 241, 255, 0.753);
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  background: linear-gradient(
+  to bottom, 
+  rgba(255, 255, 255, 0.5),   
+  rgba(115, 227, 197, 0.85)   
+);
   width: 30%;
   height: 100%;
   border-radius: 15px;
@@ -52,7 +39,7 @@
   display: flex;
   flex-direction: column;
   padding: 30px;
-  gap: 20px;
+  gap: 20%;
   background-color: transparent;
   width: 100%;
   border-radius: 15px;
@@ -69,11 +56,11 @@
 }
 
 .btn_seccion {
-  background-color: #87CEEB;
+  background-color: #73e3c5;
   width: 100px;
   height: 40px;
   border-radius: 6px;
-  border: 2px solid #3498db;
+  border: 2px solid #27c79c;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   cursor: pointer;
   color: white;
@@ -81,6 +68,7 @@
 }
 
 .btn_seccion:hover {
+  background-color: #48dab3;
   transform: scale(1.1);
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
@@ -104,3 +92,33 @@
   font-size: 1.2em;
   color: #333;
 }
+
+#label_opciones {
+  user-select: none;
+}
+
+#btnVolver {
+  position: absolute;
+  top: 3%;
+  right: 3%;
+  border-radius: 12px;
+  padding: 10px 20px;
+  background-color: #f1ae77;
+  border: 2px solid #e47317;
+  color: #fff;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+#btnVolver:hover {
+  background-color: #eb9046;
+  transform: scale(1.1);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+#btnVolver:active {
+  transform: scale(0.95);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+}
+
+

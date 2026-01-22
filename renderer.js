@@ -25,12 +25,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const modalTransicion = document.getElementById('modal-transicion');
   const libroAnimado = document.getElementById('libro-animado');
   const portadaDinamica = document.getElementById('portada-dinamica');
+  const filtro_texto = document.getElementById('nombre_libro_filtro');
   let rutaNuevoLibro = null; 
   let rutaPortadaNueva = null;
 
   let libroActual = null;
   let libro_seleccionado = null;
-  let rendition = null;
+  let renditionActual = null;
   let lectorActivo = false;
   
   let etiquetasSeleccionadas = [];
@@ -40,6 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // ==========================================
   
   LIB.actualizarBiblioteca();
+  LIB.cargarEtiquetasDisponibles('#panel_filtro_etiquetas');
   Sound.reproducirPlaylist('cozy');
 
   // ==========================================
@@ -110,13 +112,13 @@ libroAnimado.addEventListener('click', async () => {
             const rutaCompleta = await window.electronAPI.obtenerRutaLibro(libro_seleccionado.archivo);
 
             const resultado = await EPUB.abrirLector(
+                libro_seleccionado.id,
                 rutaCompleta, // Ahora enviamos la ruta real (C:\Users\...)
                 modalLectorReal, 
-                visor, 
-                Sound
+                visor
             );
             
-            rendition = resultado.rendition;
+            renditionActual = resultado.renditionActual;
             libroActual = resultado.libroActual;
             lectorActivo = true;
 
@@ -128,8 +130,8 @@ libroAnimado.addEventListener('click', async () => {
 });
 
   document.addEventListener('keydown', (e) => {
-    if (lectorActivo && rendition) {
-      EPUB.manejarTeclado(e, lectorActivo, rendition, Sound);
+    if (lectorActivo && renditionActual) {
+      EPUB.manejarTeclado(e, lectorActivo, renditionActual, Sound);
     }
   });
 
@@ -153,15 +155,24 @@ btnSeleccionar.addEventListener('click', async () => {
 
         // --- Feedback Visual (Tu estética) ---
         btnSeleccionar.textContent = "¡EPUB Cargado!";
-        btnSeleccionar.style.backgroundColor = "#2ecc71"; 
-        btnSeleccionar.style.borderColor = "#27ae60";
+        btnSeleccionar.style.backgroundColor = "#73e3c5"; 
+        btnSeleccionar.style.borderColor = "#27c79c";
 
     }
 });
 
 // 2. MANEJO DE ETIQUETAS
 document.getElementById('grid_etiquetas').addEventListener('click', (e) => {
-    etiquetasSeleccionadas = LIB.manejarSeleccionEtiqueta(e, etiquetasSeleccionadas, Sound);
+    const tagElement = e.target.closest('.etiqueta');
+    if (!tagElement) return;
+
+    // USAMOS .trim() para limpiar espacios que rompen etiquetas como Novela o Misterio
+    const nombre = tagElement.textContent.trim();
+
+    // IMPORTANTE: Asegúrate de que el orden sea (evento, nombre, array)
+    etiquetasSeleccionadas = LIB.manejarSeleccionEtiqueta(e, nombre, etiquetasSeleccionadas);
+    
+    if (Sound) Sound.sonido_efecto('efecto_sobre_boton');
 });
 
 // 3. BOTÓN GUARDAR
@@ -231,8 +242,8 @@ btnSelPortada.addEventListener('click', async () => {
 
         // 2. Feedback Visual: Igual que el botón del EPUB
         btnSelPortada.textContent = "¡Portada Cargada!";
-        btnSelPortada.style.backgroundColor = "#2ecc71"; // Verde
-        btnSelPortada.style.borderColor = "#27ae60";
+        btnSelPortada.style.backgroundColor = "#73e3c5"; // Verde
+        btnSelPortada.style.borderColor = "#27c79c";
         btnSelPortada.style.color = "white";
     }
 });
@@ -377,28 +388,13 @@ modalTransicion.addEventListener('click', (e) => {
 
   document.getElementById('btnCerrar').addEventListener('click', () => window.electronAPI.cerrarApp());
   document.getElementById('btnOpciones').addEventListener('click', () => ventana_Opciones.classList.add('mostrar'));
-  document.getElementById('btnVolver').addEventListener('click', () => ventana_Opciones.classList.remove('mostrar'));
   document.getElementById('btnBiblio').addEventListener('click', () => ventanaBiblio.classList.add('mostrar'));
-  document.getElementById('btnVolverBiblio').addEventListener('click', () => ventanaBiblio.classList.remove('mostrar'));
-  Sound.btn_efecto_hover()
+  Sound.btn_efecto_hover();
   
-  document.getElementById('cerrarLector').addEventListener('click', () => {
-    // 1. Ocultamos el lector real
-    modalLectorReal.style.display = "none";
-    
-    // 2. Limpiamos el contenido del visor para que no consuma memoria
-    visor.innerHTML = "";
-    lectorActivo = false;
-
-    // 3. Aseguramos que el overlay y la biblioteca se vean
-    UI.ocultarOverlay();
-    ventanaBiblio.classList.add('mostrar');
-
-    // 4. Limpiamos cualquier rastro del libro animado anterior
-    modalTransicion.classList.remove('mostrar', 'abierto');
-
-    
-    
+  document.getElementById('cerrarLector').addEventListener('click', async () => {
+    // Llamamos a la función y ella se encarga de todo, incluso de la DB
+    lectorActivo = await EPUB.cerrarLector(modalLectorReal, visor, UI, ventanaBiblio, modalTransicion);
+    renditionActual = null;
 });
 
 document.addEventListener('click', (e) => {
@@ -418,6 +414,7 @@ document.addEventListener('click', (e) => {
             todosLosInputs.forEach(input => {
                 input.value = '';
             });
+            LIB.limpiarFiltros();
 
             // 4. Cerramos solo esta modal
             modalAbierta.classList.remove('mostrar');
@@ -425,7 +422,17 @@ document.addEventListener('click', (e) => {
         }
     }
 });
+
+filtro_texto.addEventListener('input', (e, valor_filtro_texto) => {
+  valor_filtro_texto = e.target.value.toLowerCase().trim();
+  LIB.filtrar_por_nombre(valor_filtro_texto)
+
+
+
 });
+});
+
+
 
 
 

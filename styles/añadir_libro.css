@@ -8,7 +8,12 @@
   width: 80%;
   max-width: 600px;
   height: 60%; 
-  background-color: rgb(255, 255, 255);
+  background: linear-gradient(
+  to bottom, 
+  rgba(221, 240, 255, 0.5) 30%,  /* El azul claro */
+  rgba(241, 174, 119, 0.5) 65%   /* El naranja suave */
+);
+  border:2px solid #e47317 ;
   border-radius: 15px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.3);
   padding: 60px 20px; 
@@ -42,10 +47,8 @@
   gap: 10px;
   padding: 0 20px;
   margin-top: 5px;
-
-  /* Colores de tu app (Azules) */
-  background-color: #87CEEB; /* Azul cielo */
-  border: 2px solid #3498db;
+  background-color: #f1ae77; 
+  border: 2px solid #e47317;
   color: white;
 
   /* Tipografía */
@@ -67,7 +70,7 @@
 /* EFECTO HOVER (AL PASAR EL RATÓN) PARA AMBOS */
 #sel_archivo_libro:hover,
 #sel_portada_libro:hover {
-  background-color: #3498db;   /* Azul más oscuro */
+  background-color: #eb9046;   
   transform: translateY(-2px);
   box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
 }
@@ -80,10 +83,10 @@
 
 /* Campo de texto */
 #ventana_añadir_libro input[type="text"] {
-  width: 90%; 
+  width: 35%; 
   padding: 10px;
   border-radius: 10px;
-  border: 2px solid #3498db;
+  border: 2px solid #e47317;
   font-size: 16px;
   outline: none;
 }
@@ -91,14 +94,14 @@
 
 #grid_etiquetas {
   background-color: rgba(240, 240, 240, 0.6);
-  border: 2px dashed #87CEEB;
+  border: 2px dashed #e47317;
   border-radius: 12px;
   padding: 12px;
   
   /* Flexbox corregido */
   display: flex;
-  flex-wrap: wrap;       /* Permite que se pongan una al lado de otra */
-  gap: 8px;              /* Espacio entre pastillas */
+  flex-wrap: wrap;       
+  gap: 8px;              
   align-content: flex-start; /* Evita que las filas se separen verticalmente */
   align-items: flex-start;   /* Evita que las etiquetas se estiren a lo alto */
   
@@ -117,9 +120,18 @@
 
 /* Botones de acción */
 #btn_cerrar_añadir {
+  background-color: #f1ae77;
+  border:2px solid #e47317;
+  color: #fff;
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 5%;
+  right: 5%;
+}
+#btn_cerrar_añadir:hover {
+  background-color: #eb9046;   /* Intercambio de azul al hover */
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+
 }
 
 
@@ -129,8 +141,8 @@
   bottom: 20px;
   right: 25px;
   
-  background-color: #3498db;   /* Azul principal (más peso visual que el cerrar) */
-  border: 2px solid #2980b9;
+  background-color: #f1ae77;   /* Azul principal (más peso visual que el cerrar) */
+  border: 2px solid #e47317;
   color: #fff;
   
   padding: 10px 25px;
@@ -142,7 +154,7 @@
 }
 
 #btn_add_book:hover {
-  background-color: #87CEEB;   /* Intercambio de azul al hover */
+  background-color: #48dab3;   /* Intercambio de azul al hover */
   color: #fff;
   transform: translateY(-2px);
   box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
@@ -160,9 +172,9 @@
   border-radius: 50px;         /* Radio alto para crear la forma de cápsula/cilindro */
   
   /* Colores (Tonos azules de la app) */
-  background-color: #f0f8ff;   /* Azul muy claro de fondo */
-  color: #3498db;              /* Azul principal para el texto */
-  border: 2px solid #3498db;   /* Borde definido */
+  background-color: #f1ae77;   /* Azul muy claro de fondo */
+  color: white;              /* Azul principal para el texto */
+  border: 2px solid #e47317;   /* Borde definido */
   
   /* Tipografía y comportamiento */
   font-size: 13px;
@@ -176,7 +188,7 @@
 
 /* Efecto al pasar el ratón */
 .etiqueta:hover {
-  background-color: #87CEEB;   /* Tu azul cielo original */
+  background-color: #eb9046;   /* Tu azul cielo original */
   color: white;
   transform: translateY(-2px);
   box-shadow: 0 4px 10px rgba(135, 206, 235, 0.3);
@@ -184,9 +196,9 @@
 
 /* Estado seleccionada (Azul más intenso en lugar de verde) */
 .etiqueta.seleccionada {
-  background-color: #3498db;   /* Azul sólido */
+  background-color: #73e3c5;   
   color: white;
-  border-color: #2980b9;       /* Un tono de azul más oscuro para el borde */
+  border-color: #27c79c;      
   transform: scale(1.05);
   box-shadow: 0 2px 8px rgba(52, 152, 219, 0.4);
 }

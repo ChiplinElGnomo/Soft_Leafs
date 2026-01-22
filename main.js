@@ -7,7 +7,7 @@ const db = require('./database.js');
 function createWindow() {
   const win = new BrowserWindow({
     fullscreen: true,
-    icon: path.join(__dirname, 'assets/images/logo.ico'),
+    icon: path.join(__dirname, 'assets/images/Ares_logo.ico'),
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,
@@ -17,8 +17,21 @@ function createWindow() {
     }
   });
 
+  //Desactivamos el zoom y los atajos de teclado
+  win.webContents.on('did-finish-load', () => {
+    win.webContents.setZoomFactor(1.0);
+    win.webContents.setVisualZoomLevelLimits(1, 1);
+  });
+
+  
+  win.webContents.on('before-input-event', (event, input) => {
+    if (input.control && (input.key === '+' || input.key === '-' || input.key === '0')) {
+      event.preventDefault();
+    }
+  });
+
   win.loadFile('index.html');
-  //win.webContents.openDevTools();
+  win.webContents.openDevTools();
 
   //! Creación de carpetas necesarias
   const baseBooksPath = path.join(app.getPath('userData'), 'books');
@@ -80,15 +93,18 @@ function createWindow() {
 
         //Aqui se guardan los datos de los libros en la DB despues de haberse creado
         const stmt = db.prepare(`
-            INSERT INTO libros (nombre, ruta, archivo, portada) 
-            VALUES (?, ?, ?, ?)
+            INSERT INTO libros (nombre, ruta, archivo, portada, ultima_pag) 
+            VALUES (?, ?, ?, ?, ?)
         `); 
 
         const info = stmt.run(
             paqueteLibro.nombre,
             paqueteLibro.ruta,      // Ruta original (para referencia)
             nombreArchivoLibro,     // Archivo físico REAL y ÚNICO
-            nombreArchivoPortada
+            nombreArchivoPortada,
+            ""
+            
+
         );
 
         // Aqui se guardan las etiquetas seleccionadas
@@ -98,8 +114,9 @@ function createWindow() {
             
             const transaction = db.transaction((etiquetas) => {
                 for (const tag of etiquetas) {
-                    stmtEtiqueta.run(tag);
-                    stmtRelacion.run(info.lastInsertRowid, tag);
+                  const tagLimpia = tag.trim(); // Limpiamos aquí
+                  stmtEtiqueta.run(tagLimpia);   // <--- ANTES USABAS 'tag' (MAL)
+                  stmtRelacion.run(info.lastInsertRowid, tagLimpia); // <--- AHORA COINCIDEN
                 }
             });
             transaction(paqueteLibro.etiquetas);
@@ -119,7 +136,7 @@ ipcMain.handle('libros:obtener', () => {
         const stmt = db.prepare(`
             SELECT 
                 l.*, 
-                GROUP_CONCAT(e.nombre, ',') as etiquetas_str
+                GROUP_CONCAT(e.nombre, '|') as etiquetas_str
             FROM libros l
             LEFT JOIN libro_etiquetas le ON l.id = le.libro_id
             LEFT JOIN etiquetas e ON le.etiqueta_id = e.id
@@ -133,7 +150,7 @@ ipcMain.handle('libros:obtener', () => {
         // para que sea fácil de usar en el frontend
         return libros.map(libro => ({
             ...libro,
-            etiquetas: libro.etiquetas_str ? libro.etiquetas_str.split(',') : []
+            etiquetas: libro.etiquetas_str ? libro.etiquetas_str.split('|') : []
         }));
 
     } catch (error) {
@@ -213,10 +230,7 @@ ipcMain.handle('libros:cambiar-portada', async (event, {id, nuevaPortada}) => {
   }
 });
 
-  // Cerrar app
-  ipcMain.handle('app:close', () => {
-    app.quit();
-  });
+ 
 
 
 
@@ -287,6 +301,41 @@ ipcMain.handle('efectos:obtener-ruta', async (e, efecto_selec) => {
   
 });
 //! ---------------------------------------------------------------------
+ // Cerrar app
+  ipcMain.handle('app:close', () => {
+    app.quit();
+  });
+
+  ipcMain.handle('libros:guardar-pagina', async (e, id, marcador, numPag) => {
+    try {
+        // Tenemos 3 huecos: ?, ? y ?
+        const query = db.prepare("UPDATE libros SET ultima_pag = ?, numero_pagina = ? WHERE id = ?");
+        
+        // Pasamos 3 valores exactos. Si numPag es undefined, SQLite podría dar error, 
+        // así que nos aseguramos de que siempre vaya un número.
+        query.run(marcador || "", numPag || 1, id); 
+        
+        return { success: true };
+    } catch (error) {
+        console.error("Error al guardar página:", error);
+        return { success: false };
+    }
+});
+
+  ipcMain.handle('libros:obtener-pagina', async (e, id) => {
+    try {
+        const query = db.prepare('SELECT ultima_pag, numero_pagina FROM libros WHERE id = ?');
+        const resultado = query.get(id);
+        // Devolvemos el objeto completo para que el lector tenga toda la info
+        return resultado; 
+    } catch (error) {
+        return null;
+    }
+});
+
+
+
+
 
 }
 //! FUNCIONES AUXILIARES

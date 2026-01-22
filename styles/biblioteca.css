@@ -2,10 +2,10 @@
    VENTANA MODAL: BIBLIOTECA
    =============================== */
 #ventanaBiblio {
- 
   width: 95%;
   height: 95%;
-  background: linear-gradient(to bottom, #eaf4ffbe, #ddf0ffdc);
+  background: linear-gradient(to bottom, #ecf7ffdc, #f1ae77be);
+  border: #e47317;
   border-radius: 15px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.3);
   padding: 20px;
@@ -14,26 +14,7 @@
   justify-content: space-between;
 }
 
-#ventanaBiblio .volver-btn {
-  position: absolute;
-  bottom: 4%;
-  right: 2%;
-  border-radius: 12px;
-  padding: 10px 20px;
-  background-color: #87CEEB;
-  border: 2px solid #3498db;
-  color: #fff;
-  cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-#ventanaBiblio .volver-btn:hover {
-  transform: scale(1.1);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-}
-#ventanaBiblio .volver-btn:active {
-  transform: scale(0.95);
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
-}
+
 
 /* ===============================
    PANEL IZQUIERDO DE LA BIBLIOTECA
@@ -43,7 +24,11 @@
   top: 3%;
   bottom: 3%;
   width: 15%;
-  background-color: #f5f7fab6;
+  background: linear-gradient(
+  to bottom, 
+  rgba(255, 255, 255, 0.5),   
+  rgba(115, 227, 197, 0.85)   
+);
   border-radius: 10px;
   padding: 10px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
@@ -51,35 +36,83 @@
   display: flex;
   flex-direction: column;
   align-items: center; 
-  gap: 10px;
+  
 }
 
 
 #btn_añadir_libro {
-  position: absolute;
-  top: 10px; 
-  left: 50%;
-  transform: translateX(-50%);
+  
   width: 90%;
   height: 7%;
   border-radius: 12px;
   padding: 10px 20px;
-  background-color: #87CEEB;
-  border: 2px solid #3498db;
+  background-color: #73e3c5;
+  border: 2px solid #27c79c;
   color: #fff;
   font-size: 30px;
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  margin-top: 15%;
 }
 
 #btn_añadir_libro:hover {
-  transform: translateX(-50%) scale(1.05);
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  transform: translateY(-5px) scale(1.03);
 }
 
 #btn_añadir_libro:active {
-  transform: translateX(-50%) scale(0.95);
+  transform: translateY(0px) scale(0.97);
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+}
+
+#panel_decorativo_izq {
+  background-color: #73e3c5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20%;
+  margin-left: -10px;
+  margin-right: -10px;
+  width: calc(100% + 20px);
+  height: 6%;
+  box-shadow: 
+    /* Sombra interna izquierda */
+    inset 10px 0 8px -8px rgba(0,0,0,0.4),
+    
+    /* Sombra interna derecha */
+    inset -10px 0 8px -8px rgba(0,0,0,0.4);
+  
+}
+
+#label_buscar_libro {
+  color: white;
+  font-size: 30px;
+}
+#nombre_libro_filtro {
+  margin-top: 15%;
+  width: 75%; 
+  padding: 10px;
+  border-radius: 10px;
+  border: 2px solid #27c79c;
+  font-size: 16px;
+  outline: none;
+
+}
+
+#panel_filtro_etiquetas {
+  background-color: rgba(240, 240, 240, 0.6);
+  border: 2px dashed #27c79c;
+  border-radius: 12px;
+  padding: 12px;
+  display: flex;
+  gap: 8px;              
+  align-content: flex-start; 
+  align-items: flex-start;
+  min-height: 15%;
+  min-width: 80%;
+  max-width: 80%;
+  margin-top: 10%;
+  flex-wrap: wrap;
 }
 
 /* ===============================
@@ -181,4 +214,14 @@
   box-shadow: 0 3px 10px rgba(0,0,0,0.2); /* sombra más pequeña */
   transition: transform 0.1s ease, box-shadow 0.1s ease;
   cursor: pointer; /* refuerza que es clickable */
+}
+
+#btn-volver-biblio {
+  background-color: #f1ae77;
+  border:2px solid #e47317;
+  color: #fff;
+  position: absolute;
+  top: 1%;
+  right: 1%;
+  
 }

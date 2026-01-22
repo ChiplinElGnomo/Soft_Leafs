@@ -26,7 +26,9 @@ const createTables = () => {
             archivo TEXT NOT NULL,
             portada TEXT,                 
             fecha_añadido DATETIME DEFAULT CURRENT_TIMESTAMP, 
-            ultima_lectura DATETIME DEFAULT NULL 
+            ultima_lectura DATETIME DEFAULT NULL ,
+            numero_pagina INTEGER DEFAULT 1,
+            ultima_pag TEXT
         );
     `;
 
@@ -54,7 +56,6 @@ const createTables = () => {
     db.exec(tableLibros);
     db.exec(tableEtiquetas);
     db.exec(tableLibroEtiquetas);
-    
     console.log("Base de datos lista: Tablas vinculadas correctamente.");
 };
 

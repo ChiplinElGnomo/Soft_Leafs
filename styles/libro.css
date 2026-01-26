@@ -28,6 +28,7 @@
 }
 
 #visorEPUB {
+  position: relative;
   flex: 1;
   width: 100%;
   height: 100%;
@@ -38,8 +39,8 @@
   top: 10px;
   right: 10px;
   padding: 8px 15px;
-  background: #87CEEB;
-  border: 2px solid #3498db;
+  background: #f1ae77;
+  border: 2px solid #e47317;
   color: white;
   border-radius: 10px;
   cursor: pointer;
@@ -50,6 +51,11 @@
 
 #cerrarLector:hover {
   transform: scale(1.1);
+  background-color: #eb9046;
+}
+#cerrarLector:active {
+  transform: scale(0.95);
+  
 }
 
 /* =========================================
@@ -161,7 +167,7 @@
 
 
 /* =========================================
-   NUEVO: ESTILOS DE PAGINACIÓN
+        ESTILOS DE PAGINACIÓN
    ========================================= */
 
 /* Contenedor invisible que divide la pantalla en 2 mitades */
@@ -196,6 +202,29 @@
   
   /* Sombra suave para que se lea bien sobre cualquier fondo */
   box-shadow: 0 2px 4px rgba(0,0,0,0.2); 
+}
+
+/* =========================================
+        ESTILOS DE LAS PEGATINAS
+   ========================================= */
+
+#capa-pegatinas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 100; /* Asegúrate de que esté por encima del canvas/iframe del libro */
+    background: transparent;
+    pointer-events: none; /* Por defecto deja pasar los clics al libro */
+    overflow: hidden;
+}
+
+/* Las pegatinas individuales sí deben reaccionar al ratón */
+.pegatina {
+    position: absolute;
+    pointer-events: all; 
+    cursor: grab;
 }
 
 

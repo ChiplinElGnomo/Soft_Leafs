@@ -25,7 +25,11 @@ Soft Leafs es una aplicación que busca ofrecer una experiencia sencilla, cómod
 
 ## 📜 Registro de Cambios (Changelog)
 
-### [0.8.0] - 2026-01-05 (Actual)
+### [0.8.1] - 2026-01-26 (Actual)
+* **Interfaz:** Implementación de una modal de bienvenida a modo de saludo y pequeño tutorial.
+
+
+### [0.8.0] - 2026-01-15 
 * **Interfaz:** Implementación del sistema de filtrado para los libros (de momento por nombre y etiquetas).
 * **Estilos:** Cambio en la paleta de colores general ademas de añadir una mascota a la app, "Ares, el dragon lector".
 * **Mejora técnica:** Ahora la app recordara la pagina en la que cerraste por ultima vez el libro y mostrara las paginas en la parte inferior de cada una.
@@ -33,10 +37,6 @@ Soft Leafs es una aplicación que busca ofrecer una experiencia sencilla, cómod
 ### [0.7.1] - 2026-01-05 
 * **Mejora técnica:** Corregidos varios bugs relacionados con el overlay y con el acceso a la base de datos.
 
-### [0.7.0] - 2026-01-05 
-* **Interfaz:** Implementación del nuevo menú de opciones flotante con diseño de doble panel (navegación y contenido).
-* **Estilos:** Refactorización del CSS para los contenedores `#ventanaOpciones`, `.opciones-nav` y `.opciones-main`.
-* **Mejora técnica:** Migración del sistema de almacenamiento de libros de JSON a SQLite para mejorar la escalabilidad y rapidez.
 
 
 

@@ -135,7 +135,9 @@
     <div id="lectorContenido">
       <button class="btn-general" id="cerrarLector">X</button>
       
-      <div id="visorEPUB"></div>
+      <div id="visorEPUB">
+        <div id="capa-pegatinas"></div>
+      </div>
 
       <div id="area-paginacion">
           <div class="caja-paginacion">
@@ -148,7 +150,7 @@
       </div>
 
     </div>
-</div>
+  </div>
   
 
 
@@ -178,6 +180,45 @@
     <p id="texto_alerta"></p>
     <button class="btn-cerrar-general" id="btn_cerrar_alerta">Cerrar</button>     <!-- Este div es para la ventana de alerta o error -->
   </div>
+
+  <!-- MODAL DE BIENVENIDA -->
+  
+    <div id="modal_bienvenida">
+        
+        <header class="modal-header">
+            <h1>Bienvenido/a</h1>
+        </header>
+
+        <main class="modal-body">
+            
+            <section class="columna-texto">
+              <p>
+                ¡Bienvenido/a a Soft Leafs! Mi nombre es Ares, 
+                el dragón lector, aunque puedes llamarme simplemente Ares. <br>
+                Yo seré tu guía y compañero mientras navegas por la aplicación.
+              </p>
+              <p>
+                Para empezar a leer, solo tienes que hacer clic en el botón 
+                de "Biblioteca" en cuanto estés listo/a y despues 
+                "Añadir Libro". Después de eso solo tendrás que añadir tus libros favoritos 
+                o pendientes y podrás acceder a ellos desde la biblioteca.
+              </p>
+              <p>
+                ¡Me muero de ganas de ver qué es lo primero en tu lista de libros pendientes!
+              </p>
+    
+            </section>
+
+            <section class="columna-mascota">
+                <img src='assets\images\Ares_saludo.png' alt="Mascota saludando" id="mascota_img">
+            </section>
+            <button  id="btn_cerrar_bienvenida">¡Vamos allá!</button>
+
+        </main>
+
+    </div>
+
+
 
 </body>
 </html>

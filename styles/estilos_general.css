@@ -242,6 +242,89 @@ body {
   width: 50%;            
 }
 
+/* 1. La Modal: Contenedor principal en vertical */
+#modal_bienvenida {
+    display: none;
+    flex-direction: column; /* Apila Header y Main uno sobre otro */
+    background: linear-gradient(
+    to bottom, 
+    rgb(255, 255, 255),   
+    rgb(115, 227, 197));
+    
+    position: fixed;
+    width: 40%;
+    height: 60%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 12px;
+    z-index: 9999;
+    overflow: hidden;
+}
+
+/* 2. El Título: Ocupa todo el ancho por defecto */
+.modal-header {
+    width: 100%;
+    text-align: center;
+    padding: 20px 0;
+    background-color: #48dab3; /* Opcional: un tono distinto para el título */
+}
+
+/* 3. El Cuerpo: El contenedor de las dos secciones */
+.modal-body {
+    display: flex;
+    flex-direction: row; /* Pone las secciones una al lado de la otra */
+    flex: 1; /* Hace que esta zona ocupe TODO el espacio sobrante de la modal */
+}
+
+/* 4. Las Secciones: 50% de ancho cada una */
+.columna-texto, 
+.columna-mascota {
+    flex: 1; /* Esto las obliga a repartirse el 50% exacto del ancho */
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centra el contenido internamente */
+}
+
+/* Estilo para que la mascota no se deforme */
+.columna-mascota img {
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+#btn_cerrar_bienvenida {
+  position: absolute;
+  bottom: 2%;
+  right: 2%;
+  width: 15%;
+  height: 7%;
+  border-radius: 12px;
+  padding: 5px 10px;
+  background-color: #f1ae77;
+  border: 2px solid #e47317;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+#btn_cerrar_bienvenida:hover{
+  background-color: #eb9046;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  transform: scale(1.1);
+
+}
+#btn_cerrar_bienvenida:active{
+  transform: scale(0.95);
+}
+
+#modal_bienvenida.mostrar {
+    display: flex !important;
+}
+
+
 
 
 

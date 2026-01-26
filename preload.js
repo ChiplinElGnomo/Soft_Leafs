@@ -32,7 +32,9 @@ contextBridge.exposeInMainWorld('electronAPI', {
   // Expone las rutas de las carpetas internas si el frontend las necesita
   getBooksFolders: () => ipcRenderer.invoke('paths:getBooksFolders'),
   seleccionarPortada: () => ipcRenderer.invoke('dialog:seleccionar-portada'),
-  cambiarPortada: (portadamasid) => ipcRenderer.invoke('libros:cambiar-portada', portadamasid)
+  cambiarPortada: (portadamasid) => ipcRenderer.invoke('libros:cambiar-portada', portadamasid),
+  mostrarBienvenida: (callback) => ipcRenderer.on('orden-mostrar-bienvenida', (_event) => callback()),
+  marcarBienvenida: () => ipcRenderer.send('marcar-bienvenida')
 });
 
 

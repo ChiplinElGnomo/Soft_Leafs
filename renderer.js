@@ -13,6 +13,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const sliderEfectos = document.getElementById('volumen_efectos')
   const etiquetaMusica = document.querySelector('.eti-musica');
   const overlay = document.getElementById('overlay');
+  const modalBienvenida = document.getElementById('modal_bienvenida');
+  const btnCerrarBienve = document.getElementById('btn_cerrar_bienvenida');
 
   const ventana_Opciones = document.getElementById('ventanaOpciones');
   const ventanaBiblio = document.getElementById('ventanaBiblio');
@@ -56,17 +58,17 @@ document.addEventListener('DOMContentLoaded', () => {
     reproductor.play();
   }
 
-sliderVolumen.value = Sound.obtenerVolumenMusicaInicial();
+  sliderVolumen.value = Sound.obtenerVolumenMusicaInicial();
 
-sliderVolumen.addEventListener('input', (e) => {
+  sliderVolumen.addEventListener('input', (e) => {
     Sound.actualizarVolumenMusica(e.target.value);
-});
+  });
 
-sliderEfectos.value = Sound.obtenerVolumenEfectosInicial();
+  sliderEfectos.value = Sound.obtenerVolumenEfectosInicial();
 
-sliderEfectos.addEventListener('input', (e) => {
+  sliderEfectos.addEventListener('input', (e) => {
     Sound.actualizarVolumenEfectos(e.target.value);
-});
+  });
 
   // ==========================================
   // 4. BIBLIOTECA Y LECTOR
@@ -98,8 +100,8 @@ sliderEfectos.addEventListener('input', (e) => {
     if (Sound) Sound.sonido_efecto('efecto_sobre_boton');
   });
 
-// 2. Clic en el libro ya agrandado para ABRIRLO
-libroAnimado.addEventListener('click', async () => {
+  // 2. Clic en el libro ya agrandado para ABRIRLO
+  libroAnimado.addEventListener('click', async () => {
     if (!libro_seleccionado) return;
 
     modalTransicion.classList.add('abierto');
@@ -127,7 +129,7 @@ libroAnimado.addEventListener('click', async () => {
             console.error("Error al obtener ruta o abrir EPUB:", error);
         }
     }, 1000); 
-});
+  });
 
   document.addEventListener('keydown', (e) => {
     if (lectorActivo && renditionActual) {
@@ -137,16 +139,16 @@ libroAnimado.addEventListener('click', async () => {
 
  
   
- // ==========================================
-// 5. AÑADIR LIBRO 
-// ==========================================
+  // ==========================================
+  // 5. AÑADIR LIBRO 
+  // ==========================================
 
-const btnSeleccionar = document.getElementById('sel_archivo_libro');
-const inputNombre = document.getElementById('nombre_libro_input');
-let rutaLibroSeleccionado = null; 
+  const btnSeleccionar = document.getElementById('sel_archivo_libro');
+  const inputNombre = document.getElementById('nombre_libro_input');
+  let rutaLibroSeleccionado = null; 
 
 
-btnSeleccionar.addEventListener('click', async () => {
+  btnSeleccionar.addEventListener('click', async () => {
     // Llamamos a tu función del preload que abre el diálogo nativo
     const ruta = await window.electronAPI.abrirDialogoArchivo();
 
@@ -159,10 +161,10 @@ btnSeleccionar.addEventListener('click', async () => {
         btnSeleccionar.style.borderColor = "#27c79c";
 
     }
-});
+  });
 
-// 2. MANEJO DE ETIQUETAS
-document.getElementById('grid_etiquetas').addEventListener('click', (e) => {
+  // 2. MANEJO DE ETIQUETAS
+  document.getElementById('grid_etiquetas').addEventListener('click', (e) => {
     const tagElement = e.target.closest('.etiqueta');
     if (!tagElement) return;
 
@@ -173,10 +175,10 @@ document.getElementById('grid_etiquetas').addEventListener('click', (e) => {
     etiquetasSeleccionadas = LIB.manejarSeleccionEtiqueta(e, nombre, etiquetasSeleccionadas);
     
     if (Sound) Sound.sonido_efecto('efecto_sobre_boton');
-});
+  });
 
-// 3. BOTÓN GUARDAR
-document.getElementById('btn_add_book').addEventListener('click', async () => {
+  // 3. BOTÓN GUARDAR
+  document.getElementById('btn_add_book').addEventListener('click', async () => {
     const inputNombre = document.getElementById('nombre_libro_input');
     const nombre = inputNombre.value.trim();
 
@@ -228,12 +230,12 @@ document.getElementById('btn_add_book').addEventListener('click', async () => {
         console.error(error);
         UI.abrirAlerta("Error de comunicación: " + error.message);
     }
-});
+  });
 
 
 
 
-btnSelPortada.addEventListener('click', async () => {
+  btnSelPortada.addEventListener('click', async () => {
     // Llamamos a la función que creamos para filtrar solo imágenes
     const ruta = await window.electronAPI.seleccionarPortada();
     
@@ -246,7 +248,7 @@ btnSelPortada.addEventListener('click', async () => {
         btnSelPortada.style.borderColor = "#27c79c";
         btnSelPortada.style.color = "white";
     }
-});
+  });
 
   // ==========================================
   // 6. MODALES Y NAVEGACIÓN
@@ -286,7 +288,7 @@ btnSelPortada.addEventListener('click', async () => {
       };
       LIB.mostrarMenuContextual(e, menuContextual, tarjeta);
     }
-});
+  });
 
   document.addEventListener('click', () => menuContextual.classList.remove('visible'));
 
@@ -308,7 +310,7 @@ btnSelPortada.addEventListener('click', async () => {
         UI.ocultarOverlay();
         modalConfirmacion.classList.remove('mostrar');
     }
-}
+  }
   });
 
   btnCambiarNombre.addEventListener('click', () => {
@@ -328,21 +330,21 @@ btnSelPortada.addEventListener('click', async () => {
       modalCambiarNombre.classList.remove('mostrar');
     }
   });
-if (btn_cambiar_portada){
-  btn_cambiar_portada.addEventListener('click', async () => {
-    const rutaElegida = await window.electronAPI.seleccionarPortada()
-    if (rutaElegida) {
-      await window.electronAPI.cambiarPortada({id: libro_seleccionado.id, nuevaPortada: rutaElegida})
-      await LIB.actualizarBiblioteca()
-      UI.ocultarOverlay()
-    }
+  if (btn_cambiar_portada){
+    btn_cambiar_portada.addEventListener('click', async () => {
+     const rutaElegida = await window.electronAPI.seleccionarPortada()
+      if (rutaElegida) {
+        await window.electronAPI.cambiarPortada({id: libro_seleccionado.id, nuevaPortada: rutaElegida})
+       await LIB.actualizarBiblioteca()
+       UI.ocultarOverlay()
+     }
 
 
 
-  });
-}
+    });
+  }
 
-const botonesOpciones = document.querySelectorAll('.btn_seccion');
+  const botonesOpciones = document.querySelectorAll('.btn_seccion');
   const seccionesOpciones = document.querySelectorAll('.seccion_opciones');
 
   botonesOpciones.forEach(boton => {
@@ -371,7 +373,7 @@ const botonesOpciones = document.querySelectorAll('.btn_seccion');
   
 
 // Detectamos el click en el contenedor oscuro
-modalTransicion.addEventListener('click', (e) => {
+  modalTransicion.addEventListener('click', (e) => {
     // Si el usuario pulsa en el FONDO (modalTransicion) y NO en la portada
     if (e.target === modalTransicion) {
         
@@ -384,7 +386,7 @@ modalTransicion.addEventListener('click', (e) => {
         // 3. Reseteamos la selección
         libro_seleccionado = null; 
     }
-});
+  });
 
   document.getElementById('btnCerrar').addEventListener('click', () => window.electronAPI.cerrarApp());
   document.getElementById('btnOpciones').addEventListener('click', () => ventana_Opciones.classList.add('mostrar'));
@@ -395,9 +397,9 @@ modalTransicion.addEventListener('click', (e) => {
     // Llamamos a la función y ella se encarga de todo, incluso de la DB
     lectorActivo = await EPUB.cerrarLector(modalLectorReal, visor, UI, ventanaBiblio, modalTransicion);
     renditionActual = null;
-});
+  });
 
-document.addEventListener('click', (e) => {
+  document.addEventListener('click', (e) => {
     // 1. Detectamos si se ha pulsado UN botón de cerrar (o un icono dentro de él)
     const botonCerrar = e.target.closest('.btn-cerrar-general');
 
@@ -421,15 +423,29 @@ document.addEventListener('click', (e) => {
             UI.ocultarOverlay();
         }
     }
-});
+  });
 
-filtro_texto.addEventListener('input', (e, valor_filtro_texto) => {
-  valor_filtro_texto = e.target.value.toLowerCase().trim();
-  LIB.filtrar_por_nombre(valor_filtro_texto)
+  filtro_texto.addEventListener('input', (e, valor_filtro_texto) => {
+   valor_filtro_texto = e.target.value.toLowerCase().trim();
+   LIB.filtrar_por_nombre(valor_filtro_texto)
+  });
 
-
-
-});
+  window.electronAPI.mostrarBienvenida(() => {
+    // Asegúrate de que el selector sea el correcto
+    
+    if (modalBienvenida) {
+        modalBienvenida.classList.add('mostrar');
+    }
+  });
+  if (btnCerrarBienve) {
+    btnCerrarBienve.addEventListener('click', () => {
+        
+        modalBienvenida.classList.remove('mostrar');
+        
+        // Llamamos a la función del puente
+        window.electronAPI.marcarBienvenida();
+    });
+  }
 });
 
 

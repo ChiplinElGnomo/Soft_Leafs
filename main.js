@@ -2,6 +2,8 @@ const { app, BrowserWindow, ipcMain, dialog, Menu } = require('electron');
 const path = require('path');
 const fs = require('fs');
 const db = require('./database.js');
+const Store = require('electron-store');
+const store = new Store(); 
 
 
 function createWindow() {
@@ -19,9 +21,16 @@ function createWindow() {
 
   //Desactivamos el zoom y los atajos de teclado
   win.webContents.on('did-finish-load', () => {
+    const hasSeenWelcome = store.get('marcar-bienvenida');
+    if (!hasSeenWelcome) {
+        // Damos 500ms para que el renderer.js se cargue completamente
+        setTimeout(() => {
+            win.webContents.send('orden-mostrar-bienvenida');
+        }, 500);
+    }
     win.webContents.setZoomFactor(1.0);
     win.webContents.setVisualZoomLevelLimits(1, 1);
-  });
+});
 
   
   win.webContents.on('before-input-event', (event, input) => {
@@ -173,62 +182,62 @@ ipcMain.handle('libros:borrar', (event, id) => {
         }
 
         // 3. Borrar la PORTADA (Si existe) <-- IMPORTANTE
-        if (libro.portada) {
-            const rutaPortada = path.join(coversPath, libro.portada);
+         if (libro.portada) {
+              const rutaPortada = path.join(coversPath, libro.portada);
             if (fs.existsSync(rutaPortada)) {
-                fs.unlinkSync(rutaPortada);
+                  fs.unlinkSync(rutaPortada);
             }
-        }
+         }
 
-        // 4. Borrar de la base de datos
-        // (Las etiquetas se borran solas gracias al ON DELETE CASCADE que pusiste en database.js)
-        const info = db.prepare('DELETE FROM libros WHERE id = ?').run(id);
+          // 4. Borrar de la base de datos
+         // (Las etiquetas se borran solas gracias al ON DELETE CASCADE que pusiste en database.js)
+          const info = db.prepare('DELETE FROM libros WHERE id = ?').run(id);
         
-        return { success: true };
+         return { success: true };
 
-    } catch (error) {
-        console.error("Error al eliminar:", error);
-        return { success: false, error: error.message };
-    }
-});
+     } catch (error) {
+         console.error("Error al eliminar:", error);
+         return { success: false, error: error.message };
+     }
+  });
 
-ipcMain.handle('libros:editar-nombre', async (event, { id, nuevoNombre }) => {
+  ipcMain.handle('libros:editar-nombre', async (event, { id, nuevoNombre }) => {
+     try {
+          db.prepare('UPDATE libros SET nombre = ? WHERE id = ?').run(nuevoNombre, id);
+         return { success: true };
+      } catch (error) {
+         console.error("Error al renombrar:", error);
+          return { success: false, error: error.message };
+     }
+  });
+
+  ipcMain.handle('libros:cambiar-portada', async (event, {id, nuevaPortada}) => {
     try {
-        db.prepare('UPDATE libros SET nombre = ? WHERE id = ?').run(nuevoNombre, id);
-        return { success: true };
-    } catch (error) {
-        console.error("Error al renombrar:", error);
-        return { success: false, error: error.message };
-    }
-});
+      const libroActual = db.prepare('SELECT portada FROM libros WHERE id = ?').get(id);
+     if (!libroActual || !nuevaPortada) return { success: false };
 
-ipcMain.handle('libros:cambiar-portada', async (event, {id, nuevaPortada}) => {
-  try {
-    const libroActual = db.prepare('SELECT portada FROM libros WHERE id = ?').get(id);
-    if (!libroActual || !nuevaPortada) return { success: false };
-
-    // Solo intentamos borrar si REALMENTE hay un nombre de archivo guardado
-    if (libroActual.portada) {
-      const antiguaPortada = path.join(coversPath, libroActual.portada);
-      if(fs.existsSync(antiguaPortada)) {
-        fs.unlinkSync(antiguaPortada);
+     // Solo intentamos borrar si REALMENTE hay un nombre de archivo guardado
+     if (libroActual.portada) {
+        const antiguaPortada = path.join(coversPath, libroActual.portada);
+       if(fs.existsSync(antiguaPortada)) {
+          fs.unlinkSync(antiguaPortada);
+        }
       }
-    }
 
-    const extension = path.extname(nuevaPortada);
-    const nombre_unico_portada = `portada_${id}_${Date.now()}${extension}`;
-    const rutaDestinoNuevaPortada = path.join(coversPath, nombre_unico_portada);
+      const extension = path.extname(nuevaPortada);
+     const nombre_unico_portada = `portada_${id}_${Date.now()}${extension}`;
+      const rutaDestinoNuevaPortada = path.join(coversPath, nombre_unico_portada);
     
-    fs.copyFileSync(nuevaPortada, rutaDestinoNuevaPortada);
+     fs.copyFileSync(nuevaPortada, rutaDestinoNuevaPortada);
     
-    db.prepare('UPDATE libros SET portada = ? WHERE id = ?').run(nombre_unico_portada, id);
+     db.prepare('UPDATE libros SET portada = ? WHERE id = ?').run(nombre_unico_portada, id);
     
-    return { success: true, nuevaPortada: nombre_unico_portada };
-  } catch (error) {
-    console.error("Error cambiando portada:", error);
-    return { success: false, error: error.message };
-  }
-});
+     return { success: true, nuevaPortada: nombre_unico_portada };
+    } catch (error) {
+     console.error("Error cambiando portada:", error);
+      return { success: false, error: error.message };
+    }
+  });
 
  
 
@@ -238,7 +247,7 @@ ipcMain.handle('libros:cambiar-portada', async (event, {id, nuevaPortada}) => {
   
   
 
-//! ---------------------------------------------------------------------
+  //! ---------------------------------------------------------------------
 
   //! Abrir diálogo de selección de archivo
   ipcMain.handle('dialog:abrir-archivo', async () => {
@@ -253,54 +262,54 @@ ipcMain.handle('libros:cambiar-portada', async (event, {id, nuevaPortada}) => {
   });
 
   ipcMain.handle('dialog:seleccionar-portada', async () => {
-  const { canceled, filePaths } = await dialog.showOpenDialog({
-    properties: ['openFile'],
-    filters: [
-      { name: 'Imágenes', extensions: ['jpg', 'png', 'jpeg', 'webp'] }
-    ]
+    const { canceled, filePaths } = await dialog.showOpenDialog({
+     properties: ['openFile'],
+     filters: [
+       { name: 'Imágenes', extensions: ['jpg', 'png', 'jpeg', 'webp'] }
+     ]
+   });
+   if (canceled) return null;
+   return filePaths[0];
   });
-  if (canceled) return null;
-  return filePaths[0];
-});
-//! ---------------------------------------------------------------------
+  //! ---------------------------------------------------------------------
 
 
   
   //! Obtener ruta completa de libro
   ipcMain.handle("libros:obtenerRuta", async (event, archivo) => {
   
-  const rutaCompleta = path.join(filesPath, archivo);
-  if (!fs.existsSync(rutaCompleta)) {
-    throw new Error("El archivo del libro no existe");
-  }
-  return rutaCompleta;
-});
-//! ---------------------------------------------------------------------
+    const rutaCompleta = path.join(filesPath, archivo);
+    if (!fs.existsSync(rutaCompleta)) {
+     throw new Error("El archivo del libro no existe");
+    }
+   return rutaCompleta;
+  });
+  //! ---------------------------------------------------------------------
 
-//! Funciones para el audio
+  //! Funciones para el audio
 
-// Codigo para leer la playlist desde assets
+  // Codigo para leer la playlist desde assets
 
-ipcMain.handle('musica:leer-playlist', async (event, nombre_playlist) => {
-  const rutaJSON = path.join(__dirname, 'assets', 'music', 'playlists', `${nombre_playlist}.json`);
-  const data = fs.readFileSync(rutaJSON, 'utf8');
-  return JSON.parse(data);
-});
+  ipcMain.handle('musica:leer-playlist', async (event, nombre_playlist) => {
+    const rutaJSON = path.join(__dirname, 'assets', 'music', 'playlists', `${nombre_playlist}.json`);
+   const data = fs.readFileSync(rutaJSON, 'utf8');
+    return JSON.parse(data);
+  });
 
-// 2. Busca el archivo de sonido en la carpeta de música (un nivel arriba de playlists)
-ipcMain.handle('musica:obtener-ruta-audio', async (event, archivo_cancion) => {
-  // Aquí apuntamos a assets/music/ directamente
-  return path.join(__dirname, 'assets', 'music', 'songs', archivo_cancion);
-});
+  // 2. Busca el archivo de sonido en la carpeta de música (un nivel arriba de playlists)
+  ipcMain.handle('musica:obtener-ruta-audio', async (event, archivo_cancion) => {
+    // Aquí apuntamos a assets/music/ directamente
+    return path.join(__dirname, 'assets', 'music', 'songs', archivo_cancion);
+  });
 
-ipcMain.handle('efectos:obtener-ruta', async (e, efecto_selec) => {
-  const rutaEfectos = path.join(__dirname, 'assets', 'music', 'effects'); //! TERMINA LOS EFECTOS HUEVON
-  const pathEfecto = path.join(rutaEfectos, efecto_selec + '.wav');
-  return pathEfecto;
+  ipcMain.handle('efectos:obtener-ruta', async (e, efecto_selec) => {
+   const rutaEfectos = path.join(__dirname, 'assets', 'music', 'effects'); //! TERMINA LOS EFECTOS HUEVON
+   const pathEfecto = path.join(rutaEfectos, efecto_selec + '.wav');
+   return pathEfecto;
   
   
-});
-//! ---------------------------------------------------------------------
+  });
+  //! ---------------------------------------------------------------------
  // Cerrar app
   ipcMain.handle('app:close', () => {
     app.quit();
@@ -320,7 +329,7 @@ ipcMain.handle('efectos:obtener-ruta', async (e, efecto_selec) => {
         console.error("Error al guardar página:", error);
         return { success: false };
     }
-});
+  });
 
   ipcMain.handle('libros:obtener-pagina', async (e, id) => {
     try {
@@ -331,7 +340,12 @@ ipcMain.handle('efectos:obtener-ruta', async (e, efecto_selec) => {
     } catch (error) {
         return null;
     }
-});
+  });
+
+  ipcMain.on('marcar-bienvenida', () => {
+      store.set('marcar-bienvenida', true);
+      
+  });
 
 
 

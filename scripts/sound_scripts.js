@@ -3,6 +3,8 @@
 const VOLUMEN_EFFECTS_KEY = 'volumen_efectos';
 const VOLUMEN_MUSICA_KEY = 'user-volume';
 const reproductor = document.getElementById('musica_fondo');
+const sliderMusica = document.getElementById('slider_musica');
+let datosPlaylistActiva = null;
 
 let cancionesPlaylist = [];
 let indiceActual = 0;
@@ -25,33 +27,25 @@ export function actualizarVolumenMusica(nuevoValor) {
 }
 
 async function cargarYCancion(indice) {
+    if (!datosPlaylistActiva || datosPlaylistActiva.canciones.length === 0) return;
+    
     indiceActual = indice;
-    const cancion = cancionesPlaylist[indice];
+    const cancion = datosPlaylistActiva.canciones[indice];
     
-    // 1. Obtenemos la ruta del sistema (vendrá con barras invertidas en Windows)
-    const ruta = await window.electronAPI.obtenerRutaAudio(cancion.archivo_cancion);
+    // Pasamos la carpeta Y el archivo al Main
+    const ruta = await window.electronAPI.obtenerRutaAudio(datosPlaylistActiva.folderPath, cancion.archivo);
     
-    // 2. CORRECCIÓN: Reemplazamos \ por / para que el navegador lo entienda
     const rutaWeb = ruta.replace(/\\/g, '/');
-    
-    // 3. Asignamos el src directamente
+    console.log("Ruta cargada:", rutaWeb)
     reproductor.src = `file://${rutaWeb}`;
     
-    // Actualizar UI
-    const sliderVolumen = document.getElementById('volumen_musica');
-    if (sliderVolumen) reproductor.volume = sliderVolumen.value;
-
+    // Actualizamos el nombre en el span (eti-musica) usando el titulo limpio
     const etiquetaMusica = document.querySelector('.eti-musica');
-    if (etiquetaMusica) etiquetaMusica.textContent = `Canción actual: ${cancion.titulo}`;
+    if (etiquetaMusica) {
+        etiquetaMusica.textContent = `Canción actual: ${cancion.titulo}`;
+    }
     
-    // 4. Intentar reproducir
-    reproductor.play().catch((err) => {
-        console.warn("Autoplay bloqueado, esperando interacción...", err);
-        // Si el navegador bloquea el autoplay, esperamos al primer clic del usuario
-        document.addEventListener('click', () => {
-            reproductor.play().catch(e => console.error("Error al reproducir:", e));
-        }, { once: true });
-    });
+    reproductor.play().catch(e => console.warn("Esperando interacción..."));
 }
 
 if (reproductor) {
@@ -63,9 +57,13 @@ if (reproductor) {
 
 export async function reproducirPlaylist(nombre_playlist) {
     try {
-        const playlist = await window.electronAPI.obtenerPlaylist(nombre_playlist);
-        cancionesPlaylist = playlist.canciones;
-        if (cancionesPlaylist.length > 0) cargarYCancion(0);
+        datosPlaylistActiva = await window.electronAPI.obtenerPlaylist(nombre_playlist);
+        
+        if (datosPlaylistActiva && datosPlaylistActiva.canciones.length > 0) {
+            // Sincronizamos cancionesPlaylist con las canciones recibidas
+            cancionesPlaylist = datosPlaylistActiva.canciones; 
+            cargarYCancion(0);
+        }
     } catch (e) { console.error(e); }
 }
 

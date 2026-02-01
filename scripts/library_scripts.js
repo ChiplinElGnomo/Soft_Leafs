@@ -74,7 +74,7 @@ export async function actualizarBiblioteca() {
         tarjeta.innerHTML = `
             <div class="portada ${claseExtra}" ${estiloPortada}></div>
          <div class="nombre-libro">${libro.nombre}</div>
-         ${etiquetasHTML}
+         
         `;
     
         grid.appendChild(tarjeta);
@@ -82,25 +82,22 @@ export async function actualizarBiblioteca() {
 }
 
 export function manejarSeleccionEtiqueta(e, nombreEtiqueta, etiquetasSeleccionadas) {
-    // Copiamos el array para trabajar seguros
+    // Copia el array para trabajar seguros
     let nuevasEtiquetas = [...etiquetasSeleccionadas];
 
-    // Comprobamos si la etiqueta YA estaba seleccionada
+    // Comprueba si la etiqueta YA estaba seleccionada
     if (nuevasEtiquetas.includes(nombreEtiqueta)) {
         
-        // CASO QUITAR: La borramos del array y quitamos la clase CSS
+        // CASO QUITAR: La borra del array y quita la clase CSS
         nuevasEtiquetas = nuevasEtiquetas.filter(et => et !== nombreEtiqueta);
         e.target.classList.remove('seleccionada');
 
     } else {
         
-        // CASO AÑADIR: La metemos en el array y ponemos la clase CSS
+        // CASO AÑADIR: La metemos en el array y pone la clase CSS
         nuevasEtiquetas.push(nombreEtiqueta);
         e.target.classList.add('seleccionada');
     }
-    
-    // (Opcional) Sonido
-    // if (typeof Sound !== 'undefined') Sound.sonido_efecto('efecto_sobre_boton');
     
     return nuevasEtiquetas;
 }

@@ -50,13 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // 3. GESTIÓN DE MÚSICA
   // ==========================================
   
-  async function cargarCancion(index, playlistActual) {
-    const cancion = playlistActual[index];
-    const ruta = await window.electronAPI.obtenerRutaAudio(cancion.archivo);
-    reproductor.src = ruta;
-    document.getElementById('nombre-cancion').textContent = `Canción actual: ${cancion.titulo}`;
-    reproductor.play();
-  }
+  
 
   sliderVolumen.value = Sound.obtenerVolumenMusicaInicial();
 
@@ -400,25 +394,22 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   document.addEventListener('click', (e) => {
-    // 1. Detectamos si se ha pulsado UN botón de cerrar (o un icono dentro de él)
     const botonCerrar = e.target.closest('.btn-cerrar-general');
 
     if (botonCerrar) {
-        // 2. Buscamos la modal específica que contiene a ESE botón
         const modalAbierta = botonCerrar.closest('.mostrar');
         
         if (modalAbierta) {
-            // 3. BUCLE PARA VACIAR TODOS LOS INPUTS:
-            // Buscamos todos los inputs SOLO dentro de esta modal
             const todosLosInputs = modalAbierta.querySelectorAll('input');
             
-            // Recorremos cada uno y lo vaciamos
             todosLosInputs.forEach(input => {
-                input.value = '';
+                // MODIFICACIÓN: Solo vaciamos si NO es un slider
+                if (input.type !== 'range') {
+                    input.value = '';
+                }
             });
-            LIB.limpiarFiltros();
 
-            // 4. Cerramos solo esta modal
+            LIB.limpiarFiltros();
             modalAbierta.classList.remove('mostrar');
             UI.ocultarOverlay();
         }
@@ -446,6 +437,9 @@ document.addEventListener('DOMContentLoaded', () => {
         window.electronAPI.marcarBienvenida();
     });
   }
+  setTimeout(() => {
+        Sound.reproducirPlaylist('fantasia');
+    }, 100);
 });
 
 

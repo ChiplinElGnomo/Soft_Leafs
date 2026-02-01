@@ -5,7 +5,7 @@
   width: 95%;
   height: 95%;
   background: linear-gradient(to bottom, #ecf7ffdc, #f1ae77be);
-  border: #e47317;
+  border: 1px solid #e47317;
   border-radius: 15px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.3);
   padding: 20px;
@@ -30,9 +30,8 @@
   rgba(115, 227, 197, 0.85)   
 );
   border-radius: 10px;
-  padding: 10px;
+  padding: 10px 10px 0 10px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-
   display: flex;
   flex-direction: column;
   align-items: center; 
@@ -181,9 +180,9 @@
 }
 
 .tarjeta-libro .portada.portada-default {
-  background-image: url('../assets/images/harrypotter.png'); 
+  background-image: url('../assets/images/tarjeta_default.png'); 
   background-size: 100% 100%;
-  filter: brightness(0.85);
+  filter: brightness(0.95);
 }
 
 /* Nombre del libro */
@@ -224,4 +223,23 @@
   top: 1%;
   right: 1%;
   
+}
+
+#frame_imagen_biblio {
+  width: 100%;
+  /* Ajusta la altura según necesites para que se vea la imagen */
+  height: 35%; 
+  margin-top: auto;
+  margin-bottom: 2%; /* El margen que tenía la imagen antes */
+  
+  /* Configuración del fondo */
+  background-image: url('../assets/images/Ares_leyendo.png');
+  background-repeat: no-repeat;
+  background-position: center bottom;
+  background-size: contain; /* Esto mantiene las proporciones sin recortar */
+  background-color: transparent !important;
+  user-select: none;
+  pointer-events: none;
+  -webkit-user-drag: none;
+  overflow: hidden;
 }

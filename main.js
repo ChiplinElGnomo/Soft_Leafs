@@ -3,7 +3,8 @@ const path = require('path');
 const fs = require('fs');
 const db = require('./database.js');
 const Store = require('electron-store');
-const store = new Store(); 
+const store = new Store();
+app.commandLine.appendSwitch('autoplay-policy', 'no-user-gesture-required'); 
 
 
 function createWindow() {
@@ -40,7 +41,7 @@ function createWindow() {
   });
 
   win.loadFile('index.html');
-  win.webContents.openDevTools();
+  //win.webContents.openDevTools();
 
   //! Creación de carpetas necesarias
   const baseBooksPath = path.join(app.getPath('userData'), 'books');
@@ -291,15 +292,24 @@ ipcMain.handle('libros:borrar', (event, id) => {
   // Codigo para leer la playlist desde assets
 
   ipcMain.handle('musica:leer-playlist', async (event, nombre_playlist) => {
-    const rutaJSON = path.join(__dirname, 'assets', 'music', 'playlists', `${nombre_playlist}.json`);
-   const data = fs.readFileSync(rutaJSON, 'utf8');
-    return JSON.parse(data);
+  try {
+    // Apuntamos al nuevo JSON generado en la carpeta config
+    const rutaJSON = path.join(__dirname, 'config', 'playlists-db.json');
+    const data = JSON.parse(fs.readFileSync(rutaJSON, 'utf8'));
+    
+    // Buscamos la playlist por su ID (cozy, terror, etc.)
+    const playlist = data.playlists.find(p => p.id === nombre_playlist);
+    return playlist || { canciones: [] };
+  } catch (error) {
+    console.error("Error al leer config/playlists-db.json:", error);
+    return { canciones: [] };
+  }
   });
 
   // 2. Busca el archivo de sonido en la carpeta de música (un nivel arriba de playlists)
-  ipcMain.handle('musica:obtener-ruta-audio', async (event, archivo_cancion) => {
-    // Aquí apuntamos a assets/music/ directamente
-    return path.join(__dirname, 'assets', 'music', 'songs', archivo_cancion);
+  ipcMain.handle('musica:obtener-ruta-audio', async (event, folderPath, archivo_cancion) => {
+  // folderPath ahora viene del JSON (ej: "assets/music/songs/cozy")
+  return path.join(__dirname, folderPath, archivo_cancion);
   });
 
   ipcMain.handle('efectos:obtener-ruta', async (e, efecto_selec) => {

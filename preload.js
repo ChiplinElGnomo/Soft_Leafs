@@ -25,7 +25,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
 
   // --- MÚSICA Y EFECTOS ---
   obtenerPlaylist: (nombre_playlist) => ipcRenderer.invoke('musica:leer-playlist', nombre_playlist),
-  obtenerRutaAudio: (archivo_cancion) => ipcRenderer.invoke('musica:obtener-ruta-audio', archivo_cancion),   
+  obtenerRutaAudio: (folderPath, archivo_cancion) => ipcRenderer.invoke('musica:obtener-ruta-audio', folderPath, archivo_cancion),   
   obtenerRutaEfectos: (nombre) => ipcRenderer.invoke('efectos:obtener-ruta', nombre),
 
   // --- UTILIDADES ---

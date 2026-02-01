@@ -6,6 +6,7 @@
 
 ## 📖 Descripción del Proyecto
 Soft Leafs es una aplicación que busca ofrecer una experiencia sencilla, cómoda y relajante para lectores que disfrutan de sus momentos de relax con un buen libro.
+Esta app esta siendo desarrollada como forma de estudio y practica personal. Intentare hacerla lo mejor que pueda y corregir posibles errores, pero no tengo prisa.
 
 ### ✨ Características principales
 * **Comodidad:** Diseñada con una interfaz limpia y minimalista. Lo último que quieres en tu momento de lectura es ver elementos que puedan distraerte o sacarte de tu historia.
@@ -25,7 +26,11 @@ Soft Leafs es una aplicación que busca ofrecer una experiencia sencilla, cómod
 
 ## 📜 Registro de Cambios (Changelog)
 
-### [0.8.1] - 2026-01-26 (Actual)
+### [0.8.2] - 2026-02-01 (Actual)
+* **Estilos:** Añadidos varios elementos decorativos.
+* **Mejora técnica:** Ahora el sistema de musica ambiental esta mejor organizado dentro de la app.
+
+### [0.8.1] - 2026-01-26 
 * **Interfaz:** Implementación de una modal de bienvenida a modo de saludo y pequeño tutorial.
 
 
@@ -33,10 +38,6 @@ Soft Leafs es una aplicación que busca ofrecer una experiencia sencilla, cómod
 * **Interfaz:** Implementación del sistema de filtrado para los libros (de momento por nombre y etiquetas).
 * **Estilos:** Cambio en la paleta de colores general ademas de añadir una mascota a la app, "Ares, el dragon lector".
 * **Mejora técnica:** Ahora la app recordara la pagina en la que cerraste por ultima vez el libro y mostrara las paginas en la parte inferior de cada una.
-
-### [0.7.1] - 2026-01-05 
-* **Mejora técnica:** Corregidos varios bugs relacionados con el overlay y con el acceso a la base de datos.
-
 
 
 

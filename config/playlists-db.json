@@ -1,0 +1,198 @@
+{
+  "playlists": [
+    {
+      "id": "lofi",
+      "titulo": "Lofi",
+      "folderPath": "assets/music/songs/lofi",
+      "canciones": [
+        {
+          "titulo": "An-Unknown-Journey",
+          "archivo": "An-Unknown-Journey.opus",
+          "rutaFull": "assets/music/songs/lofi/An-Unknown-Journey.opus"
+        },
+        {
+          "titulo": "Atlantis",
+          "archivo": "Atlantis.opus",
+          "rutaFull": "assets/music/songs/lofi/Atlantis.opus"
+        },
+        {
+          "titulo": "Away",
+          "archivo": "Away.opus",
+          "rutaFull": "assets/music/songs/lofi/Away.opus"
+        },
+        {
+          "titulo": "Breathtaking",
+          "archivo": "Breathtaking.opus",
+          "rutaFull": "assets/music/songs/lofi/Breathtaking.opus"
+        },
+        {
+          "titulo": "Childhood-Memories",
+          "archivo": "Childhood-Memories.opus",
+          "rutaFull": "assets/music/songs/lofi/Childhood-Memories.opus"
+        },
+        {
+          "titulo": "Hakuna-Matata",
+          "archivo": "Hakuna-Matata.opus",
+          "rutaFull": "assets/music/songs/lofi/Hakuna-Matata.opus"
+        },
+        {
+          "titulo": "Hey-there",
+          "archivo": "Hey-there.opus",
+          "rutaFull": "assets/music/songs/lofi/Hey-there.opus"
+        },
+        {
+          "titulo": "Kingdom-in-Blue",
+          "archivo": "Kingdom-in-Blue.opus",
+          "rutaFull": "assets/music/songs/lofi/Kingdom-in-Blue.opus"
+        },
+        {
+          "titulo": "Like-a-serendipity",
+          "archivo": "Like-a-serendipity.opus",
+          "rutaFull": "assets/music/songs/lofi/Like-a-serendipity.opus"
+        },
+        {
+          "titulo": "My-new-love",
+          "archivo": "My-new-love.opus",
+          "rutaFull": "assets/music/songs/lofi/My-new-love.opus"
+        },
+        {
+          "titulo": "Spanish-Castle",
+          "archivo": "Spanish-Castle.opus",
+          "rutaFull": "assets/music/songs/lofi/Spanish-Castle.opus"
+        },
+        {
+          "titulo": "Stay-the-Same",
+          "archivo": "Stay-the-Same.opus",
+          "rutaFull": "assets/music/songs/lofi/Stay-the-Same.opus"
+        },
+        {
+          "titulo": "Tabula-Rasa",
+          "archivo": "Tabula-Rasa.opus",
+          "rutaFull": "assets/music/songs/lofi/Tabula-Rasa.opus"
+        },
+        {
+          "titulo": "Warm-Nights",
+          "archivo": "Warm-Nights.opus",
+          "rutaFull": "assets/music/songs/lofi/Warm-Nights.opus"
+        },
+        {
+          "titulo": "funnyplace",
+          "archivo": "funnyplace.opus",
+          "rutaFull": "assets/music/songs/lofi/funnyplace.opus"
+        }
+      ]
+    },
+    {
+      "id": "fantasia",
+      "titulo": "Fantasia",
+      "folderPath": "assets/music/songs/fantasia",
+      "canciones": [
+        {
+          "titulo": "The Hidden Elven Village",
+          "archivo": "The Hidden Elven Village.opus",
+          "rutaFull": "assets/music/songs/fantasia/The Hidden Elven Village.opus"
+        }
+      ]
+    },
+    {
+      "id": "relax",
+      "titulo": "Relax",
+      "folderPath": "assets/music/songs/relax",
+      "canciones": [
+        {
+          "titulo": "Coffee-Break",
+          "archivo": "Coffee-Break.opus",
+          "rutaFull": "assets/music/songs/relax/Coffee-Break.opus"
+        },
+        {
+          "titulo": "Cozy-Cafe",
+          "archivo": "Cozy-Cafe.opus",
+          "rutaFull": "assets/music/songs/relax/Cozy-Cafe.opus"
+        },
+        {
+          "titulo": "Easy",
+          "archivo": "Easy.opus",
+          "rutaFull": "assets/music/songs/relax/Easy.opus"
+        },
+        {
+          "titulo": "Eyes-Wide-Open",
+          "archivo": "Eyes-Wide-Open.opus",
+          "rutaFull": "assets/music/songs/relax/Eyes-Wide-Open.opus"
+        },
+        {
+          "titulo": "Jazz-It-Up",
+          "archivo": "Jazz-It-Up.opus",
+          "rutaFull": "assets/music/songs/relax/Jazz-It-Up.opus"
+        },
+        {
+          "titulo": "Just-A-Piece-of-My-Heart",
+          "archivo": "Just-A-Piece-of-My-Heart.opus",
+          "rutaFull": "assets/music/songs/relax/Just-A-Piece-of-My-Heart.opus"
+        },
+        {
+          "titulo": "Love-To-Be-Happy",
+          "archivo": "Love-To-Be-Happy.opus",
+          "rutaFull": "assets/music/songs/relax/Love-To-Be-Happy.opus"
+        },
+        {
+          "titulo": "Love-Will-Last-Forever",
+          "archivo": "Love-Will-Last-Forever.opus",
+          "rutaFull": "assets/music/songs/relax/Love-Will-Last-Forever.opus"
+        },
+        {
+          "titulo": "Peace",
+          "archivo": "Peace.opus",
+          "rutaFull": "assets/music/songs/relax/Peace.opus"
+        },
+        {
+          "titulo": "Smile",
+          "archivo": "Smile.opus",
+          "rutaFull": "assets/music/songs/relax/Smile.opus"
+        },
+        {
+          "titulo": "Soft-Like-Rain",
+          "archivo": "Soft-Like-Rain.opus",
+          "rutaFull": "assets/music/songs/relax/Soft-Like-Rain.opus"
+        },
+        {
+          "titulo": "Soulful",
+          "archivo": "Soulful.opus",
+          "rutaFull": "assets/music/songs/relax/Soulful.opus"
+        },
+        {
+          "titulo": "Sweet-And-Lovely",
+          "archivo": "Sweet-And-Lovely.opus",
+          "rutaFull": "assets/music/songs/relax/Sweet-And-Lovely.opus"
+        },
+        {
+          "titulo": "Take-It-Easy",
+          "archivo": "Take-It-Easy.opus",
+          "rutaFull": "assets/music/songs/relax/Take-It-Easy.opus"
+        },
+        {
+          "titulo": "Tell-Me",
+          "archivo": "Tell-Me.opus",
+          "rutaFull": "assets/music/songs/relax/Tell-Me.opus"
+        }
+      ]
+    },
+    {
+      "id": "aventura",
+      "titulo": "Aventura",
+      "folderPath": "assets/music/songs/aventura",
+      "canciones": []
+    },
+    {
+      "id": "terror",
+      "titulo": "Terror",
+      "folderPath": "assets/music/songs/terror",
+      "canciones": [
+        {
+          "titulo": "Dark and Mysterious",
+          "archivo": "Dark and Mysterious.opus",
+          "rutaFull": "assets/music/songs/terror/Dark and Mysterious.opus"
+        }
+      ]
+    }
+  ]
+}

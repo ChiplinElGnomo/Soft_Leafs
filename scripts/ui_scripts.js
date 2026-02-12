@@ -33,3 +33,62 @@ export function resetearFormularioAñadir(ventanaAñadirLibro, nombreInput, span
     
     document.activeElement.blur();
 }
+
+window.addEventListener("actualizarBarra", (e) => {
+    const barra = document.getElementById('barra_experiencia');
+    const textoXP = document.getElementById('experiencia_texto'); // El elemento para los números
+    
+    // 1. Movimiento visual de la barra (Máximo 84% de ancho CSS)
+    if (barra) {
+        const anchoReal = e.detail.porcentaje * 0.84;
+        barra.style.width = `${anchoReal}%`;
+    }
+
+    // 2. Mostrar XP actual y máxima (Formato: 40 / 1000)
+    if (textoXP) {
+        textoXP.textContent = `${e.detail.xp_actual} / ${e.detail.xp_max}`;
+    }
+    
+    // Opcional: Actualizar el nivel si tienes un elemento para ello
+    const nivelTexto = document.getElementById('contador_experiencia');
+    if (nivelTexto) {
+        nivelTexto.textContent = `Nivel ${e.detail.nivel}`;
+    }
+});
+
+export async function actualizar_ultimo_libro() {
+    // 1. SELECTORES
+    const agrupador = document.getElementById('agrupador_seguir_leyendo');
+    const btnLibro = document.getElementById('contenedor_marco_seguir_leyendo');
+    const marcoFondo = document.getElementById('marco_seguir_leyendo');
+
+    // 2. PETICIÓN DE DATOS
+    const [ultimoLibro, rutas] = await Promise.all([
+        window.electronAPI.obtenerUltimoLibro(),
+        window.electronAPI.getBooksFolders()
+    ]);
+
+    // 3. LÓGICA DE VISIBILIDAD Y RENDERIZADO
+    if (ultimoLibro) {
+        agrupador.classList.remove('oculto');
+
+        btnLibro.dataset.id = ultimoLibro.id;
+        btnLibro.dataset.archivo = ultimoLibro.archivo;
+        
+        console.log("DATOS RECUPERADOS:", ultimoLibro);
+        console.log("RUTAS RECUPERADAS:", rutas);
+
+        // C. Construimos y pintamos la portada
+        if (ultimoLibro.portada) {
+            const rutaImagen = `file:///${rutas.coversPath}/${ultimoLibro.portada}`.replace(/\\/g, '/');
+            
+            // CORRECCIÓN: Usamos 'marcoFondo', que es el nombre que definiste arriba
+            marcoFondo.style.backgroundImage = `url('${rutaImagen}')`;
+        } else {
+            marcoFondo.style.backgroundImage = 'none';
+        }
+
+    } else {
+        agrupador.classList.add('oculto');
+    }
+}

@@ -5,6 +5,8 @@ const VOLUMEN_MUSICA_KEY = 'user-volume';
 const reproductor = document.getElementById('musica_fondo');
 const sliderMusica = document.getElementById('slider_musica');
 let datosPlaylistActiva = null;
+let ultimoSonidoTime = 0;
+const COOLDOWN_SONIDO = 300;
 
 let cancionesPlaylist = [];
 let indiceActual = 0;
@@ -25,6 +27,8 @@ export function actualizarVolumenMusica(nuevoValor) {
     }
     localStorage.setItem(VOLUMEN_MUSICA_KEY, nuevoValor);
 }
+
+
 
 async function cargarYCancion(indice) {
     if (!datosPlaylistActiva || datosPlaylistActiva.canciones.length === 0) return;
@@ -68,10 +72,24 @@ export async function reproducirPlaylist(nombre_playlist) {
 }
 
 export async function sonido_efecto(nombre_efecto) {
-    const ruta_final_efectos = await window.electronAPI.obtenerRutaEfectos(nombre_efecto);
-    const efecto = new Audio(ruta_final_efectos);
-    efecto.volume = volumen_efectos;
-    efecto.play();
+    const ahora = Date.now();
+
+    // Si no ha pasado suficiente tiempo, ignoramos la petición
+    if (ahora - ultimoSonidoTime < COOLDOWN_SONIDO) {
+        return; 
+    }
+
+    // Actualizamos el tiempo del último sonido
+    ultimoSonidoTime = ahora;
+
+    try {
+        const ruta_final_efectos = await window.electronAPI.obtenerRutaEfectos(nombre_efecto);
+        const efecto = new Audio(ruta_final_efectos);
+        efecto.volume = volumen_efectos;
+        efecto.play();
+    } catch (e) {
+        console.error("Error al reproducir efecto:", e);
+    }
 }
 
 export function obtenerVolumenEfectosInicial() {

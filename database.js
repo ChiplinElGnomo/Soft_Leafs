@@ -52,11 +52,26 @@ const createTables = () => {
             FOREIGN KEY (etiqueta_id) REFERENCES etiquetas(id) ON DELETE CASCADE
         );
     `;
+    const textoSubrayado = `
+        CREATE TABLE IF NOT EXISTS texto_subrayado (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            libro_id INTEGER NOT NULL,
+            cfi_range TEXT NOT NULL,
+            texto TEXT,
+            color TEXT DEFAULT 'red',
+            UNIQUE(libro_id, cfi_range) ON CONFLICT IGNORE,
+            FOREIGN KEY (libro_id) REFERENCES libros(id) ON DELETE CASCADE
+        );
+
+
+
+    `;
 
     db.exec(tableLibros);
     db.exec(tableEtiquetas);
     db.exec(tableLibroEtiquetas);
-    console.log("Base de datos lista: Tablas vinculadas correctamente.");
+    db.exec(textoSubrayado);
+    console.log("Base de datos lista.");
 };
 
 createTables();

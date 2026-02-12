@@ -3,7 +3,7 @@ import * as UI from './scripts/ui_scripts.js';
 import * as LIB from './scripts/library_scripts.js';
 import * as EPUB from './scripts/epub_scripts.js';
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   // ==========================================
   // 1. SELECTORES Y VARIABLES GLOBALES
   // ==========================================
@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const reproductor = document.getElementById('musica_fondo');
   const sliderVolumen = document.getElementById('volumen_musica');
   const sliderEfectos = document.getElementById('volumen_efectos')
+  const selector_playlist = document.getElementById('select_playlist');
   const etiquetaMusica = document.querySelector('.eti-musica');
   const overlay = document.getElementById('overlay');
   const modalBienvenida = document.getElementById('modal_bienvenida');
@@ -20,9 +21,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const ventanaBiblio = document.getElementById('ventanaBiblio');
   const ventanaAñadirLibro = document.getElementById('ventana_añadir_libro');
   const modalLectorReal = document.getElementById("libro_abierto");
+  const btn_subrayar = document.getElementById('btn_subrayar');
+  const btn_borrar_subrayar = document.getElementById('btn_borrar_subrayar');
   const visor = document.getElementById("visorEPUB");
   const btn_cambiar_portada = document.getElementById("opcion_portada")
   const btnSelPortada = document.getElementById('sel_portada_libro');
+  const btnSeguirLeyendo = document.getElementById('contenedor_marco_seguir_leyendo');
   
   const modalTransicion = document.getElementById('modal-transicion');
   const libroAnimado = document.getElementById('libro-animado');
@@ -42,17 +46,18 @@ document.addEventListener('DOMContentLoaded', () => {
   // 2. INICIALIZACIÓN
   // ==========================================
   
-  LIB.actualizarBiblioteca();
-  LIB.cargarEtiquetasDisponibles('#panel_filtro_etiquetas');
-  Sound.reproducirPlaylist('cozy');
+  await LIB.actualizarBiblioteca();
+  await LIB.cargarEtiquetasDisponibles('#panel_filtro_etiquetas');
+  sliderVolumen.value = Sound.obtenerVolumenMusicaInicial();
+  await UI.actualizar_ultimo_libro();
+  
 
   // ==========================================
   // 3. GESTIÓN DE MÚSICA
   // ==========================================
   
-  
 
-  sliderVolumen.value = Sound.obtenerVolumenMusicaInicial();
+  
 
   sliderVolumen.addEventListener('input', (e) => {
     Sound.actualizarVolumenMusica(e.target.value);
@@ -63,6 +68,22 @@ document.addEventListener('DOMContentLoaded', () => {
   sliderEfectos.addEventListener('input', (e) => {
     Sound.actualizarVolumenEfectos(e.target.value);
   });
+
+  selector_playlist.addEventListener('change', (e) => {
+    const seleccion = e.target.value;
+    localStorage.setItem('playlist_guardada', seleccion)
+    Sound.reproducirPlaylist(seleccion);
+  });
+
+  function CargarUltimaPlaylist() {
+    const ultimaPlaylist = localStorage.getItem('playlist_guardada');
+    const playlistAUsar = ultimaPlaylist || 'fantasia';
+    selector_playlist.value = playlistAUsar;
+    Sound.reproducirPlaylist(playlistAUsar);
+    
+  
+  }
+    
 
   // ==========================================
   // 4. BIBLIOTECA Y LECTOR
@@ -128,6 +149,72 @@ document.addEventListener('DOMContentLoaded', () => {
   document.addEventListener('keydown', (e) => {
     if (lectorActivo && renditionActual) {
       EPUB.manejarTeclado(e, lectorActivo, renditionActual, Sound);
+    }
+  });
+
+ // --- BOTÓN SUBRAYAR ---
+  btn_subrayar.addEventListener('click', () => {
+    const activo = EPUB.subrayadoOnOff(); 
+
+    if (activo) {
+        btn_subrayar.classList.add('activo');
+        console.log("Modo subrayado: ON");
+
+        // SEGURIDAD: Si el modo borrar está ON, lo apagamos
+        if (EPUB.getModoBorrado()) { 
+            EPUB.borrarSubrayadoOnOff(); // Cambia la variable interna a false
+            btn_borrar_subrayar.classList.remove('activo'); // Quita el estilo visual
+        }
+    } else {
+        btn_subrayar.classList.remove('activo');
+        console.log("Modo subrayado: OFF");
+    }
+  });
+
+// --- BOTÓN BORRAR ---
+  btn_borrar_subrayar.addEventListener('click', () => {
+    const activo = EPUB.borrarSubrayadoOnOff();
+
+    if (activo) {
+        btn_borrar_subrayar.classList.add('activo');
+        console.log("Modo borrado: ON");
+
+        // SEGURIDAD: Si el modo subrayar está ON, lo apagamos
+        if (EPUB.getSubrayadoActivo()) {
+            EPUB.subrayadoOnOff(); // Cambia la variable interna a false
+            btn_subrayar.classList.remove('activo'); // Quita el estilo visual
+        }
+    } else {
+        btn_borrar_subrayar.classList.remove('activo');
+        console.log("Modo borrado: OFF");
+    }
+  });
+
+  btnSeguirLeyendo.addEventListener('click', function() {
+    // 1. Extraemos los datos que guardamos previamente en el dataset
+    const id = this.dataset.id;
+    const archivo = this.dataset.archivo;
+
+    if (id && archivo) {
+      // 2. Sincronizamos con la variable global que ya usa tu sistema
+      libro_seleccionado = { id, archivo };
+
+      // 3. Efecto visual: Copiamos la portada al libro de la animación
+      // Esto hace que la transición sea fluida desde el widget
+      const marcoOriginal = document.getElementById('marco_seguir_leyendo');
+      const portadaDinamica = document.getElementById('portada-dinamica');
+      
+      if (marcoOriginal && portadaDinamica) {
+          const estilo = window.getComputedStyle(marcoOriginal);
+          portadaDinamica.style.backgroundImage = estilo.backgroundImage;
+      }
+
+      // 4. Lanzamos la animación (Overlay + Modal de transición)
+      UI.mostrarOverlay();
+      document.getElementById('modal-transicion').classList.add('mostrar');
+
+      // 5. Sonido opcional
+      if (Sound) Sound.sonido_efecto('efecto_sobre_boton');
     }
   });
 
@@ -390,6 +477,9 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('cerrarLector').addEventListener('click', async () => {
     // Llamamos a la función y ella se encarga de todo, incluso de la DB
     lectorActivo = await EPUB.cerrarLector(modalLectorReal, visor, UI, ventanaBiblio, modalTransicion);
+    await UI.actualizar_ultimo_libro();
+    btn_subrayar.classList.remove('activo');
+    btn_borrar_subrayar.classList.remove('activo');
     renditionActual = null;
   });
 
@@ -438,7 +528,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
   setTimeout(() => {
-        Sound.reproducirPlaylist('fantasia');
+        CargarUltimaPlaylist();
     }, 100);
 });
 

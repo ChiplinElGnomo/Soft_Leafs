@@ -5,11 +5,13 @@
   <title>Soft Leafs</title>
   <link rel="stylesheet" href="styles/estilos_general.css">
   <link rel="stylesheet" href="styles/opciones.css">
-  <link rel="stylesheet" href="styles/biblioteca.css">                                                 <link rel="stylesheet" href="styles/añadir_libro.css">
+  <link rel="stylesheet" href="styles/biblioteca.css">                                                 
   <link rel="stylesheet" href="styles/libro.css">
+  <link rel="stylesheet" href="styles/añadir_libro.css">
   <script src="lib/jszip.min.js"></script>
   <script src="lib/epub.js"></script>
   <script type="module" src="renderer.js"></script>
+  <script type="module" src="scripts/experiencia.js"></script>
 </head>
 <body>
   <div class="overlay" id="overlay"></div> 
@@ -41,15 +43,28 @@
       </div>
 
       <div class="seccion_opciones" id="seccion_sonido">
-      <div class="agrupador"> 
-        <label for="volumen_musica" class="volumen_label" id="volumen_label_musica">Música:</label>
-        <input type="range" id ="volumen_musica" min="0" max="1" step="0.01"> 
-      </div>
-      <div class="agrupador">
-        <label for="volumen_efectos" class="volumen_label" id="volumen_label_efectos">Efectos:</label>
-        <input type="range" id ="volumen_efectos" min="0" max="1" step="0.01">
+        <div class="agrupador"> 
+          <label for="volumen_musica" class="label_opciones_sonido" id="volumen_label_musica">Música:</label>
+          <input type="range" id ="volumen_musica" class="slider_opciones_sonido" min="0" max="1" step="0.01"> 
+        </div>
 
-      </div>
+        <div class="agrupador">
+        <label for="volumen_efectos" class="label_opciones_sonido" id="volumen_label_efectos">Efectos:</label>
+        <input type="range" id ="volumen_efectos" class="slider_opciones_sonido" min="0" max="1" step="0.01">
+        </div>
+
+        <div class="agrupador"> 
+          <label for="select_playlist" class="label_opciones_sonido" id="label_playlist">Playlist:</label>
+          <select id="select_playlist"> 
+            <option value="fantasia">Fantasía</option>
+            <option value="aventura">Aventura</option>
+            <option value="terror">Terror</option>
+            <option value="lofi">Lofi</option>
+            <option value="relax">Relax</option>
+            <option value="custom">Custom</option>
+          </select> 
+        </div> 
+  
       </div>
 
       <div class="seccion_opciones" id="seccion_visual">
@@ -133,8 +148,10 @@
 
 
   <div id="libro_abierto">
+    <button id="btn_subrayar" class="btn_efecto"></button>
+    <button id="btn_borrar_subrayar" class="btn_efecto"></button>
     <div id="lectorContenido">
-      <button class="btn-general" id="cerrarLector">X</button>
+      <button class="btn-general btn-cerrar-general" id="cerrarLector">X</button>
       
       <div id="visorEPUB">
         <div id="capa-pegatinas"></div>
@@ -202,10 +219,12 @@
                 Para empezar a leer, solo tienes que hacer clic en el botón 
                 de "Biblioteca" en cuanto estés listo/a y despues 
                 "Añadir Libro". Después de eso solo tendrás que añadir tus libros favoritos 
-                o pendientes y podrás acceder a ellos desde la biblioteca.
+                o pendientes y podrás acceder a ellos desde la biblioteca. <br>
+                ¡Me muero de ganas de ver qué es lo primero en tu lista de libros pendientes!
               </p>
               <p>
-                ¡Me muero de ganas de ver qué es lo primero en tu lista de libros pendientes!
+                Por ultimo, te recomiendo pasarte por la seccion misc de las opciones,
+                allí encontraras ayuda sobre algunas funciones de la app.
               </p>
     
             </section>
@@ -218,6 +237,35 @@
         </main>
 
     </div>
+
+    <!-- BARRA EXPERIENCIA -->
+
+    <div id="contenedor_experiencia">
+      <div id="tapa_trasera_experiencia"></div>
+    
+      <div id="barra_experiencia"></div>
+    
+      <div id="tapa_frontal_experiencia">
+        <span id="contador_experiencia"></span>
+      </div>
+    </div>
+
+    <!-- SECCIÓN CONTINUAR LEYENDO -->
+    <div id="agrupador_seguir_leyendo" class="oculto">
+  
+      <div id="contenedor_marco_seguir_leyendo" class="btn_efecto">
+    
+        <div id="marco_seguir_leyendo"></div> 
+
+        <img src="assets/images/marco_ultima_lectura.png" id="img_marco_visual">
+    
+      </div>
+      <label id="label_seguir_leyendo">SEGUIR LEYENDO</label>
+
+    </div>
+
+
+    
 
 
 

@@ -34,7 +34,11 @@ contextBridge.exposeInMainWorld('electronAPI', {
   seleccionarPortada: () => ipcRenderer.invoke('dialog:seleccionar-portada'),
   cambiarPortada: (portadamasid) => ipcRenderer.invoke('libros:cambiar-portada', portadamasid),
   mostrarBienvenida: (callback) => ipcRenderer.on('orden-mostrar-bienvenida', (_event) => callback()),
-  marcarBienvenida: () => ipcRenderer.send('marcar-bienvenida')
+  marcarBienvenida: () => ipcRenderer.send('marcar-bienvenida'),
+  guardarSubrayado: (paquete_subrayado) => ipcRenderer.invoke('libros:guardar-subrayado', paquete_subrayado),
+  obtenerSubrayados: (idLibro) => ipcRenderer.invoke('libros:obtener-subrayados', idLibro),
+  borrarSubrayado: (idLibro, cfi) => ipcRenderer.invoke('libros:borrar-subrayado', { idLibro, cfi }),
+  obtenerUltimoLibro: () => ipcRenderer.invoke('libros:obtener-ultimo')
 });
 
 

@@ -1,11 +1,12 @@
 {
   "name": "softleafs",
   "productName": "Soft Leafs",
-  "version": "0.6.5",
+  "version": "0.9.0",
   "description": "",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "dist": "electron-builder --win"
   },
   "repository": {
     "type": "git",
@@ -20,6 +21,7 @@
   "homepage": "https://github.com/ChiplinElGnomo/SoftLeafs#readme",
   "devDependencies": {
     "electron": "^39.0.0",
+    "electron-builder": "^26.7.0",
     "electron-rebuild": "^3.2.9"
   },
   "dependencies": {
@@ -27,5 +29,35 @@
     "electron-store": "^6.0.1",
     "epubjs": "^0.3.93",
     "uuid": "^8.3.2"
+  },
+  "build": {
+  "appId": "com.chiplin.softleafs",
+  "productName": "Soft Leafs",
+  "npmRebuild": true,
+  "directories": {
+      "output": "../instalador_soft"
+    },
+  "win": {
+    "icon": "assets/images/Ares_logo.ico",
+    "target": [
+      {
+        "target": "nsis",
+        "arch": ["x64"]
+      }
+    ]
+  },
+  "nsis": {
+    "oneClick": false,
+    "allowElevation": true,
+    "allowToChangeInstallationDirectory": true,
+    "createDesktopShortcut": true,
+    "createStartMenuShortcut": true,
+    "installerIcon": "assets/images/Ares_logo.ico",
+    "uninstallerIcon": "assets/images/Ares_logo.ico",
+    "uninstallDisplayName": "Soft Leafs - Desinstalar",
+    "runAfterFinish": true
   }
 }
+}
+
+

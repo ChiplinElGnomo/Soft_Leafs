@@ -5,25 +5,28 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;       
-  height: 100vh;
-  background: transparent;
-  display: none;
-  justify-content: center;
-  align-items: center;
-  z-index: 15000; 
+  width: 100vw;       /* Ocupa todo el ancho de la ventana */
+  height: 100vh;      /* Ocupa todo el alto de la ventana */
+  background: transparent; /* Permite ver el overlay con blur que tienes debajo */
+  
+  /* ESTO ES LO QUE CENTRA EL VISOR */
+  display: none;      /* Se activa como 'flex' desde tu renderer.js */
+  justify-content: center; 
+  align-items: center;     
+  
+  z-index: 700; 
 }
 
 #lectorContenido {
-  width: 90%;
-  height: 90%;
+  width: 92%;         /* Deja un 4% de margen a cada lado (aprox 40-50px) */
+  height: 90%;        /* Deja un 5% de margen arriba y abajo */
   background: #fdf6e3;
   border-radius: 10px;
   position: relative;
   padding: 20px;
   display: flex;
   flex-direction: column;
-  box-sizing: border-box;
+  box-sizing: border-box; /* Crucial para que el padding no lo agrande */
   box-shadow: 0 0 50px rgba(0,0,0,0.6);
 }
 
@@ -45,7 +48,7 @@
   border-radius: 10px;
   cursor: pointer;
   font-weight: bold;
-  z-index: 15001;
+  z-index: 750;
   transition: transform 0.2s;
 }
 
@@ -56,6 +59,116 @@
 #cerrarLector:active {
   transform: scale(0.95);
   
+}
+
+#btn_subrayar {
+  /* Posicionamiento en el margen izquierdo */
+  position: absolute;
+  top: 35%; 
+  left: 0.1vw;
+  z-index: 750;
+  width: 70px;  
+  height: 70px;
+  border-radius: 50%;
+  
+  /* Limpieza de estilos por defecto del botón */
+  padding: 0;
+  border: none;
+  background-image: url('../assets/images/btn_subrallador_off.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  cursor: pointer;
+  
+  /* Centrado de la imagen interna */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden; /* Corta cualquier borde de imagen que se salga del círculo */
+  
+  /* Suavidad en las transiciones */
+  transition: transform 0.2s ease, filter 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Estilo para la imagen dentro del botón */
+#btn_subrayar img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* Mantiene la proporción de tu icono circular */
+  display: block;
+}
+
+/* Efecto al pasar el ratón */
+#btn_subrayar:hover {
+  transform: scale(1.1);
+  filter: brightness(1.1);
+}
+
+ 
+/* ESTADO ACTIVO: Cuando el usuario está en modo subrayado */
+#btn_subrayar.activo {
+  /* 1. Forzamos la nueva imagen */
+  background-image: url('../assets/images/btn_subrallador_on.png') !important; 
+  background-size: contain !important;     /* Asegura que no se deforme */
+  background-position: center !important;  /* Asegura que esté centrado */
+  background-repeat: no-repeat !important; /* Evita que la imagen se duplique */
+  filter:drop-shadow(0 0 12px #73e3c5);
+  outline: none;
+}
+
+#btn_borrar_subrayar {
+  /* Posicionamiento en el margen izquierdo */
+  position: absolute;
+  top: 45%; 
+  left: 0.1vw;
+  z-index: 750;
+  width: 70px;  
+  height: 70px;
+  border-radius: 50%;
+  
+  /* Limpieza de estilos por defecto del botón */
+  padding: 0;
+  border: none;
+  background-image: url('../assets/images/btn_goma_off.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  cursor: pointer;
+  
+  /* Centrado de la imagen interna */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden; /* Corta cualquier borde de imagen que se salga del círculo */
+  
+  /* Suavidad en las transiciones */
+  transition: transform 0.2s ease, filter 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Estilo para la imagen dentro del botón */
+#btn_borrar_subrayar img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* Mantiene la proporción de tu icono circular */
+  display: block;
+}
+
+/* Efecto al pasar el ratón */
+#btn_borrar_subrayar:hover {
+  transform: scale(1.1);
+  filter: brightness(1.1);
+}
+
+ 
+/* ESTADO ACTIVO: Cuando el usuario está en modo subrayado */
+#btn_borrar_subrayar.activo {
+  /* 1. Forzamos la nueva imagen */
+  background-image: url('../assets/images/btn_goma_on.png') !important; 
+  background-size: contain !important;     /* Asegura que no se deforme */
+  background-position: center !important;  /* Asegura que esté centrado */
+  background-repeat: no-repeat !important; /* Evita que la imagen se duplique */
+  filter:drop-shadow(0 0 12px #73e3c5);
+  outline: none;
 }
 
 /* =========================================
@@ -71,7 +184,7 @@
   display: none; 
   justify-content: center;
   align-items: center;
-  z-index: 10000; 
+  z-index: 600; 
   perspective: 2500px; 
   background: rgba(0,0,0,0);
   transition: background 0.5s;
@@ -204,28 +317,7 @@
   box-shadow: 0 2px 4px rgba(0,0,0,0.2); 
 }
 
-/* =========================================
-        ESTILOS DE LAS PEGATINAS
-   ========================================= */
 
-#capa-pegatinas {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 100; /* Asegúrate de que esté por encima del canvas/iframe del libro */
-    background: transparent;
-    pointer-events: none; /* Por defecto deja pasar los clics al libro */
-    overflow: hidden;
-}
-
-/* Las pegatinas individuales sí deben reaccionar al ratón */
-.pegatina {
-    position: absolute;
-    pointer-events: all; 
-    cursor: grab;
-}
 
 
 

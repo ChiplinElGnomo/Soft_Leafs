@@ -180,7 +180,13 @@
       "id": "aventura",
       "titulo": "Aventura",
       "folderPath": "assets/music/songs/aventura",
-      "canciones": []
+      "canciones": [
+        {
+          "titulo": "D&D RPG Combat Music Mix",
+          "archivo": "D&D_RPG_Combat_Music_Mix.opus",
+          "rutaFull": "assets/music/songs/aventura/D&D_RPG_Combat_Music_Mix.opus"
+        }
+      ]
     },
     {
       "id": "terror",
@@ -193,6 +199,12 @@
           "rutaFull": "assets/music/songs/terror/Dark and Mysterious.opus"
         }
       ]
+    },
+    {
+      "id": "custom",
+      "titulo": "Custom",
+      "folderPath": "assets/music/songs/custom",
+      "canciones": []
     }
   ]
 }

@@ -26,7 +26,12 @@ Esta app esta siendo desarrollada como forma de estudio y practica personal. Int
 
 ## 📜 Registro de Cambios (Changelog)
 
-### [0.8.2] - 2026-02-01 (Actual)
+### [0.9.0] - 2026-02-12 (Actual)
+* **Estilos:** Añadidos varios elementos decorativos.
+* **Mejora técnica:** Se ha retocado el sistema de efectos para evitar que se solapen varios efectos al mismo tiempo.
+* **Core:** Añadido sistema de experiencia y sección para volver al ultimo libro leido directamente desde la ventana principal.
+
+### [0.8.2] - 2026-02-01 
 * **Estilos:** Añadidos varios elementos decorativos.
 * **Mejora técnica:** Ahora el sistema de musica ambiental esta mejor organizado dentro de la app.
 
@@ -34,10 +39,7 @@ Esta app esta siendo desarrollada como forma de estudio y practica personal. Int
 * **Interfaz:** Implementación de una modal de bienvenida a modo de saludo y pequeño tutorial.
 
 
-### [0.8.0] - 2026-01-15 
-* **Interfaz:** Implementación del sistema de filtrado para los libros (de momento por nombre y etiquetas).
-* **Estilos:** Cambio en la paleta de colores general ademas de añadir una mascota a la app, "Ares, el dragon lector".
-* **Mejora técnica:** Ahora la app recordara la pagina en la que cerraste por ultima vez el libro y mostrara las paginas en la parte inferior de cada una.
+
 
 
 

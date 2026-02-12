@@ -8,6 +8,7 @@ app.commandLine.appendSwitch('autoplay-policy', 'no-user-gesture-required');
 
 
 function createWindow() {
+  app.setAppUserModelId("com.chiplin.softleafs")
   const win = new BrowserWindow({
     fullscreen: true,
     icon: path.join(__dirname, 'assets/images/Ares_logo.ico'),
@@ -41,7 +42,7 @@ function createWindow() {
   });
 
   win.loadFile('index.html');
-  //win.webContents.openDevTools();
+  win.webContents.openDevTools();
 
   //! Creación de carpetas necesarias
   const baseBooksPath = path.join(app.getPath('userData'), 'books');
@@ -190,8 +191,7 @@ ipcMain.handle('libros:borrar', (event, id) => {
             }
          }
 
-          // 4. Borrar de la base de datos
-         // (Las etiquetas se borran solas gracias al ON DELETE CASCADE que pusiste en database.js)
+         
           const info = db.prepare('DELETE FROM libros WHERE id = ?').run(id);
         
          return { success: true };
@@ -217,7 +217,7 @@ ipcMain.handle('libros:borrar', (event, id) => {
       const libroActual = db.prepare('SELECT portada FROM libros WHERE id = ?').get(id);
      if (!libroActual || !nuevaPortada) return { success: false };
 
-     // Solo intentamos borrar si REALMENTE hay un nombre de archivo guardado
+     
      if (libroActual.portada) {
         const antiguaPortada = path.join(coversPath, libroActual.portada);
        if(fs.existsSync(antiguaPortada)) {
@@ -240,6 +240,40 @@ ipcMain.handle('libros:borrar', (event, id) => {
     }
   });
 
+  ipcMain.handle('libros:guardar-subrayado', async (event, paquete_subrayado) => {
+    try {
+      db.prepare('INSERT OR IGNORE INTO texto_subrayado (libro_id, cfi_range, color, texto) VALUES (?, ?, ?, ?)').run(paquete_subrayado.idLibroActual, paquete_subrayado.cfi, paquete_subrayado.color, paquete_subrayado.texto);
+      return { success: true };
+      
+    } catch (error) {
+      console.log("Ha habido un problema guardando el subrallado. El problema es: " + error)
+
+    }
+  });
+
+  ipcMain.handle('libros:obtener-subrayados', async (e, idLibro) => {
+  try {
+    const query = db.prepare('SELECT cfi_range as cfi, color FROM texto_subrayado WHERE libro_id = ?');
+    return query.all(idLibro);
+  } catch (error) {
+    console.error("Error al obtener subrayados:", error);
+    return [];
+  }
+  });
+
+  ipcMain.handle('libros:borrar-subrayado', async (event, { idLibro, cfi }) => {
+  try {
+    const stmt = db.prepare('DELETE FROM texto_subrayado WHERE libro_id = ? AND cfi_range = ?');
+    stmt.run(idLibro, cfi);
+    return { success: true };
+  } catch (error) {
+    console.error("Error al borrar subrayado en DB:", error);
+    return { success: false, error: error.message };
+  }
+});
+
+    
+
  
 
 
@@ -247,7 +281,7 @@ ipcMain.handle('libros:borrar', (event, id) => {
 
   
   
-
+  
   //! ---------------------------------------------------------------------
 
   //! Abrir diálogo de selección de archivo
@@ -321,18 +355,13 @@ ipcMain.handle('libros:borrar', (event, id) => {
   });
   //! ---------------------------------------------------------------------
  // Cerrar app
-  ipcMain.handle('app:close', () => {
-    app.quit();
-  });
+  
 
   ipcMain.handle('libros:guardar-pagina', async (e, id, marcador, numPag) => {
     try {
-        // Tenemos 3 huecos: ?, ? y ?
-        const query = db.prepare("UPDATE libros SET ultima_pag = ?, numero_pagina = ? WHERE id = ?");
-        
-        // Pasamos 3 valores exactos. Si numPag es undefined, SQLite podría dar error, 
-        // así que nos aseguramos de que siempre vaya un número.
-        query.run(marcador || "", numPag || 1, id); 
+        const fecha = Date.now();
+        const query = db.prepare("UPDATE libros SET ultima_pag = ?, numero_pagina = ?, ultima_lectura = ? WHERE id = ?");
+        query.run(marcador || "", numPag || 1, fecha, id); 
         
         return { success: true };
     } catch (error) {
@@ -352,13 +381,30 @@ ipcMain.handle('libros:borrar', (event, id) => {
     }
   });
 
+  ipcMain.handle('libros:obtener-ultimo', async () => {
+     try {
+    const query = db.prepare('SELECT * FROM libros WHERE ultima_lectura IS NOT NULL ORDER BY ultima_lectura DESC LIMIT 1');
+    const ultimo_libro = query.get();
+    return ultimo_libro;
+  } catch (error) {
+    console.error("Error al obtener el último libro:", error);
+    return null;
+  }
+    
+    
+
+
+  });
+
   ipcMain.on('marcar-bienvenida', () => {
       store.set('marcar-bienvenida', true);
       
   });
 
 
-
+  ipcMain.handle('app:close', () => {
+    app.quit();
+  });
 
 
 }

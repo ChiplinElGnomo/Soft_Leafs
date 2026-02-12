@@ -81,20 +81,57 @@
 
 
 
-#volumen {
-  
-  width: 30%;
-  display: block;
+/* 1. Estilo base del Slider (la parte que no se ve) */
+.slider_opciones_sonido {
+    appearance: none; /* Quita el diseño gris de Windows/Chrome */
+    width: 50%;
+    height: 10%;
+    background: transparent; /* El fondo lo dará la pista */
+    cursor: pointer;
+    outline: none;
+    margin: 15px 0;
 }
 
-#volumen_label {
- 
+/* 2. La Pista (Track) - Donde se desliza el botón */
+.slider_opciones_sonido::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 45%;
+    background: #f1ae77; /* Un color crema/tierra suave */
+    border-radius: 10px;
+    border: 1px solid #e47317; /* Borde sutil para dar profundidad */
+}
+
+/* 3. El Botón (Thumb) - El círculo que arrastras */
+.slider_opciones_sonido::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 22px;
+    width: 22px;
+    border-radius: 50%;
+    background: #73e3c5; /* Verde bosque */
+    border: 2px solid #27c79c;
+    margin-top: -8px; /* Ajuste para centrarlo sobre la pista ( (8px/2) - (22px/2) ) */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
+}
+
+/* 4. Efecto de Iluminación y escala al pasar el ratón (Hover) */
+.slider_opciones_sonido:hover::-webkit-slider-thumb {
+    filter: brightness(1.1) drop-shadow(0 0 5px #48dab3);
+    transform: scale(1.1); /* El botón crece un poquito */
+}
+
+/* 5. Estilo cuando haces clic (Active) */
+.slider_opciones_sonido:active::-webkit-slider-thumb {
+    background: #1e9c7b; /* Se oscurece al "apretarlo" */
+    transform: scale(0.95);
+}
+
+
+.label_opciones_sonido {
   font-size: 1.2em;
   color: #333;
-}
-
-#label_opciones {
   user-select: none;
+
 }
 
 #btnVolver {
@@ -119,6 +156,25 @@
 #btnVolver:active {
   transform: scale(0.95);
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+}
+
+
+#select_playlist {
+  font-size: 1.1rem;
+  width: 50%;
+  background-color: #f1ae77;
+  border: 2px solid #e47317;
+  border-radius: 6px;
+  color: white;
+  outline: none;
+  transition: border-color 0.3s;
+  cursor: pointer;
+  user-select: none;
+  text-align: center;
+}
+
+#select_playlist:hover {
+  filter: brightness(1.1);
 }
 
 

@@ -8,7 +8,7 @@ const CARPETA_CONFIG = path.join(__dirname, '../config');
 const ARCHIVO_SALIDA = path.join(CARPETA_CONFIG, 'playlists-db.json');
 
 // Lista de playlists permitidas
-const PLAYLISTS_PERMITIDAS = ['lofi', 'fantasia', 'relax', 'aventura', 'terror'];
+const PLAYLISTS_PERMITIDAS = ['lofi', 'fantasia', 'relax', 'aventura', 'terror', 'custom'];
 
 function generarJSON() {
     console.log('Iniciando escaneo de directorios...');

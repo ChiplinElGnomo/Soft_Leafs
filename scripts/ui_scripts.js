@@ -75,18 +75,19 @@ export async function actualizar_ultimo_libro() {
         btnLibro.dataset.id = ultimoLibro.id;
         btnLibro.dataset.archivo = ultimoLibro.archivo;
         
-        console.log("DATOS RECUPERADOS:", ultimoLibro);
-        console.log("RUTAS RECUPERADAS:", rutas);
+        let rutaFinal; // Declaramos la variable aquí para usarla en ambos casos
 
         // C. Construimos y pintamos la portada
         if (ultimoLibro.portada) {
-            const rutaImagen = `file:///${rutas.coversPath}/${ultimoLibro.portada}`.replace(/\\/g, '/');
-            
-            // CORRECCIÓN: Usamos 'marcoFondo', que es el nombre que definiste arriba
-            marcoFondo.style.backgroundImage = `url('${rutaImagen}')`;
+            // Si hay portada personalizada
+            rutaFinal = `file:///${rutas.coversPath}/${ultimoLibro.portada}`.replace(/\\/g, '/');
         } else {
-            marcoFondo.style.backgroundImage = 'none';
+            // Si NO hay portada, usamos la de por defecto
+            rutaFinal = 'assets/images/tarjeta_default.png';
         }
+
+        // Aplicamos la imagen (ya sea la personalizada o la default)
+        marcoFondo.style.backgroundImage = `url('${rutaFinal}')`;
 
     } else {
         agrupador.classList.add('oculto');

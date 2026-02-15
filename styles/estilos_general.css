@@ -6,7 +6,6 @@ body {
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  
   background-image: url('../assets/images/fondo.jpg'); 
   background-size: cover;
   background-position: center;
@@ -242,10 +241,10 @@ body {
   width: 50%;            
 }
 
-/* 1. La Modal: Contenedor principal en vertical */
+
 #modal_bienvenida {
     display: none;
-    flex-direction: column; /* Apila Header y Main uno sobre otro */
+    flex-direction: column; 
     background: linear-gradient(
     to bottom, 
     rgb(255, 255, 255),   
@@ -262,22 +261,22 @@ body {
     overflow: hidden;
 }
 
-/* 2. El Título: Ocupa todo el ancho por defecto */
+
 .modal-header {
     width: 100%;
     text-align: center;
     padding: 20px 0;
-    background-color: #48dab3; /* Opcional: un tono distinto para el título */
+    background-color: #48dab3; 
 }
 
-/* 3. El Cuerpo: El contenedor de las dos secciones */
+
 .modal-body {
     display: flex;
-    flex-direction: row; /* Pone las secciones una al lado de la otra */
-    flex: 1; /* Hace que esta zona ocupe TODO el espacio sobrante de la modal */
+    flex-direction: row; 
+    flex: 1; 
 }
 
-/* 4. Las Secciones: 50% de ancho cada una */
+
 .columna-texto, 
 .columna-mascota {
     flex: 1; /* Esto las obliga a repartirse el 50% exacto del ancho */
@@ -383,87 +382,73 @@ body {
    ESTILOS DE ÚLTIMA LECTURA (WIDGET)
    ========================================= */
 
-/* 1. EL AGRUPADOR PRINCIPAL
-   Controla la posición en la pantalla y centra el libro con el texto. */
 #agrupador_seguir_leyendo {
     position: absolute;
     left: 3%;
     bottom: 3%;
     display: flex;
-    flex-direction: column; /* Pone el libro arriba y el texto abajo */
-    align-items: center;    /* Centra horizontalmente */
-    margin: 20px auto;      /* Separación vertical y centrado en el contenedor padre */
-    gap: 15px;              /* Espacio entre la imagen y el texto */
-    transition: opacity 0.3s ease; /* Aparición suave */
+    flex-direction: column; 
+    align-items: center;    
+    margin: 20px auto;      
+    gap: 15px;              
+    transition: opacity 0.3s ease; 
     
 }
 
-/* 2. EL CONTENEDOR DEL "SÁNDWICH" (El Botón)
-   Define el tamaño total. IMPORTANTE: Ajusta width/height al tamaño real de tu imagen de marco. */
+
 #contenedor_marco_seguir_leyendo {
-    position: relative;     /* CRUCIAL: Crea el contexto para las capas absolutas */
-    width: 180px;           /* ANCHO: Ajusta esto al tamaño de tu marco PNG */
-    height: 270px;          /* ALTO: Ajusta esto al tamaño de tu marco PNG */
-    cursor: pointer;        /* Manita al pasar el ratón */
-    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Efecto rebote suave */
+    position: relative;    
+    width: 180px;          
+    height: 270px;       
+    cursor: pointer;        
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
 }
 
-/* Efecto Hover: El libro crece un poco al pasar el ratón */
+
 #contenedor_marco_seguir_leyendo:hover {
     transform: scale(1.05);
 }
 
-/* 3. CAPA 1 (FONDO): LA PORTADA DEL LIBRO
-   Se coloca detrás del marco. */
+
 #marco_seguir_leyendo {
-    position: absolute;     /* Flota dentro del contenedor */
-    
-    /* CENTRADO PERFECTO: Esto asegura que la portada esté siempre en el medio */
+    position: absolute;     
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-
-    /* TAMAÑO: Hacemos la portada un pelín más pequeña que el marco (ej. 92%)
-       para que no se salga por los bordes transparentes del PNG. Ajusta si es necesario. */
     width: 70%; 
-    height: 75%;
+    height: 73%;
     
-    background-size: cover; /* La imagen cubre todo el hueco */
+    background-size: cover; 
     background-position: center;
     background-repeat: no-repeat;
     
-    z-index: 1;             /* ORDEN: 1 (Abajo) */
-    border-radius: 4px;     /* Suaviza esquinas si el marco es curvo */
-    box-shadow: 0 4px 15px rgba(0,0,0,0.5); /* Sombra interna para profundidad */
+    z-index: 1;             
+    border-radius: 4px;    
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5); 
 }
 
-/* 4. CAPA 2 (FRENTE): LA IMAGEN DEL MARCO DECORATIVO
-   Se coloca encima de la portada. */
 #img_marco_visual {
-    position: absolute;     /* Flota encima */
+    position: absolute;     
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    
-    object-fit: fill;       /* Asegura que la imagen llene el contenedor */
-    z-index: 2;             /* ORDEN: 2 (Arriba) */
-    
-    pointer-events: none;   /* TRUCO PRO: Los clicks atraviesan esta imagen y van al contenedor */
+    object-fit: fill;       
+    z-index: 2;             
+    pointer-events: none;   
 }
 
-/* 5. EL TEXTO (LABEL) */
+
 #label_seguir_leyendo {
-    color: #ffffff;         /* Color del texto (blanco por defecto) */
-    font-family: 'Segoe UI', sans-serif; /* Tu fuente */
+    color: #ffffff;         
+    font-family: 'Segoe UI', sans-serif; 
     font-size: 1.2rem;
-    font-weight: 600;       /* Seminegrita */
-    letter-spacing: 1px;    /* Espaciado elegante */
-    text-shadow: 0 2px 4px rgba(0,0,0,0.5); /* Sombra para que se lea bien sobre cualquier fondo */
-    cursor: none;        /* Para que parezca clicable también */
+    font-weight: 600;       
+    letter-spacing: 1px;   
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5); 
+    cursor: none;        
 }
 
-/* CLASE DE UTILIDAD */
 .oculto {
     display: none !important;
 }

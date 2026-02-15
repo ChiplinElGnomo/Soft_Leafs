@@ -38,7 +38,9 @@ contextBridge.exposeInMainWorld('electronAPI', {
   guardarSubrayado: (paquete_subrayado) => ipcRenderer.invoke('libros:guardar-subrayado', paquete_subrayado),
   obtenerSubrayados: (idLibro) => ipcRenderer.invoke('libros:obtener-subrayados', idLibro),
   borrarSubrayado: (idLibro, cfi) => ipcRenderer.invoke('libros:borrar-subrayado', { idLibro, cfi }),
-  obtenerUltimoLibro: () => ipcRenderer.invoke('libros:obtener-ultimo')
+  obtenerUltimoLibro: () => ipcRenderer.invoke('libros:obtener-ultimo'),
+  obtenerDatosUsuario: () => ipcRenderer.invoke('user:obtener-datos'),
+  guardarDatosUsuario: (datos) => ipcRenderer.invoke('user:guardar-progreso', datos)
 });
 
 

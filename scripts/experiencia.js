@@ -7,8 +7,6 @@ const crecimiento_nivel = 1.2;
 let xp_pagina = 20;
 let tiempo_actual = Date.now() / 1000;
 
-
-
 // VARIABLES ANTI-TRAMPA//
 let xp_max_dia = 600;
 const tiempo_min = 10;
@@ -19,6 +17,20 @@ window.addEventListener("paginaCambiada", (e) => {
     tiempo_actual = e.detail.timestamp; 
     actualizarExperiencia();
 });
+
+async function cargarDatosDesdeDB() {
+    const datos = await window.electronAPI.obtenerDatosUsuario();
+    if (datos) {
+        nivel_actual = datos.nivel_actual;
+        xp_actual = datos.xp_actual;
+        xp_max_nivel = datos.xp_max_nivel;
+        xp_ganada_hoy = datos.xp_ganada_hoy;
+        
+        // Disparamos la barra inicialmente para que no aparezca vacía al cargar la app
+        refrescarInterfaz();
+    }
+}
+cargarDatosDesdeDB();
 
 
 
@@ -42,23 +54,33 @@ export function actualizarExperiencia() {
         xp_actual -= xp_max_nivel;
         nivel_actual += 1;
         xp_max_nivel = Math.round(xp_max_nivel * crecimiento_nivel);
-        
     };
 
+    // 1. GUARDADO EN BASE DE DATOS
+    window.electronAPI.guardarDatosUsuario({
+        nivel_actual,
+        xp_actual,
+        xp_max_nivel,
+        xp_ganada_hoy
+    });
+
+    // 2. LLAMADA A LA FUNCIÓN DE INTERFAZ
+    // Esta función sustituye al dispatchEvent que tenías antes
+    refrescarInterfaz(); 
+};
+
+function refrescarInterfaz() {
     const porcentajeProgreso = (xp_actual / xp_max_nivel) * 100;
 
     window.dispatchEvent(new CustomEvent("actualizarBarra", {
         detail: { 
             porcentaje: porcentajeProgreso, 
-            xp_actual: Math.floor(xp_actual), // Número entero
-            xp_max: xp_max_nivel,             // Número entero
+            xp_actual: Math.floor(xp_actual), 
+            xp_max: xp_max_nivel,             
             nivel: nivel_actual 
         }
     }));
-
-    
-        
-};
+}
 
 
 

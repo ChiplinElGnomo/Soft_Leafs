@@ -1,4 +1,5 @@
 const { app, BrowserWindow, ipcMain, dialog, Menu } = require('electron');
+const { autoUpdater } = require('electron-updater');
 const path = require('path');
 const fs = require('fs');
 const db = require('./database.js');
@@ -354,7 +355,7 @@ ipcMain.handle('libros:borrar', (event, id) => {
   
   });
   //! ---------------------------------------------------------------------
- // Cerrar app
+ 
   
 
   ipcMain.handle('libros:guardar-pagina', async (e, id, marcador, numPag) => {
@@ -406,9 +407,85 @@ ipcMain.handle('libros:borrar', (event, id) => {
     app.quit();
   });
 
+  ipcMain.handle('user:obtener-datos', async () => {
+    try {
+        const query = db.prepare('SELECT * FROM USER WHERE id = 1');
+        return query.get();
+    } catch (error) {
+        console.error("Error al obtener datos de usuario:", error);
+        return null;
+    }
+});
+
+// Guardar/Actualizar progreso
+ipcMain.handle('user:guardar-progreso', async (e, datos) => {
+    try {
+        const query = db.prepare(`
+            UPDATE USER SET 
+            nivel_actual = ?, 
+            xp_actual = ?, 
+            xp_max_nivel = ?, 
+            xp_ganada_hoy = ?,
+            ultima_actualizacion = ?
+            WHERE id = 1
+        `);
+        query.run(
+            datos.nivel_actual, 
+            datos.xp_actual, 
+            datos.xp_max_nivel, 
+            datos.xp_ganada_hoy,
+            new Date().toISOString()
+        );
+        return { success: true };
+    } catch (error) {
+        console.error("Error al guardar progreso de usuario:", error);
+        return { success: false };
+    }
+});
+
 
 }
 //! FUNCIONES AUXILIARES
+
+//! --- SECCIÓN DE ACTUALIZACIONES AUTOMÁTICAS ---
+
+// Configuración de logs para depuración
+autoUpdater.logger = require('electron-log');
+autoUpdater.logger.transports.file.level = 'info';
+
+// Comprobar actualizaciones cuando la app esté lista
+app.on('ready', () => {
+    // Pequeño delay para no saturar el inicio
+    setTimeout(() => {
+        autoUpdater.checkForUpdatesAndNotify();
+    }, 3000);
+});
+
+// Evento: Cuando se encuentra una actualización
+autoUpdater.on('update-available', () => {
+    console.log('Soft Leafs: Hay una nueva actualización disponible.');
+});
+
+// Evento: Cuando la descarga termina
+autoUpdater.on('update-downloaded', (info) => {
+    dialog.showMessageBox({
+        type: 'info',
+        title: 'Actualización lista',
+        message: `Se ha descargado la versión ${info.version} de Soft Leafs.`,
+        detail: 'La aplicación se reiniciará para aplicar los cambios.',
+        buttons: ['Instalar ahora', 'Más tarde'],
+        defaultId: 0
+    }).then((result) => {
+        if (result.response === 0) {
+            autoUpdater.quitAndInstall();
+        }
+    });
+});
+
+// Evento: Error
+autoUpdater.on('error', (err) => {
+    console.error('Error en el sistema de actualizaciones:', err);
+});
 
 
 app.whenReady().then(createWindow);

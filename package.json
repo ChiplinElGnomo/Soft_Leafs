@@ -1,7 +1,7 @@
 {
   "name": "softleafs",
   "productName": "Soft Leafs",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "description": "",
   "main": "main.js",
   "scripts": {
@@ -10,15 +10,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ChiplinElGnomo/SoftLeafs.git"
+    "url": "https://github.com/ChiplinElGnomo/Soft_Leafs.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/ChiplinElGnomo/SoftLeafs/issues"
+    "url": "https://github.com/ChiplinElGnomo/Soft_Leafs/issues"
   },
-  "homepage": "https://github.com/ChiplinElGnomo/SoftLeafs#readme",
+  "homepage": "https://github.com/ChiplinElGnomo/Soft_Leafs#readme",
   "devDependencies": {
     "electron": "^39.0.0",
     "electron-builder": "^26.7.0",
@@ -27,31 +27,29 @@
   "dependencies": {
     "better-sqlite3": "^12.5.0",
     "electron-store": "^6.0.1",
+    "electron-updater": "^6.7.3",
     "epubjs": "^0.3.93",
     "uuid": "^8.3.2"
   },
   "build": {
   "appId": "com.chiplin.softleafs",
   "productName": "Soft Leafs",
-  "npmRebuild": true,
-  "directories": {
-      "output": "../instalador_soft"
-    },
+  "publish": [
+    {
+      "provider": "github",
+      "owner": "ChiplinElGnomo",
+      "repo": "Soft_Leafs",
+      "releaseType": "draft" 
+    }
+  ],
   "win": {
-    "icon": "assets/images/Ares_logo.ico",
-    "target": [
-      {
-        "target": "nsis",
-        "arch": ["x64"]
-      }
-    ]
+    "target": ["nsis"],
+    "icon": "assets/images/Ares_logo.ico"
   },
   "nsis": {
     "oneClick": false,
-    "allowElevation": true,
+    "perMachine": true,
     "allowToChangeInstallationDirectory": true,
-    "createDesktopShortcut": true,
-    "createStartMenuShortcut": true,
     "installerIcon": "assets/images/Ares_logo.ico",
     "uninstallerIcon": "assets/images/Ares_logo.ico",
     "uninstallDisplayName": "Soft Leafs - Desinstalar",
@@ -59,5 +57,3 @@
   }
 }
 }
-
-

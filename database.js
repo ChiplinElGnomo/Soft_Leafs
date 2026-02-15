@@ -66,13 +66,31 @@ const createTables = () => {
 
 
     `;
+    const tableUser = `
+    CREATE TABLE IF NOT EXISTS USER (
+        id INTEGER PRIMARY KEY CHECK (id = 1),
+        nivel_actual INTEGER DEFAULT 1,
+        xp_actual INTEGER DEFAULT 0,
+        xp_max_nivel INTEGER DEFAULT 1000,
+        xp_ganada_hoy INTEGER DEFAULT 0,
+        ultima_actualizacion TEXT
+    );
+`;
 
     db.exec(tableLibros);
     db.exec(tableEtiquetas);
     db.exec(tableLibroEtiquetas);
     db.exec(textoSubrayado);
+    db.exec(tableUser);
     console.log("Base de datos lista.");
+
+    const userExists = db.prepare("SELECT id FROM USER WHERE id = 1").get();
+if (!userExists) {
+    db.prepare("INSERT INTO USER (id, nivel_actual, xp_actual, xp_max_nivel, xp_ganada_hoy) VALUES (1, 1, 0, 1000, 0)").run();
+}
 };
+
+
 
 createTables();
 

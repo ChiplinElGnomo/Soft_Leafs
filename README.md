@@ -26,18 +26,19 @@ Esta app esta siendo desarrollada como forma de estudio y practica personal. Int
 
 ## 📜 Registro de Cambios (Changelog)
 
-### [0.9.1] - 2026-02-12 (Actual)
+### [0.9.3] - 2026-02-12 (Actual)
+* **Core:** Sistema de auto-update añadido completamente.
+
+### [0.9.2] - 2026-02-12 
+* **Core:** Version de prueba para el sistema de Update
+
+### [0.9.1] - 2026-02-12 
 * **Mejora técnica:** Arreglados bugs esteticos y logicos.
 
 
-### [0.9.0] - 2026-02-12 
-* **Estilos:** Añadidos varios elementos decorativos.
-* **Mejora técnica:** Se ha retocado el sistema de efectos para evitar que se solapen varios efectos al mismo tiempo.
-* **Core:** Añadido sistema de experiencia y sección para volver al ultimo libro leido directamente desde la ventana principal.
 
-### [0.8.2] - 2026-02-01 
-* **Estilos:** Añadidos varios elementos decorativos.
-* **Mejora técnica:** Ahora el sistema de musica ambiental esta mejor organizado dentro de la app.
+
+
 
 
 

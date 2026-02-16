@@ -453,7 +453,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   
 
-// Detectamos el click en el contenedor oscuro
+  // Detectamos el click en el contenedor oscuro
   modalTransicion.addEventListener('click', (e) => {
     // Si el usuario pulsa en el FONDO (modalTransicion) y NO en la portada
     if (e.target === modalTransicion) {
@@ -515,21 +515,106 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Asegúrate de que el selector sea el correcto
     
     if (modalBienvenida) {
+        pasoActual = 0; // Nos aseguramos de empezar en el inicio
+        actualizarContenidoBienvenida();
         modalBienvenida.classList.add('mostrar');
     }
   });
-  if (btnCerrarBienve) {
-    btnCerrarBienve.addEventListener('click', () => {
-        
-        modalBienvenida.classList.remove('mostrar');
-        
-        // Llamamos a la función del puente
-        window.electronAPI.marcarBienvenida();
-    });
-  }
+  
   setTimeout(() => {
         CargarUltimaPlaylist();
     }, 100);
+
+
+
+// ==========================================
+// GESTIÓN DE MODAL BIENVENIDA POR PASOS
+// ==========================================
+
+// 1. Definimos los textos de cada paso
+const pasosBienvenida = [
+  {
+    texto: `¡Bienvenido/a a Soft Leafs! Mi nombre es Ares, 
+            el dragón lector, aunque puedes llamarme simplemente Ares. <br>
+            Yo seré tu guía y compañero mientras navegas por la aplicación. <br><br>
+            Para empezar a leer, solo tienes que hacer clic en el botón 
+            de "Biblioteca" y después en el de "Añadir Libro". <br>`,
+    boton: "Siguiente"
+  },
+  {
+    texto: `Si miras el menú de opciones, verás que actualmente casi todo está
+            en desarrollo aun (parece que alguien se ha distraido un poco jugando). 
+            Pero la sección de sonido tiene algunas opciones que quizás quieras ajustar. <br>
+            `, // Espacio para tu futuro paso 2
+    boton: "Siguiente"
+  },
+  {
+    texto: `La barra que hay en la parte superior de la pantalla principal es tu
+            barra de experiéncia. Al leer paginas de tus libros, ganaras experiéncia 
+            y subirás de nivel. <br>
+            Al subir de nivel, puede que desbloquees premios que podrás canjear mandando una foto
+            del mismo. <br> <br>
+            No hagas trampa! Pasar paginas muy rapido no te dará mas experiencia. Además, solo podrás
+            ganar cierta cantidad de experiencia al dia, a si que la forma mas rapida para subir es leer
+            un poco cada dia.`, 
+    boton: "Siguiente" 
+  },
+  {
+    texto: `Por último, esta aplicación se actualizará automaticamente cada vez que haya
+            una version mejorada. <br> Si tienes alguna petición o encuentras algun error, avisa y 
+            se intentará añadir o arreglar lo antes posible.`, 
+    boton: "Siguiente" 
+  },
+
+  {
+    texto: `Espero que disfrutes tanto como yo de la lectura. <br>
+            Mis libros favoritos son los de Ciencia Ficción, 
+            aunque me gustan casi todos en los que salen dinosaurios. <br>
+            Mi hermana en cambio prefiere los de Misterio, Thriller y Gore. Aunque alguna vez la he pillado 
+            leyendo libros de Dark Romance... <br> <br>
+            Quizás algun dia te la presente, pero de momento te tendra que valer conmigo.
+            Me imagino que tendrás ganas de empezar a leer ya.
+            Me muero de ganas de ver que libros añades primero.
+            `, 
+    boton: "¡Vamos allá!" 
+  }
+];
+
+let pasoActual = 0;
+
+// 2. Función para actualizar el contenido de la modal
+function actualizarContenidoBienvenida() {
+  const contenedorTexto = document.querySelector('#modal_bienvenida .columna-texto');
+  const btnBienve = document.getElementById('btn_cerrar_bienvenida');
+
+  if (contenedorTexto && btnBienve) {
+    // Aplicamos el texto del paso actual
+    contenedorTexto.innerHTML = `<p>${pasosBienvenida[pasoActual].texto}</p>`;
+    // Cambiamos el texto del botón
+    btnBienve.textContent = pasosBienvenida[pasoActual].boton;
+  }
+}
+
+// 3. Evento del botón
+if (btnCerrarBienve) {
+  btnCerrarBienve.addEventListener('click', () => {
+    pasoActual++;
+
+    if (pasoActual < pasosBienvenida.length) {
+      // Si quedan pasos, actualizamos el texto
+      actualizarContenidoBienvenida();
+      if (Sound) Sound.sonido_efecto('efecto_sobre_boton'); 
+    } else {
+      // Si ya no hay más pasos, cerramos y marcamos como visto
+      modalBienvenida.classList.remove('mostrar');
+      window.electronAPI.marcarBienvenida();
+      
+      // Reset para la próxima vez que se abra (opcional)
+      pasoActual = 0; 
+      actualizarContenidoBienvenida();
+    }
+  });
+}
 });
 
 

@@ -5,6 +5,7 @@ const fs = require('fs');
 const db = require('./database.js');
 const Store = require('electron-store');
 const store = new Store();
+const productName = "Soft Leafs";
 app.commandLine.appendSwitch('autoplay-policy', 'no-user-gesture-required'); 
 
 
@@ -43,7 +44,7 @@ function createWindow() {
   });
 
   win.loadFile('index.html');
-  win.webContents.openDevTools();
+  //win.webContents.openDevTools();
 
   //! Creación de carpetas necesarias
   const baseBooksPath = path.join(app.getPath('userData'), 'books');
@@ -415,10 +416,10 @@ ipcMain.handle('libros:borrar', (event, id) => {
         console.error("Error al obtener datos de usuario:", error);
         return null;
     }
-});
+  });
 
-// Guardar/Actualizar progreso
-ipcMain.handle('user:guardar-progreso', async (e, datos) => {
+  // Guardar/Actualizar progreso
+  ipcMain.handle('user:guardar-progreso', async (e, datos) => {
     try {
         const query = db.prepare(`
             UPDATE USER SET 
@@ -441,7 +442,7 @@ ipcMain.handle('user:guardar-progreso', async (e, datos) => {
         console.error("Error al guardar progreso de usuario:", error);
         return { success: false };
     }
-});
+  });
 
 
 }
@@ -459,6 +460,16 @@ app.on('ready', () => {
     setTimeout(() => {
         autoUpdater.checkForUpdatesAndNotify();
     }, 3000);
+});
+
+autoUpdater.on('update-available', (info) => {
+    dialog.showMessageBox({
+        type: 'info',
+        title: 'Actualización disponible',
+        message: `Se ha encontrado la versión ${info.version} de Soft Leafs.`,
+        detail: 'La descarga comenzará en segundo plano. Te avisaremos cuando esté lista para instalar.',
+        buttons: ['Aceptar']
+    });
 });
 
 // Evento: Cuando se encuentra una actualización
@@ -486,6 +497,7 @@ autoUpdater.on('update-downloaded', (info) => {
 autoUpdater.on('error', (err) => {
     console.error('Error en el sistema de actualizaciones:', err);
 });
+
 
 
 app.whenReady().then(createWindow);

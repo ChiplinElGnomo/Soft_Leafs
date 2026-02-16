@@ -243,3 +243,74 @@
   -webkit-user-drag: none;
   overflow: hidden;
 }
+
+
+/* ===============================
+   ELEMENTOS MENU CONTEXTUAL
+   =============================== */
+
+   #modal_confirmacion {
+    width: 20%;
+    height: 10%;
+   }
+
+   #btn_confirmar_eliminacion {
+    position: absolute;
+    bottom: 2%;
+    left: 2%;
+    width: 30%;
+    height: 40%;
+    border-radius: 12px;
+    padding: 5px 10px;
+    background-color: #f1ae77;
+    border: 2px solid #e47317;
+    cursor: pointer;
+    font-size: 16px;
+
+   }
+
+   #btn_confirmar_eliminacion:hover {
+    background-color: #eb9046;
+    transform: scale(1.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+   }
+
+   #btn_confirmar_eliminacion:active {
+    transform: scale(0.95);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+   }
+
+
+
+   #btn_cancelar_eliminacion {
+    position: absolute;
+    bottom: 2%;
+    right: 2%;
+    width: 30%;
+    height: 40%;
+    border-radius: 12px;
+    padding: 5px 10px;
+    background-color: #f1ae77;
+    border: 2px solid #e47317;
+    cursor: pointer;
+    font-size: 16px;
+   }
+
+   #btn_cancelar_eliminacion:hover {
+    background-color: #eb9046;
+    transform: scale(1.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+   }
+
+   #btn_cancelar_eliminacion:active {
+    transform: scale(0.95);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+   }
+
+   
+
+   

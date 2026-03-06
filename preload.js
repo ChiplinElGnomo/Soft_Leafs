@@ -1,4 +1,5 @@
 const { contextBridge, ipcRenderer } = require('electron');
+const pkg = require('./package.json');
 
 contextBridge.exposeInMainWorld('electronAPI', {
   // --- APLICACIÓN ---
@@ -41,6 +42,10 @@ contextBridge.exposeInMainWorld('electronAPI', {
   obtenerUltimoLibro: () => ipcRenderer.invoke('libros:obtener-ultimo'),
   obtenerDatosUsuario: () => ipcRenderer.invoke('user:obtener-datos'),
   guardarDatosUsuario: (datos) => ipcRenderer.invoke('user:guardar-progreso', datos)
+});
+
+contextBridge.exposeInMainWorld('appInfo', {
+    version: pkg.version
 });
 
 

@@ -26,14 +26,16 @@ Esta app esta siendo desarrollada como forma de estudio y practica personal. Int
 
 ## 📜 Registro de Cambios (Changelog)
 
-### [0.9.3] - 2026-02-12 (Actual)
+### [1.0.0] - 2026-03-05 (Actual)
+* **Core:** Version semi-completa de la app, totalmente funcional (aun faltan caracteristicas por implementar.)
+
+### [0.9.3] - 2026-02-12 
 * **Core:** Sistema de auto-update añadido completamente.
 
 ### [0.9.2] - 2026-02-12 
 * **Core:** Version de prueba para el sistema de Update
 
-### [0.9.1] - 2026-02-12 
-* **Mejora técnica:** Arreglados bugs esteticos y logicos.
+
 
 
 

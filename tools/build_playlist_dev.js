@@ -41,11 +41,19 @@ function generarJSON() {
                 titulo: nombre.charAt(0).toUpperCase() + nombre.slice(1),
                 // Ruta relativa desde la raiz del proyecto para carga en Electron
                 folderPath: 'assets/music/songs/' + nombre,
-                canciones: archivos.map(archivo => ({
-                    titulo: archivo.replace('.opus', '').replace(/_/g, ' '),
-                    archivo: archivo,
-                    rutaFull: 'assets/music/songs/' + nombre + '/' + archivo
-                }))
+                canciones: archivos.map(archivo => {
+                    // Mejora en la limpieza del nombre
+                    const nombreLimpio = archivo
+                        .replace(/\.opus$/i, '')   // Quita la extensión (case insensitive)
+                        .replace(/[_-]/g, ' ')     // Cambia guiones y guiones bajos por espacios
+                        .trim();                   // Quita espacios sobrantes
+
+                    return {
+                        titulo: nombreLimpio,
+                        archivo: archivo,
+                        rutaFull: 'assets/music/songs/' + nombre + '/' + archivo
+                    };
+                })
             };
         }).filter(Boolean)
     };

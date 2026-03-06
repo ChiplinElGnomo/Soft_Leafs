@@ -138,6 +138,40 @@
   
 }
 
+#nuevo_nombre_libro {
+  position: absolute;
+  top: 20%;
+  left: 5%;;
+  width: 80%;
+  height: 10%;
+  border-radius: 12px;
+  padding: 10px 20px
+  
+  
+}
+
+#cancelar_nuevo_nombre {
+  position: absolute;
+  bottom: 2%;
+  right: 2%;
+  width: 30%;
+  height: 20%;
+  border-radius: 12px;
+  padding: 5px 10px
+
+  
+}
+#confirmar_nuevo_nombre {
+  position: absolute;
+  bottom: 2%;
+  left: 2%;
+  width: 30%;
+  height: 20%;
+  border-radius: 12px;
+  padding: 5px 10px
+  
+}
+
 
 /* ===============================
    TARJETAS DE LIBROS
@@ -252,14 +286,18 @@
    #modal_confirmacion {
     width: 20%;
     height: 10%;
+    background-color: #eb9046;
+    border: 2px solid #e47317;
+    border-radius: 12px;
+    padding: 10px 20px;
    }
 
    #btn_confirmar_eliminacion {
     position: absolute;
-    bottom: 2%;
-    left: 2%;
-    width: 30%;
-    height: 40%;
+    bottom: 4%;
+    left: 4%;
+    width: 20%;
+    height: 30%;
     border-radius: 12px;
     padding: 5px 10px;
     background-color: #f1ae77;
@@ -286,10 +324,10 @@
 
    #btn_cancelar_eliminacion {
     position: absolute;
-    bottom: 2%;
-    right: 2%;
-    width: 30%;
-    height: 40%;
+    bottom: 4%;
+    right: 4%;
+    width: 20%;
+    height: 30%;
     border-radius: 12px;
     padding: 5px 10px;
     background-color: #f1ae77;
@@ -309,6 +347,13 @@
     transform: scale(0.95);
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+   }
+
+   #texto_confirmar_eliminacion {
+    position: absolute;
+    left: 5%;
+    top: 3%;
+
    }
 
    

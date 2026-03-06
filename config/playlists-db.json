@@ -6,79 +6,109 @@
       "folderPath": "assets/music/songs/lofi",
       "canciones": [
         {
-          "titulo": "An-Unknown-Journey",
-          "archivo": "An-Unknown-Journey.opus",
-          "rutaFull": "assets/music/songs/lofi/An-Unknown-Journey.opus"
+          "titulo": "A Moment of Sweetness",
+          "archivo": "A Moment of Sweetness.opus",
+          "rutaFull": "assets/music/songs/lofi/A Moment of Sweetness.opus"
         },
         {
-          "titulo": "Atlantis",
-          "archivo": "Atlantis.opus",
-          "rutaFull": "assets/music/songs/lofi/Atlantis.opus"
+          "titulo": "A Walk Through the Sky",
+          "archivo": "A Walk Through the Sky.opus",
+          "rutaFull": "assets/music/songs/lofi/A Walk Through the Sky.opus"
         },
         {
-          "titulo": "Away",
-          "archivo": "Away.opus",
-          "rutaFull": "assets/music/songs/lofi/Away.opus"
+          "titulo": "A playful kiss",
+          "archivo": "A playful kiss.opus",
+          "rutaFull": "assets/music/songs/lofi/A playful kiss.opus"
         },
         {
-          "titulo": "Breathtaking",
-          "archivo": "Breathtaking.opus",
-          "rutaFull": "assets/music/songs/lofi/Breathtaking.opus"
+          "titulo": "Bridge to my heart",
+          "archivo": "Bridge to my heart.opus",
+          "rutaFull": "assets/music/songs/lofi/Bridge to my heart.opus"
         },
         {
-          "titulo": "Childhood-Memories",
-          "archivo": "Childhood-Memories.opus",
-          "rutaFull": "assets/music/songs/lofi/Childhood-Memories.opus"
+          "titulo": "Geralt of Rivia",
+          "archivo": "Geralt of Rivia.opus",
+          "rutaFull": "assets/music/songs/lofi/Geralt of Rivia.opus"
         },
         {
-          "titulo": "Hakuna-Matata",
-          "archivo": "Hakuna-Matata.opus",
-          "rutaFull": "assets/music/songs/lofi/Hakuna-Matata.opus"
+          "titulo": "Higher Further Faster Together",
+          "archivo": "Higher Further Faster Together.opus",
+          "rutaFull": "assets/music/songs/lofi/Higher Further Faster Together.opus"
         },
         {
-          "titulo": "Hey-there",
-          "archivo": "Hey-there.opus",
-          "rutaFull": "assets/music/songs/lofi/Hey-there.opus"
+          "titulo": "Inner light",
+          "archivo": "Inner light.opus",
+          "rutaFull": "assets/music/songs/lofi/Inner light.opus"
         },
         {
-          "titulo": "Kingdom-in-Blue",
-          "archivo": "Kingdom-in-Blue.opus",
-          "rutaFull": "assets/music/songs/lofi/Kingdom-in-Blue.opus"
+          "titulo": "Isolation",
+          "archivo": "Isolation.opus",
+          "rutaFull": "assets/music/songs/lofi/Isolation.opus"
         },
         {
-          "titulo": "Like-a-serendipity",
-          "archivo": "Like-a-serendipity.opus",
-          "rutaFull": "assets/music/songs/lofi/Like-a-serendipity.opus"
+          "titulo": "Junjiro (Little Tanuki)   Mondo Loops Remix",
+          "archivo": "Junjiro (Little Tanuki) - Mondo Loops Remix.opus",
+          "rutaFull": "assets/music/songs/lofi/Junjiro (Little Tanuki) - Mondo Loops Remix.opus"
         },
         {
-          "titulo": "My-new-love",
-          "archivo": "My-new-love.opus",
-          "rutaFull": "assets/music/songs/lofi/My-new-love.opus"
+          "titulo": "Just You",
+          "archivo": "Just You.opus",
+          "rutaFull": "assets/music/songs/lofi/Just You.opus"
         },
         {
-          "titulo": "Spanish-Castle",
-          "archivo": "Spanish-Castle.opus",
-          "rutaFull": "assets/music/songs/lofi/Spanish-Castle.opus"
+          "titulo": "Lilac",
+          "archivo": "Lilac.opus",
+          "rutaFull": "assets/music/songs/lofi/Lilac.opus"
         },
         {
-          "titulo": "Stay-the-Same",
-          "archivo": "Stay-the-Same.opus",
-          "rutaFull": "assets/music/songs/lofi/Stay-the-Same.opus"
+          "titulo": "My Dear",
+          "archivo": "My Dear.opus",
+          "rutaFull": "assets/music/songs/lofi/My Dear.opus"
         },
         {
-          "titulo": "Tabula-Rasa",
-          "archivo": "Tabula-Rasa.opus",
-          "rutaFull": "assets/music/songs/lofi/Tabula-Rasa.opus"
+          "titulo": "Purity",
+          "archivo": "Purity.opus",
+          "rutaFull": "assets/music/songs/lofi/Purity.opus"
         },
         {
-          "titulo": "Warm-Nights",
-          "archivo": "Warm-Nights.opus",
-          "rutaFull": "assets/music/songs/lofi/Warm-Nights.opus"
+          "titulo": "Set Sail",
+          "archivo": "Set Sail.opus",
+          "rutaFull": "assets/music/songs/lofi/Set Sail.opus"
         },
         {
-          "titulo": "funnyplace",
-          "archivo": "funnyplace.opus",
-          "rutaFull": "assets/music/songs/lofi/funnyplace.opus"
+          "titulo": "Shadows Main Theme",
+          "archivo": "Shadows Main Theme.opus",
+          "rutaFull": "assets/music/songs/lofi/Shadows Main Theme.opus"
+        },
+        {
+          "titulo": "Snowman",
+          "archivo": "Snowman.opus",
+          "rutaFull": "assets/music/songs/lofi/Snowman.opus"
+        },
+        {
+          "titulo": "Takeoff",
+          "archivo": "Takeoff.opus",
+          "rutaFull": "assets/music/songs/lofi/Takeoff.opus"
+        },
+        {
+          "titulo": "The songbird and the bookworm   instrumental",
+          "archivo": "The songbird and the bookworm - instrumental.opus",
+          "rutaFull": "assets/music/songs/lofi/The songbird and the bookworm - instrumental.opus"
+        },
+        {
+          "titulo": "Tomiko   Otaam Remix",
+          "archivo": "Tomiko - Otaam Remix.opus",
+          "rutaFull": "assets/music/songs/lofi/Tomiko - Otaam Remix.opus"
+        },
+        {
+          "titulo": "Until i lose my hearing   instrumental",
+          "archivo": "Until i lose my hearing - instrumental.opus",
+          "rutaFull": "assets/music/songs/lofi/Until i lose my hearing - instrumental.opus"
+        },
+        {
+          "titulo": "Wonderland",
+          "archivo": "Wonderland.opus",
+          "rutaFull": "assets/music/songs/lofi/Wonderland.opus"
         }
       ]
     },
@@ -88,9 +118,124 @@
       "folderPath": "assets/music/songs/fantasia",
       "canciones": [
         {
-          "titulo": "The Hidden Elven Village",
-          "archivo": "The Hidden Elven Village.opus",
-          "rutaFull": "assets/music/songs/fantasia/The Hidden Elven Village.opus"
+          "titulo": "A Window to the Past",
+          "archivo": "A-Window-to-the-Past.opus",
+          "rutaFull": "assets/music/songs/fantasia/A-Window-to-the-Past.opus"
+        },
+        {
+          "titulo": "An Ancient Story",
+          "archivo": "An-Ancient-Story.opus",
+          "rutaFull": "assets/music/songs/fantasia/An-Ancient-Story.opus"
+        },
+        {
+          "titulo": "And So It Begins",
+          "archivo": "And-So-It-Begins.opus",
+          "rutaFull": "assets/music/songs/fantasia/And-So-It-Begins.opus"
+        },
+        {
+          "titulo": "Arrival at the Winter Court",
+          "archivo": "Arrival-at-the-Winter-Court.opus",
+          "rutaFull": "assets/music/songs/fantasia/Arrival-at-the-Winter-Court.opus"
+        },
+        {
+          "titulo": "Avalon",
+          "archivo": "Avalon.opus",
+          "rutaFull": "assets/music/songs/fantasia/Avalon.opus"
+        },
+        {
+          "titulo": "Bazaar",
+          "archivo": "Bazaar.opus",
+          "rutaFull": "assets/music/songs/fantasia/Bazaar.opus"
+        },
+        {
+          "titulo": "Chapter 54",
+          "archivo": "Chapter-54.opus",
+          "rutaFull": "assets/music/songs/fantasia/Chapter-54.opus"
+        },
+        {
+          "titulo": "Dragonborn",
+          "archivo": "Dragonborn.opus",
+          "rutaFull": "assets/music/songs/fantasia/Dragonborn.opus"
+        },
+        {
+          "titulo": "Fairies",
+          "archivo": "Fairies.opus",
+          "rutaFull": "assets/music/songs/fantasia/Fairies.opus"
+        },
+        {
+          "titulo": "Fantasy Dream",
+          "archivo": "Fantasy-Dream.opus",
+          "rutaFull": "assets/music/songs/fantasia/Fantasy-Dream.opus"
+        },
+        {
+          "titulo": "Floating in Reverie",
+          "archivo": "Floating-in-Reverie.opus",
+          "rutaFull": "assets/music/songs/fantasia/Floating-in-Reverie.opus"
+        },
+        {
+          "titulo": "In the Tavern",
+          "archivo": "In-the-Tavern.opus",
+          "rutaFull": "assets/music/songs/fantasia/In-the-Tavern.opus"
+        },
+        {
+          "titulo": "Luna",
+          "archivo": "Luna.opus",
+          "rutaFull": "assets/music/songs/fantasia/Luna.opus"
+        },
+        {
+          "titulo": "Magic Runes",
+          "archivo": "Magic-Runes.opus",
+          "rutaFull": "assets/music/songs/fantasia/Magic-Runes.opus"
+        },
+        {
+          "titulo": "Music Under the Mountain",
+          "archivo": "Music-Under-the-Mountain.opus",
+          "rutaFull": "assets/music/songs/fantasia/Music-Under-the-Mountain.opus"
+        },
+        {
+          "titulo": "Nostos",
+          "archivo": "Nostos.opus",
+          "rutaFull": "assets/music/songs/fantasia/Nostos.opus"
+        },
+        {
+          "titulo": "Sacred Stillness",
+          "archivo": "Sacred-Stillness.opus",
+          "rutaFull": "assets/music/songs/fantasia/Sacred-Stillness.opus"
+        },
+        {
+          "titulo": "Secunda   Elder Scrolls V Skyrim",
+          "archivo": "Secunda---Elder-Scrolls-V-Skyrim.opus",
+          "rutaFull": "assets/music/songs/fantasia/Secunda---Elder-Scrolls-V-Skyrim.opus"
+        },
+        {
+          "titulo": "Snowland",
+          "archivo": "Snowland.opus",
+          "rutaFull": "assets/music/songs/fantasia/Snowland.opus"
+        },
+        {
+          "titulo": "Sweetest Rain",
+          "archivo": "Sweetest-Rain.opus",
+          "rutaFull": "assets/music/songs/fantasia/Sweetest-Rain.opus"
+        },
+        {
+          "titulo": "The Quest",
+          "archivo": "The-Quest.opus",
+          "rutaFull": "assets/music/songs/fantasia/The-Quest.opus"
+        },
+        {
+          "titulo": "To Keep You from Breaking",
+          "archivo": "To-Keep-You-from-Breaking.opus",
+          "rutaFull": "assets/music/songs/fantasia/To-Keep-You-from-Breaking.opus"
+        },
+        {
+          "titulo": "Tree of Life   Fantasy Village",
+          "archivo": "Tree-of-Life---Fantasy-Village.opus",
+          "rutaFull": "assets/music/songs/fantasia/Tree-of-Life---Fantasy-Village.opus"
+        },
+        {
+          "titulo": "Unity",
+          "archivo": "Unity.opus",
+          "rutaFull": "assets/music/songs/fantasia/Unity.opus"
         }
       ]
     },
@@ -100,79 +245,14 @@
       "folderPath": "assets/music/songs/relax",
       "canciones": [
         {
-          "titulo": "Coffee-Break",
-          "archivo": "Coffee-Break.opus",
-          "rutaFull": "assets/music/songs/relax/Coffee-Break.opus"
+          "titulo": "Coffee & Jazz",
+          "archivo": "Coffee & Jazz.opus",
+          "rutaFull": "assets/music/songs/relax/Coffee & Jazz.opus"
         },
         {
-          "titulo": "Cozy-Cafe",
-          "archivo": "Cozy-Cafe.opus",
-          "rutaFull": "assets/music/songs/relax/Cozy-Cafe.opus"
-        },
-        {
-          "titulo": "Easy",
-          "archivo": "Easy.opus",
-          "rutaFull": "assets/music/songs/relax/Easy.opus"
-        },
-        {
-          "titulo": "Eyes-Wide-Open",
-          "archivo": "Eyes-Wide-Open.opus",
-          "rutaFull": "assets/music/songs/relax/Eyes-Wide-Open.opus"
-        },
-        {
-          "titulo": "Jazz-It-Up",
-          "archivo": "Jazz-It-Up.opus",
-          "rutaFull": "assets/music/songs/relax/Jazz-It-Up.opus"
-        },
-        {
-          "titulo": "Just-A-Piece-of-My-Heart",
-          "archivo": "Just-A-Piece-of-My-Heart.opus",
-          "rutaFull": "assets/music/songs/relax/Just-A-Piece-of-My-Heart.opus"
-        },
-        {
-          "titulo": "Love-To-Be-Happy",
-          "archivo": "Love-To-Be-Happy.opus",
-          "rutaFull": "assets/music/songs/relax/Love-To-Be-Happy.opus"
-        },
-        {
-          "titulo": "Love-Will-Last-Forever",
-          "archivo": "Love-Will-Last-Forever.opus",
-          "rutaFull": "assets/music/songs/relax/Love-Will-Last-Forever.opus"
-        },
-        {
-          "titulo": "Peace",
-          "archivo": "Peace.opus",
-          "rutaFull": "assets/music/songs/relax/Peace.opus"
-        },
-        {
-          "titulo": "Smile",
-          "archivo": "Smile.opus",
-          "rutaFull": "assets/music/songs/relax/Smile.opus"
-        },
-        {
-          "titulo": "Soft-Like-Rain",
-          "archivo": "Soft-Like-Rain.opus",
-          "rutaFull": "assets/music/songs/relax/Soft-Like-Rain.opus"
-        },
-        {
-          "titulo": "Soulful",
-          "archivo": "Soulful.opus",
-          "rutaFull": "assets/music/songs/relax/Soulful.opus"
-        },
-        {
-          "titulo": "Sweet-And-Lovely",
-          "archivo": "Sweet-And-Lovely.opus",
-          "rutaFull": "assets/music/songs/relax/Sweet-And-Lovely.opus"
-        },
-        {
-          "titulo": "Take-It-Easy",
-          "archivo": "Take-It-Easy.opus",
-          "rutaFull": "assets/music/songs/relax/Take-It-Easy.opus"
-        },
-        {
-          "titulo": "Tell-Me",
-          "archivo": "Tell-Me.opus",
-          "rutaFull": "assets/music/songs/relax/Tell-Me.opus"
+          "titulo": "Jazz for you",
+          "archivo": "Jazz for you.opus",
+          "rutaFull": "assets/music/songs/relax/Jazz for you.opus"
         }
       ]
     },
@@ -182,9 +262,9 @@
       "folderPath": "assets/music/songs/aventura",
       "canciones": [
         {
-          "titulo": "D&D RPG Combat Music Mix",
-          "archivo": "D&D_RPG_Combat_Music_Mix.opus",
-          "rutaFull": "assets/music/songs/aventura/D&D_RPG_Combat_Music_Mix.opus"
+          "titulo": "Combat and Adventure",
+          "archivo": "Combat and Adventure.opus",
+          "rutaFull": "assets/music/songs/aventura/Combat and Adventure.opus"
         }
       ]
     },
@@ -194,9 +274,9 @@
       "folderPath": "assets/music/songs/terror",
       "canciones": [
         {
-          "titulo": "Dark and Mysterious",
-          "archivo": "Dark and Mysterious.opus",
-          "rutaFull": "assets/music/songs/terror/Dark and Mysterious.opus"
+          "titulo": "Villa Oscura",
+          "archivo": "Villa-Oscura.opus",
+          "rutaFull": "assets/music/songs/terror/Villa-Oscura.opus"
         }
       ]
     },

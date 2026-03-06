@@ -183,13 +183,13 @@
 
   <div class = 'ventana-interna' id ="modal_cambiar_nombre" >
     <input type="text" id="nuevo_nombre_libro" placeholder="Introduce el nuevo nombre" maxlength="40">
-    <button id="confirmar_nuevo_nombre">Confirmar</button>
-    <button class="btn-general" id="cancelar_nuevo_nombre">X</button>
+    <button id="confirmar_nuevo_nombre" class="btn-general">Confirmar</button>
+    <button class="btn-general btn-cerrar-general" id="cancelar_nuevo_nombre">Cancelar</button>
   </div>
 
 
   <div class="ventana-interna ventana-interna-decorada" id="modal_confirmacion">
-    <p id="texto_confirmacion">¿Estás seguro de que deseas eliminar este libro?</p>
+    <p id="texto_confirmar_eliminacion">¿Estás seguro de que deseas eliminar este libro?</p>
     <button  id="btn_confirmar_eliminacion">Sí</button>
     <button class="btn-cerrar-general btn_efecto" id="btn_cancelar_eliminacion">No</button>
   </div>
@@ -248,6 +248,7 @@
       <label id="label_seguir_leyendo">SEGUIR LEYENDO</label>
 
     </div>
+    <span class="eti-vers" id="app-version" ></span>
 
 
     

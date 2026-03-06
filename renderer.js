@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const overlay = document.getElementById('overlay');
   const modalBienvenida = document.getElementById('modal_bienvenida');
   const btnCerrarBienve = document.getElementById('btn_cerrar_bienvenida');
+  const versionDisplay = document.getElementById('app-version');
 
   const ventana_Opciones = document.getElementById('ventanaOpciones');
   const ventanaBiblio = document.getElementById('ventanaBiblio');
@@ -50,6 +51,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   await LIB.cargarEtiquetasDisponibles('#panel_filtro_etiquetas');
   sliderVolumen.value = Sound.obtenerVolumenMusicaInicial();
   await UI.actualizar_ultimo_libro();
+  versionDisplay.innerText = "Versión: " + window.appInfo.version;
   
 
   // ==========================================
@@ -387,9 +389,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     const resultado = await window.electronAPI.eliminarLibro(idReal);
     
     if (resultado.success) {
-        LIB.actualizarBiblioteca(); 
+        await LIB.actualizarBiblioteca();
+        await UI.actualizar_ultimo_libro(); 
         UI.ocultarOverlay();
         modalConfirmacion.classList.remove('mostrar');
+        libro_seleccionado = null;
     }
   }
   });
@@ -545,22 +549,22 @@ const pasosBienvenida = [
     texto: `Si miras el menú de opciones, verás que actualmente casi todo está
             en desarrollo aun (parece que alguien se ha distraido un poco jugando). 
             Pero la sección de sonido tiene algunas opciones que quizás quieras ajustar. <br>
-            `, // Espacio para tu futuro paso 2
+            `, 
     boton: "Siguiente"
   },
   {
     texto: `La barra que hay en la parte superior de la pantalla principal es tu
-            barra de experiéncia. Al leer paginas de tus libros, ganaras experiéncia 
+            barra de experiéncia. Al leer las paginas de tus libros, ganaras experiéncia 
             y subirás de nivel. <br>
             Al subir de nivel, puede que desbloquees premios que podrás canjear mandando una foto
-            del mismo. <br> <br>
+            del mismo. Cuanto mas alto sea el nivel mejor será la recompensa! <br> <br>
             No hagas trampa! Pasar paginas muy rapido no te dará mas experiencia. Además, solo podrás
             ganar cierta cantidad de experiencia al dia, a si que la forma mas rapida para subir es leer
             un poco cada dia.`, 
     boton: "Siguiente" 
   },
   {
-    texto: `Por último, esta aplicación se actualizará automaticamente cada vez que haya
+    texto: `Esta aplicación se actualizará automaticamente cada vez que haya
             una version mejorada. <br> Si tienes alguna petición o encuentras algun error, avisa y 
             se intentará añadir o arreglar lo antes posible.`, 
     boton: "Siguiente" 
